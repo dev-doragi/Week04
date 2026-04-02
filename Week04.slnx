@@ -3,7 +3,7 @@
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="VInspector.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
   <Project Path="Wingman.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
 </Solution>
