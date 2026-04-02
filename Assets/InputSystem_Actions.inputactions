@@ -34,7 +34,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Sprint",
+                    "name": "Run",
                     "type": "Button",
                     "id": "8a3d3084-8616-4fe1-b8f8-02d898007b0f",
                     "expectedControlType": "",
@@ -46,6 +46,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "06a52ba5-60f3-4df4-a4d5-25bf39c45d8c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseTool",
+                    "type": "Button",
+                    "id": "cfe6412c-0c6e-41fd-8655-90f47379a6ba",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -137,7 +146,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Sprint",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -149,6 +158,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c82ec987-f9da-4e7c-929a-4c8757dc0fa4",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseTool",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
