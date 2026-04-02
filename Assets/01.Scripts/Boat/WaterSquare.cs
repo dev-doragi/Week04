@@ -58,7 +58,6 @@ public class WaterSquare
         //Calculate the time it took to generate the terrain in seconds
         float timeToGenerateSea = (System.Environment.TickCount - startTime) / 1000f;
 
-        Debug.Log("Sea was generated in " + timeToGenerateSea.ToString() + " seconds");
 
 
         //Save the vertices so we can update them in a thread
@@ -181,6 +180,5 @@ public class WaterSquare
 		terrainMeshFilter.mesh = newMesh;
 		terrainMeshFilter.mesh.name = "Water Mesh";
 
-        Debug.Log(terrainMeshFilter.mesh.vertices.Length);
 	}
 }
