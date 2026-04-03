@@ -90,7 +90,7 @@ public class EndlessWaterSquare : MonoBehaviour
                     continue;
                 }
 
-                float yPos = -0.5f;
+                float yPos = 0f;
                 AddWaterPlane(x * squareWidth, z * squareWidth, yPos, squareWidth, outerSquareResolution);
             }
         }
