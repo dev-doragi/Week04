@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerCameraController : MonoBehaviour
 {
-    [SerializeField] private float _yOffset = 2f;
-
     [Header("Cinemachine")]
     [Tooltip("카메라가 따라갈 Cinemachine 가상 카메라에 설정된 추적 대상")]
     public GameObject CinemachineCameraTarget;
@@ -29,7 +27,7 @@ public class PlayerCameraController : MonoBehaviour
 
     // 시네머신 피치(상하) 회전값
     private float _cinemachineTargetPitch;
-    private float _cinemachineTargetYaw;
+    [HideInInspector]public float _cinemachineTargetYaw;
 
     // 좌우 회전 속도
     private float _rotationVelocity;
@@ -104,7 +102,7 @@ public class PlayerCameraController : MonoBehaviour
             float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
             _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier + _yOffset;
+            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
         }
 
         // clamp our rotations so our values are limited 360 degrees

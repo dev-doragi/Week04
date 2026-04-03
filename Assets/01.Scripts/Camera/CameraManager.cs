@@ -11,18 +11,22 @@ public class CameraManager : MonoBehaviour
     [Space(10)]
     public CinemachineCamera fpCamera;
     public CinemachineCamera tpCamera;
-    public CinemachineCamera ovCamera;
+    // public CinemachineCamera ovCamera;
 
     [Space(10)]
     public bool isFirstPerson = true;
 
-    private PlayerCameraController camControl;
+    //private PlayerCameraController camControl;
 
     private void Awake()
     {
         instance = this;
 
-        camControl = GameObject.Find("Player").GetComponent<PlayerCameraController>();
+        isFirstPerson = true;
+        fpCamera.Priority = activePriority;
+        tpCamera.Priority = inactivePriority;
+
+        //camControl = GameObject.Find("Player").GetComponent<PlayerMovementController>();
     }
 
     private void OnGUI()
@@ -35,7 +39,7 @@ public class CameraManager : MonoBehaviour
             // camControl.CinemachineCameraTarget = fpCamera.gameObject;
             fpCamera.Priority = activePriority;
             tpCamera.Priority = inactivePriority;
-            ovCamera.Priority = inactivePriority;
+            //ovCamera.Priority = inactivePriority;
         }
 
         if (GUI.Button(new Rect(20, 115, 260, 50), "3인칭"))
@@ -44,16 +48,16 @@ public class CameraManager : MonoBehaviour
             //camControl.CinemachineCameraTarget = tpCamera.gameObject;
             fpCamera.Priority = inactivePriority;
             tpCamera.Priority = activePriority;
-            ovCamera.Priority = inactivePriority;
+            //ovCamera.Priority = inactivePriority;
         }
 
-        if (GUI.Button(new Rect(20, 175, 260, 50), "Overview"))
-        {
-            isFirstPerson = false;
-            //camControl.CinemachineCameraTarget = ovCamera.gameObject;
-            fpCamera.Priority = inactivePriority;
-            tpCamera.Priority = inactivePriority;
-            ovCamera.Priority = activePriority;
-        }
+        //if (GUI.Button(new Rect(20, 175, 260, 50), "Overview"))
+        //{
+        //    isFirstPerson = false;
+        //    //camControl.CinemachineCameraTarget = ovCamera.gameObject;
+        //    fpCamera.Priority = inactivePriority;
+        //    tpCamera.Priority = inactivePriority;
+        //    ovCamera.Priority = activePriority;
+        //}
     }
 }
