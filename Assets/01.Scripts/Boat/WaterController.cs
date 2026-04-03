@@ -1,52 +1,66 @@
 using UnityEngine;
-using System.Collections;
 
-//Controlls the water
-public class WaterController : MonoBehaviour 
+public class WaterController : MonoBehaviour
 {
     public static WaterController current;
 
-    public bool isMoving;
+    [Header("Water Level")]
+    public float baseHeight = 0f; // 물 기준 높이 오프셋 ( transform.position.y + baseHeight)
+    public bool isMoving = true;
 
-    //Wave height and speed
+    [Header("Wave")]
     public float scale = 0.1f;
     public float speed = 1.0f;
-    //The width between the waves
     public float waveDistance = 1f;
-    //Noise parameters
-    public float noiseStrength = 1f;
+
+    [Header("Noise")]
+    public float noiseStrength = 0.3f;
     public float noiseWalk = 1f;
 
-    void Start()
+    void Awake()
     {
+        if (current != null && current != this)
+        {
+            Debug.LogWarning("Multiple WaterController instances found. Replacing previous instance.");
+        }
+
         current = this;
     }
 
-    //Get the y coordinate from whatever wavetype we are using
-    public float GetWaveYPos(Vector3 position, float timeSinceStart)
+    void OnDestroy()
     {
-        //if (isMoving)
-        //{
-            //return WaveTypes.SinXWave(position, speed, scale, waveDistance, noiseStrength, noiseWalk, timeSinceStart);
-        //}
-        //else
-        //{
-            //return 0f;
-        //}
-		
-		return 0f;
+        if (current == this)
+        {
+            current = null;
+        }
     }
 
-    //Find the distance from a vertice to water
-    //Make sure the position is in global coordinates
-    //Positive if above water
-    //Negative if below water
+    // World-space water surface height.
+    public float GetWaveYPos(Vector3 position, float timeSinceStart)
+    {
+        float staticLevel = transform.position.y + baseHeight;
+
+        if (!isMoving)
+        {
+            return staticLevel;
+        }
+
+        float waveOffset = WaveTypes.SinXWave(
+            position,
+            speed,
+            scale,
+            waveDistance,
+            noiseStrength,
+            noiseWalk,
+            timeSinceStart);
+
+        return staticLevel + waveOffset;
+    }
+
+    // Positive above water, negative below water.
     public float DistanceToWater(Vector3 position, float timeSinceStart)
     {
         float waterHeight = GetWaveYPos(position, timeSinceStart);
-
-        float distanceToWater = position.y - waterHeight;
-
-        return distanceToWater;
+        return position.y - waterHeight;
     }
 }

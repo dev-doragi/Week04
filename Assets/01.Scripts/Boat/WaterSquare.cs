@@ -1,184 +1,129 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
-//Generates a plane with a specific resolution and transforms the plane to make waves
 public class WaterSquare
 {
     public Transform squareTransform;
-    
-    //Add the wave mesh to the MeshFilter
-	public MeshFilter terrainMeshFilter;
-
-	//The total size in m
-	private float size;
-	//Resolution = Width of one square
-	public float spacing;
-	//The total number of vertices we need to generate based on size and spacing
-	private int width;
-
-    //For the thread to update the water
-    //The local center position of this square to fake transformpoint in a thread
+    public MeshFilter terrainMeshFilter;
     public Vector3 centerPos;
-    //The latest vertices that belong to this square
     public Vector3[] vertices;
+
+    private float size;
+    public float spacing;
+    private int width;
+    private Mesh terrainMesh;
 
     public WaterSquare(GameObject waterSquareObj, float size, float spacing)
     {
         this.squareTransform = waterSquareObj.transform;
-
         this.size = size;
-        this.spacing = spacing;
+        this.spacing = Mathf.Max(0.01f, spacing);
 
-        this.terrainMeshFilter = squareTransform.GetComponent<MeshFilter>();
+        terrainMeshFilter = squareTransform.GetComponent<MeshFilter>();
+        if (terrainMeshFilter == null)
+        {
+            Debug.LogError("WaterSquare: MeshFilter is missing.");
+            return;
+        }
 
+        width = Mathf.Max(2, Mathf.RoundToInt(this.size / this.spacing) + 1);
 
-        //Calculate the data we need to generate the water mesh   
-        width = (int)(size / spacing);
-        //Because each square is 2 vertices, so we need one more
-        width += 1;
+        float offset = -((width - 1) * this.spacing) * 0.5f;
+        squareTransform.localPosition += new Vector3(offset, 0f, offset);
 
-        //Center the sea
-        float offset = -((width - 1) * spacing) / 2;
-
-        Vector3 newPos = new Vector3(offset, squareTransform.position.y, offset);
-
-        squareTransform.position += newPos;
-
-        //Save the center position of the square
-        this.centerPos = waterSquareObj.transform.localPosition;
-
-
-        //Generate the sea
-        //To calculate the time it took to generate the terrain
-        float startTime = System.Environment.TickCount;
+        centerPos = squareTransform.localPosition;
 
         GenerateMesh();
-        
-        //Calculate the time it took to generate the terrain in seconds
-        float timeToGenerateSea = (System.Environment.TickCount - startTime) / 1000f;
 
-
-
-        //Save the vertices so we can update them in a thread
-        this.vertices = terrainMeshFilter.mesh.vertices;
+        if (terrainMesh != null)
+        {
+            vertices = terrainMesh.vertices;
+        }
     }
 
-    //If we are updating the square from outside of a thread 
-	public void MoveSea(Vector3 oceanPos, float timeSinceStart)
+    public void UpdateVertices(Vector3 oceanPos, float timeSinceStart)
     {
-        Vector3[] vertices = terrainMeshFilter.mesh.vertices;
+        if (vertices == null || vertices.Length == 0)
+        {
+            return;
+        }
+
+        WaterController water = WaterController.current;
+        if (water == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < vertices.Length; i++)
         {
-			Vector3 vertex = vertices[i];
+            Vector3 localVertex = vertices[i];
 
-            //From local to global
-            //Vector3 vertexGlobal = squareTransform.TransformPoint(vertex);
+            Vector3 worldPoint = new Vector3(
+                localVertex.x + centerPos.x + oceanPos.x,
+                localVertex.y + centerPos.y + oceanPos.y,
+                localVertex.z + centerPos.z + oceanPos.z
+            );
 
-            Vector3 vertexGlobal = vertex + centerPos + oceanPos;
+            float waterY = water.GetWaveYPos(worldPoint, timeSinceStart);
+            localVertex.y = waterY - (centerPos.y + oceanPos.y);
 
-            //Unnecessary because no rotation nor scale
-            //Vector3 vertexGlobalTest2 = squareTransform.rotation * Vector3.Scale(vertex, squareTransform.localScale) + squareTransform.position;
+            vertices[i] = localVertex;
+        }
+    }
 
-            //Debug 
-            if (i == 0)
-            {
-                //Debug.Log(vertexGlobal + " " + vertexGlobalTest);
-            }
-
-            //Get the water height at this coordinate
-            vertex.y = WaterController.current.GetWaveYPos(vertexGlobal, timeSinceStart);
-
-            //From global to local - not needed if we use the saved local x,z position
-            //vertices[i] = transform.InverseTransformPoint(vertex);
-
-            //Don't need to go from global to local because the y pos is always at 0
-            vertices[i] = vertex;
+    public void ApplyUpdatedVerticesToMesh()
+    {
+        if (terrainMesh == null || vertices == null)
+        {
+            return;
         }
 
-		terrainMeshFilter.mesh.vertices = vertices;
+        terrainMesh.vertices = vertices;
+        terrainMesh.RecalculateNormals();
+        terrainMesh.RecalculateBounds();
+    }
 
-        terrainMeshFilter.mesh.RecalculateNormals();
-	}
-
-    //Generate the water mesh
-    public void GenerateMesh()
+    private void GenerateMesh()
     {
-        //Vertices
-        List<Vector3[]> verts = new List<Vector3[]>();
-		//Triangles
-		List<int> tris = new List<int>();
-		//Texturing
-		//List<Vector2> uvs = new List<Vector2>();
-		
-		for (int z = 0; z < width; z++)
+        Vector3[] newVertices = new Vector3[width * width];
+        int[] triangles = new int[(width - 1) * (width - 1) * 6];
+
+        int v = 0;
+        for (int z = 0; z < width; z++)
         {
-			
-			verts.Add(new Vector3[width]);
-			
-			for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; x++)
             {
-				Vector3 current_point = new Vector3();
-				
-				//Get the corrdinates of the vertice
-				current_point.x = x * spacing;
-				current_point.z = z * spacing;
-				current_point.y = squareTransform.position.y;
-				
-				verts[z][x] = current_point;
-				
-				//uvs.Add(new Vector2(x,z));
-				
-				//Don't generate a triangle the first coordinate on each row
-				//Because that's just one point
-				if (x <= 0 || z <= 0)
-                {
-					continue;
-				}
+                newVertices[v] = new Vector3(x * spacing, 0f, z * spacing);
+                v++;
+            }
+        }
 
-				//Each square consists of 2 triangles
-
-				//The triangle south-west of the vertice
-				tris.Add(x 		+ z * width);
-				tris.Add(x 		+ (z-1) * width);
-				tris.Add((x-1) 	+ (z-1) * width);
-				
-				//The triangle west-south of the vertice
-				tris.Add(x 		+ z * width);
-				tris.Add((x-1) 	+ (z-1) * width);
-				tris.Add((x-1)	+ z * width);
-			}
-		}
-		
-		//Unfold the 2d array of verticies into a 1d array.
-		Vector3[] unfolded_verts = new Vector3[width * width];
-
-        int i = 0;
-		foreach (Vector3[] v in verts)
+        int t = 0;
+        for (int z = 1; z < width; z++)
         {
-			//Copies all the elements of the current 1D-array to the specified 1D-array
-			v.CopyTo(unfolded_verts, i * width);
+            for (int x = 1; x < width; x++)
+            {
+                int i0 = x + z * width;
+                int i1 = x + (z - 1) * width;
+                int i2 = (x - 1) + (z - 1) * width;
+                int i3 = (x - 1) + z * width;
 
-            i++;
-		}
-		
-		//Generate the mesh object
-		Mesh newMesh = new Mesh();
-        newMesh.vertices = unfolded_verts;
-        //newMesh.uv = uvs.ToArray();
-        newMesh.triangles = tris.ToArray();
+                triangles[t++] = i0;
+                triangles[t++] = i1;
+                triangles[t++] = i2;
 
-        //Ensure the bounding volume is correct
-        newMesh.RecalculateBounds();
-        //Update the normals to reflect the change
-        newMesh.RecalculateNormals();
+                triangles[t++] = i0;
+                triangles[t++] = i2;
+                triangles[t++] = i3;
+            }
+        }
 
+        terrainMesh = new Mesh();
+        terrainMesh.name = "Water Mesh";
+        terrainMesh.vertices = newVertices;
+        terrainMesh.triangles = triangles;
+        terrainMesh.RecalculateBounds();
+        terrainMesh.RecalculateNormals();
 
-		//Add the generated mesh to this GameObject
-		terrainMeshFilter.mesh.Clear();
-		terrainMeshFilter.mesh = newMesh;
-		terrainMeshFilter.mesh.name = "Water Mesh";
-
-	}
+        terrainMeshFilter.mesh = terrainMesh;
+    }
 }
