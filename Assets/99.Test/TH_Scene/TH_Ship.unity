@@ -7480,7 +7480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &897336346
 Transform:
   m_ObjectHideFlags: 0
@@ -8961,7 +8961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1072216523
 Transform:
   m_ObjectHideFlags: 0
@@ -13498,13 +13498,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 875586998a700ff4797145462930fc1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterSurface
-  baseHeight: 3
+  baseHeight: 0
   isMoving: 1
-  scale: 0.2
+  scale: 2
   speed: 0.7
   waveDistance: 8
-  noiseStrength: 0.01
-  noiseWalk: 0.2
+  noiseStrength: 2
+  noiseWalk: 0.1
 --- !u!114 &1691257210
 MonoBehaviour:
   m_ObjectHideFlags: 0
