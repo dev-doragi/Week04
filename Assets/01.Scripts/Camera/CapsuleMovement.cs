@@ -1,9 +1,8 @@
-using StarterAssets;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovementController : MonoBehaviour
+public class CapsuleMovement : MonoBehaviour
 {
     [Header("이동")]
     public float MoveSpeed = 2.0f;
@@ -31,44 +30,22 @@ public class PlayerMovementController : MonoBehaviour
     public float CameraAngleOverride = 0.0f;
     public bool LockCameraPosition = false;
 
-    [Header("오디오")]
-    public AudioSource AudioFootsteps;
-    public AudioSource LandingAudio;
-    public AudioSource AudioFoley;
-    public AudioClip LandingAudioClip;
-    public AudioClip[] FootstepAudioClips;
-    [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
-
     // 카메라
-    private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
 
     // 이동
     private float _speed;
-    private float _animationBlend;
-    private float _targetRotation = 0.0f;
     private float _rotationVelocity;
 
     // 점프/중력
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
 
-    // 애니메이션 ID
-    private int _animIDSpeed;
-    private int _animIDGrounded;
-    private int _animIDJump;
-    private int _animIDFreeFall;
-    private int _animIDMotionSpeed;
-
     private PlayerInput _playerInput;
-    private Animator _animator;
     private Rigidbody _rb;
     private PlayerInputAction _input;
     private GameObject _mainCamera;
-    private CinemachineThirdPersonFollow _follow;
-    private bool _hasAnimator;
 
-    private bool IsFirstPerson => CameraManager.instance.isFirstPerson;
     private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
     private const float _threshold = 0.01f;
 
@@ -80,16 +57,9 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Start()
     {
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-
-        _follow = GameObject.Find("FirstPersonCamera").GetComponent<CinemachineThirdPersonFollow>();
-
-        _hasAnimator = TryGetComponent(out _animator);
         _rb = GetComponent<Rigidbody>();
         _input = GetComponent<PlayerInputAction>();
         _playerInput = GetComponent<PlayerInput>();
-
-        AssignAnimationIDs();
 
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
@@ -107,26 +77,9 @@ public class PlayerMovementController : MonoBehaviour
         CameraRotation();
     }
 
-    private void AssignAnimationIDs()
-    {
-        _animIDSpeed = Animator.StringToHash("Speed");
-        _animIDGrounded = Animator.StringToHash("Grounded");
-        _animIDJump = Animator.StringToHash("Jump");
-        _animIDFreeFall = Animator.StringToHash("FreeFall");
-        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-    }
-
     // ── 카메라 ────────────────────────────────────────────
 
     private void CameraRotation()
-    {
-        if (IsFirstPerson)
-            FirstPersonCameraRotation();
-        else
-            ThirdPersonCameraRotation();
-    }
-
-    private void FirstPersonCameraRotation()
     {
         if (_input.look.sqrMagnitude < _threshold) return;
 
@@ -140,26 +93,9 @@ public class PlayerMovementController : MonoBehaviour
         CinemachineCameraTarget.transform.localRotation =
             Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 
-        // transform.Rotate(Vector3.up * _rotationVelocity);
+        //transform.Rotate(Vector3.up * _rotationVelocity);
         Quaternion deltaRotation = Quaternion.Euler(0f, _rotationVelocity, 0f);
         _rb.MoveRotation(_rb.rotation * deltaRotation);
-    }
-
-    private void ThirdPersonCameraRotation()
-    {
-        if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-        {
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
-        }
-
-        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-
-        CinemachineCameraTarget.transform.rotation =
-            Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
     }
 
     // ── 이동 ────────────────────────────────────────────
@@ -167,8 +103,6 @@ public class PlayerMovementController : MonoBehaviour
     private void Move()
     {
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-        //float targetZ = _input.sprint ? 0.2f : 0f;
-        //_follow.ShoulderOffset.z = Mathf.Lerp(_follow.ShoulderOffset.z, targetZ, Time.deltaTime * 5f);
 
         if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
@@ -184,53 +118,12 @@ public class PlayerMovementController : MonoBehaviour
             ? Mathf.Round(Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate) * 1000f) / 1000f
             : targetSpeed;
 
-        _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        if (_animationBlend < 0.01f) _animationBlend = 0f;
-
-        if (IsFirstPerson)
-            FirstPersonMove();
-        else
-            ThirdPersonMove();
-
-        if (_hasAnimator)
-        {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-        }
-    }
-
-    private void FirstPersonMove()
-    {
         Vector3 inputDirection = Vector3.zero;
 
         if (_input.move != Vector2.zero)
             inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 
-        ApplyHorizontalVelocity(inputDirection.normalized * _speed);
-    }
-
-    private void ThirdPersonMove()
-    {
-        Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-        if (_input.move != Vector2.zero)
-        {
-            _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              _mainCamera.transform.eulerAngles.y;
-
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
-                ref _rotationVelocity, RotationSmoothTime);
-
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        }
-
-        Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-        ApplyHorizontalVelocity(targetDirection.normalized * _speed);
-    }
-
-    // Y축(중력/점프) 속도는 건드리지 않고 수평 속도만 적용
-    private void ApplyHorizontalVelocity(Vector3 horizontalVelocity)
-    {
+        Vector3 horizontalVelocity = inputDirection.normalized * _speed;
         _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
     }
 
@@ -240,20 +133,11 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (Grounded)
         {
-            _fallTimeoutDelta = FallTimeout;
-
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDJump, false);
-                _animator.SetBool(_animIDFreeFall, false);
-            }
-
+            _fallTimeoutDelta = FallTimeout; 
             if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             {
                 float jumpVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
                 _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, jumpVelocity, _rb.linearVelocity.z);
-
-                if (_hasAnimator) _animator.SetBool(_animIDJump, true);
 
                 _input.jump = false;
                 _jumpTimeoutDelta = JumpTimeout;
@@ -267,8 +151,6 @@ public class PlayerMovementController : MonoBehaviour
 
             if (_fallTimeoutDelta >= 0.0f)
                 _fallTimeoutDelta -= Time.deltaTime;
-            else if (_hasAnimator)
-                _animator.SetBool(_animIDFreeFall, true);
 
             _input.jump = false;
         }
@@ -283,9 +165,6 @@ public class PlayerMovementController : MonoBehaviour
 
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
-
-        if (_hasAnimator)
-            _animator.SetBool(_animIDGrounded, Grounded);
     }
 
     // ── 유틸 ────────────────────────────────────────────
@@ -307,21 +186,5 @@ public class PlayerMovementController : MonoBehaviour
             new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
             GroundedRadius);
     }
-
-    // ── 오디오 이벤트 ────────────────────────────────────
-
-    private void OnFootstep(AnimationEvent animationEvent)
-    {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            AudioFootsteps?.Play();
-            AudioFoley?.Play();
-        }
-    }
-
-    private void OnLand(AnimationEvent animationEvent)
-    {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-            LandingAudio?.Play();
-    }
 }
+
