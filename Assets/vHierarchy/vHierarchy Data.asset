@@ -15,5 +15,11 @@ MonoBehaviour:
   sceneDatas_byGuid:
     keys: []
     values: []
-  bookmarks: []
+  bookmarks:
+  - _go: {fileID: 0}
+    globalId:
+      globalObjectIdString: GlobalObjectId_V1-2-9363d711658d36b4f94e6e7d923bcf93-20704408-0
+  - _go: {fileID: 0}
+    globalId:
+      globalObjectIdString: GlobalObjectId_V1-2-9363d711658d36b4f94e6e7d923bcf93-1691257204-0
   bookmarkedScenePaths: []

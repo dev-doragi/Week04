@@ -1,36 +1,24 @@
 using UnityEngine;
-using System.Collections;
 
-//Different wavetypes
-public class WaveTypes 
+public static class WaveTypes
 {
+    // Traveling sine wave + optional noise.
+    public static float SinXWave(
+        Vector3 position,
+        float speed,
+        float scale,
+        float waveDistance,
+        float noiseStrength,
+        float noiseWalk,
+        float timeSinceStart)
+    {
+        float safeWaveDistance = Mathf.Max(0.01f, waveDistance);
+        float wave = Mathf.Sin((timeSinceStart * speed + position.z) / safeWaveDistance) * scale;
 
-	//Sinus waves
-	public static float SinXWave(
-		Vector3 position, 
-		float speed, 
-		float scale,
-		float waveDistance,
-		float noiseStrength, 
-		float noiseWalk,
-        float timeSinceStart) 
-	{
-        float x = position.x;
-        float y = 0f;
-        float z = position.z;
+        float noiseTime = timeSinceStart * Mathf.Max(0f, noiseWalk);
+        float noiseSample = Mathf.PerlinNoise(position.x * 0.05f + noiseTime, position.z * 0.05f + noiseTime);
+        float noise = (noiseSample - 0.5f) * 2f * noiseStrength;
 
-        //Using only x or z will produce straight waves
-		//Using only y will produce an up/down movement
-		//x + y + z rolling waves
-		//x * z produces a moving sea without rolling waves
-
-		float waveType = z;
-
-        y += Mathf.Sin((timeSinceStart * speed + waveType) / waveDistance) * scale;
-
-        //Add noise to make it more realistic
-        y += Mathf.PerlinNoise(x + noiseWalk, y + Mathf.Sin(timeSinceStart * 0.1f)) * noiseStrength;
-
-        return y;
-	}
-}	
+        return wave + noise;
+    }
+}
