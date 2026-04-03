@@ -1,20 +1,16 @@
 using UnityEngine;
-using System.Collections;
 
-//Data that belongs to one triangle in the original boat mesh
-//and is needed to calculate the slamming force
-public class SlammingForceData 
+public class SlammingForceData
 {
-    //The area of the original triangles - calculate once in the beginning because always the same
+    // Original triangle data
     public float originalArea;
-    //How much area of a triangle in the whole boat is submerged
+    public Vector3 triangleCenter; // local-space center of original triangle
+
+    // Submerged state (current vs previous frame)
     public float submergedArea;
-    //Same as above but previous time step
     public float previousSubmergedArea;
-    //Need to save the center of the triangle to calculate the velocity
-    public Vector3 triangleCenter;
-    //Velocity
+
+    // Velocity at original triangle center (current vs previous frame)
     public Vector3 velocity;
-    //Same as above but previous time step
     public Vector3 previousVelocity;
 }
