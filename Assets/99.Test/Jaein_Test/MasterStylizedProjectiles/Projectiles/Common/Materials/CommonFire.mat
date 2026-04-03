@@ -8,25 +8,24 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CommonFire
-  m_Shader: {fileID: -6465566751694194690, guid: b85d6def27a1d1041b93e3045d7d6c0f, type: 3}
+  m_Shader: {fileID: 10720, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _BUILTIN_SURFACE_TYPE_TRANSPARENT
+  - _EMISSION
   - _SURFACE_TYPE_TRANSPARENT
   - _USEMASK
-  m_InvalidKeywords:
-  - _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses:
+  - MOTIONVECTORS
   - DepthOnly
   - SHADOWCASTER
-  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -60,7 +59,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4cdecdfbc6f2fa34689b6691b5d55879, type: 3}
+        m_Texture: {fileID: 2800000, guid: bae572b8abde45b49abfe9fb73223b07, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTexture:
@@ -88,7 +87,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: cd989ba246770474b8c74697895c8a97, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -140,16 +139,16 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EDGEFADE: 0
-    - _EdgeFadeMax: 0.6
+    - _EdgeFadeMax: 0.471
     - _EdgeFadeMin: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LUT: 0
-    - _MaskFeather: 0.381
-    - _MaskFeather2: 0.2
+    - _MaskFeather: 0.85
+    - _MaskFeather2: 0.507
     - _MaskIntensity: 0
-    - _MaskIntensity2: 0
+    - _MaskIntensity2: 0.564
     - _MaskRepeat: 0
     - _MaskRepeat2: 0
     - _Metallic: 0
