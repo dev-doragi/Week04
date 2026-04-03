@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 public class TitleUIManager : MonoBehaviour
 {
     [Header("Scene Settings")]
-    [SerializeField] private string gameSceneName = "02.TestMainScene";
+    [SerializeField] private string _gameSceneName = "02.TestMainScene";
 
     // 게임 시작
     public void OnClickStart()
     {
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene(_gameSceneName);
     }
 
     // 게임 종료
