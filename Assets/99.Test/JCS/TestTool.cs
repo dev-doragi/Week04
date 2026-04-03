@@ -10,11 +10,11 @@ public class TestTool : MonoBehaviour, IUsableTool
         if (player == null)
             return;
 
-        Transform cameraTransform = player.GetCameraTransform();
+        // Transform cameraTransform = player.GetCameraTransform();
 
         if (Physics.Raycast(
-            cameraTransform.position,
-            cameraTransform.forward,
+            player.transform.position,
+            player.transform.forward,
             out RaycastHit hit,
             useDistance,
             hitLayerMask,
