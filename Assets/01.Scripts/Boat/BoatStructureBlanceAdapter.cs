@@ -33,9 +33,19 @@ public class BoatStructureBalanceAdapter : MonoBehaviour
             blocksRoot = transform;
         }
 
+        if (boatPhysics != null)
+        {
+            baseCom = boatPhysics.centerOfMass;
+        }
+        else
+        {
+            baseCom = rb.centerOfMass;
+        }
+
         RefreshBlocks();
         RecomputeAndWobble(false, transform.position, 0f);
     }
+
 
     public void RefreshBlocks()
     {

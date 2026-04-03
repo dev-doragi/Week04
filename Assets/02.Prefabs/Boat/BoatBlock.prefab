@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3600314045697783076}
   - component: {fileID: 8545247256665951250}
   - component: {fileID: 8435508676656999073}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BoatBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
