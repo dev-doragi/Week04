@@ -104,7 +104,8 @@ public class CapsuleMovement : MonoBehaviour
     {
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+        // if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+        if (_input.move == Vector2.zero) return;
 
         float currentHorizontalSpeed = new Vector3(_rb.linearVelocity.x, 0.0f, _rb.linearVelocity.z).magnitude;
         float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
@@ -118,10 +119,12 @@ public class CapsuleMovement : MonoBehaviour
             ? Mathf.Round(Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate) * 1000f) / 1000f
             : targetSpeed;
 
-        Vector3 inputDirection = Vector3.zero;
+        //Vector3 inputDirection = Vector3.zero;
 
-        if (_input.move != Vector2.zero)
-            inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+        //if (_input.move != Vector2.zero)
+        //    inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+
+        Vector3 inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 
         Vector3 horizontalVelocity = inputDirection.normalized * _speed;
         _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
