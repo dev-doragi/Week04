@@ -21,12 +21,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterMat
-  m_Shader: {fileID: -6465566751694194690, guid: 654acea8655b0044f9e1be1c758f1692, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 4120b79710bde2c4d99c7ee3fdfd8e80, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _TERRAIN_INSTANCED_PERPIXEL_NORMAL
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -130,6 +129,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Triplanar_92888d8ded0b451794c6f5f225972c70_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e7ee2ee1e448437e8de9a957ccc37298, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_c940c1ed40e340bdb7558e728b1492d9_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b4b23fc51ba94ffab43b9704acdd1bfb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -147,6 +154,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Amplitude: 0.2
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -156,6 +164,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _Distance: 5
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnableInstancedPerPixelNormal: 1
@@ -183,6 +192,10 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _WaveHeight: 5
+    - _WaveSpeed: 1
+    - _WaveSpeedHigh: 0.5
+    - _WaveSpeedLow: 1.5
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
@@ -191,5 +204,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Wave1: {r: 1, g: 1, b: 1, a: 0}
+    - _Wave2: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
