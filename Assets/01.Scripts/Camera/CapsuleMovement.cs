@@ -72,6 +72,18 @@ public class CapsuleMovement : MonoBehaviour
             Debug.Log("F키를 눌렀습니다");
             _input.interact = false;
         }
+
+        if (_input.drop)
+        {
+            Debug.Log("Q키를 눌렀습니다.");
+            _input.drop = false;
+        }
+
+        if (_input.click)
+        {
+            Debug.Log("마우스 좌클릭을 했습니다.");
+            _input.click = false;
+        }
     }
 
     private void FixedUpdate()

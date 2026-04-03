@@ -6,9 +6,12 @@ public class PlayerInputAction : MonoBehaviour
     [Header("Character Input Values")]
     public Vector2 move;
     public Vector2 look;
+
     public bool jump;
     public bool sprint;
     public bool interact;
+    public bool drop;
+    public bool click;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -53,6 +56,15 @@ public class PlayerInputAction : MonoBehaviour
         InteractInput(value.isPressed);
     }
 
+    public void OnDrop(InputValue value)
+    {
+        DropInput(value.isPressed);
+    }
+    
+    public void OnClick(InputValue value)
+    {
+        ClickInput(value.isPressed);
+    }
 
     public void MoveInput(Vector2 newMoveDirection)
     {
@@ -77,6 +89,16 @@ public class PlayerInputAction : MonoBehaviour
     public void InteractInput(bool newInteractState)
     {
         interact = newInteractState;
+    }
+
+    public void DropInput(bool newDropState)
+    {
+        drop = newDropState;
+    }
+
+    public void ClickInput(bool newClickState)
+    {
+        click = newClickState;
     }
 
     //private void OnApplicationFocus(bool hasFocus)
