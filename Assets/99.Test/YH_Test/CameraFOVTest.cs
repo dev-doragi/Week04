@@ -7,6 +7,7 @@ public class CameraFOVTest : MonoBehaviour
     public CinemachineTargetGroup targetGroup;
     public GameObject blockPrefab;
     public Transform mainBody;
+    public Vector3 newPos = new Vector3(0, 0, 0);
 
     private void Update()
     {
@@ -22,7 +23,7 @@ public class CameraFOVTest : MonoBehaviour
     {
         GameObject newBlock = Instantiate(blockPrefab, mainBody);
 
-        newBlock.transform.localPosition = new Vector3(9, 0, 0);
+        newBlock.transform.localPosition = newPos;
 
         return newBlock;
     }
