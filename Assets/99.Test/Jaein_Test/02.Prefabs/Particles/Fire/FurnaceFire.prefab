@@ -8731,7 +8731,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 512
+      m_Bits: 268435456
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9917,6 +9917,8 @@ MonoBehaviour:
   _sparkBaseLight: {fileID: 4216277634029181660}
   _animatedLightValue: {fileID: 5201115179104475971}
   _audioSource: {fileID: 8922500298171632323}
+  _minIntensity: 0.5
+  _maxIntensity: 1.5
   _intensity: 1
   _previewInEditMode: 1
   _baseAudioVolume: 0.94
