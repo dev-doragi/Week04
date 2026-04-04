@@ -22,8 +22,8 @@ public class PlayerEntity : MonoBehaviour
         if (_input.click)
         {
             _interaction.BoatBreaker(axe);
-            _input.click = false;
-        }
+            //_input.click = false;
+        } 
 
         if (_input.interact)
         {
@@ -37,6 +37,13 @@ public class PlayerEntity : MonoBehaviour
             Debug.Log("Q키 클릭");
             _interaction.DropItem();
             _input.drop = false;
+        }
+
+        if (_input.build)
+        {
+            Debug.Log("E키 클릭");
+            _interaction.ApplyWoodPatch();
+            _input.build = false;
         }
     }
 
