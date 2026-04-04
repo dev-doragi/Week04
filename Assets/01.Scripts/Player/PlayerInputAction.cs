@@ -6,8 +6,12 @@ public class PlayerInputAction : MonoBehaviour
     [Header("Character Input Values")]
     public Vector2 move;
     public Vector2 look;
+
     public bool jump;
     public bool sprint;
+    public bool interact;
+    public bool drop;
+    public bool click;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -15,6 +19,15 @@ public class PlayerInputAction : MonoBehaviour
     [Header("Mouse Cursor Settings")]
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
+
+    public PlayerInput _playerInput;
+
+    private void Start()
+    {
+        _playerInput.SwitchCurrentActionMap("Player");
+
+        SetCursorState(true);
+    }
 
 
     public void OnMove(InputValue value)
@@ -26,7 +39,9 @@ public class PlayerInputAction : MonoBehaviour
     {
         if (cursorInputForLook)
         {
+
             Debug.Log(value.Get<Vector2>());
+
             LookInput(value.Get<Vector2>());
         }
     }
@@ -41,6 +56,20 @@ public class PlayerInputAction : MonoBehaviour
         SprintInput(value.isPressed);
     }
 
+    public void OnInteract(InputValue value)
+    {
+        InteractInput(value.isPressed);
+    }
+
+    public void OnDrop(InputValue value)
+    {
+        DropInput(value.isPressed);
+    }
+    
+    public void OnClick(InputValue value)
+    {
+        ClickInput(value.isPressed);
+    }
 
     public void MoveInput(Vector2 newMoveDirection)
     {
@@ -62,13 +91,28 @@ public class PlayerInputAction : MonoBehaviour
         sprint = newSprintState;
     }
 
+    public void InteractInput(bool newInteractState)
+    {
+        interact = newInteractState;
+    }
+
+    public void DropInput(bool newDropState)
+    {
+        drop = newDropState;
+    }
+
+    public void ClickInput(bool newClickState)
+    {
+        click = newClickState;
+    }
+
     //private void OnApplicationFocus(bool hasFocus)
     //{
     //	SetCursorState(cursorLocked);
     //}
 
-    //private void SetCursorState(bool newState)
-    //{
-    //	Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-    //}
+    private void SetCursorState(bool newState)
+    {
+        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    }
 }
