@@ -33,6 +33,7 @@ Transform:
   m_Children:
   - {fileID: 5506862323736636495}
   - {fileID: 3858109314746815508}
+  - {fileID: 490693539870033961}
   - {fileID: 8395354942385523942}
   - {fileID: 4162103903345855916}
   m_Father: {fileID: 0}
@@ -85,7 +86,7 @@ GameObject:
   - component: {fileID: 1179092719598986420}
   - component: {fileID: 3969046521806257290}
   - component: {fileID: 3079659417565475787}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,8 +184,61 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.020000005, y: 0.020000001, z: 0.002}
-  m_Center: {x: -0.00000011920929, y: -4.656612e-10, z: 0.015}
+  m_Size: {x: 0.02, y: 0.02, z: 0.02}
+  m_Center: {x: 0, y: 0, z: 0.003}
+--- !u!1 &4263246934407848930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 490693539870033961}
+  - component: {fileID: 1137141948289474384}
+  m_Layer: 28
+  m_Name: Ceal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &490693539870033961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263246934407848930}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.089, y: 2.227, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2744741269407517667}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1137141948289474384
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263246934407848930}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.1, y: 0.27, z: 2.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5633109810411591241
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +250,7 @@ GameObject:
   - component: {fileID: 4162103903345855916}
   - component: {fileID: 7866106774273752605}
   - component: {fileID: 7104425666445022035}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Woods
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +340,8 @@ GameObject:
   - component: {fileID: 8395354942385523942}
   - component: {fileID: 8177379527779897667}
   - component: {fileID: 4390275387882704371}
-  m_Layer: 9
+  - component: {fileID: 319736410407862095}
+  m_Layer: 0
   m_Name: Pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,6 +421,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &319736410407862095
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9025105919227435909}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.008065132, y: 0.0080651315, z: 0.019999994}
+  m_Center: {x: 4.656614e-10, y: -2.437446e-10, z: -9.9261666e-24}
 --- !u!1001 &629346101134914669
 PrefabInstance:
   m_ObjectHideFlags: 0
