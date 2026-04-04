@@ -40,7 +40,7 @@ public class PlayerInputAction : MonoBehaviour
         if (cursorInputForLook)
         {
 
-            Debug.Log(value.Get<Vector2>());
+            // Debug.Log(value.Get<Vector2>());
 
             LookInput(value.Get<Vector2>());
         }

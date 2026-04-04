@@ -22,7 +22,21 @@ public class PlayerEntity : MonoBehaviour
         if (_input.click)
         {
             _interaction.BoatBreaker(axe);
-            //_input.click = false;
+            _input.click = false;
+        }
+
+        if (_input.interact)
+        {
+            Debug.Log("f키 클릭");
+            _interaction.Interact();
+            _input.interact = false;
+        }
+
+        if (_input.drop)
+        {
+            Debug.Log("Q키 클릭");
+            _interaction.DropItem();
+            _input.drop = false;
         }
     }
 
