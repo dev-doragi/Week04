@@ -18643,7 +18643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652567319521}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30291,6 +30291,82 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 543450652567319521}
     m_Modifications:
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 26.317501
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.23200001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 2.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 4.2253
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 14.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.9986002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 1.363
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546872952591208431, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 1.595
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 16.356
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.6815
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.02726
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 4.089
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.13630001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 18.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 5.452
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 1.363
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984133915056650192, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 1.0904001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216277634029181660, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_Intensity
+      value: 4.3500004
+      objectReference: {fileID: 0}
     - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.34531853
@@ -30331,9 +30407,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5232575751357849727, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: _intensity
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 16.356
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.6815
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 2.9986002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 4.2253
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1.0904001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 54.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.9986002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 1.363
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873424743680473415, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 1.0904001
+      objectReference: {fileID: 0}
     - target: {fileID: 8557274508960741182, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
       propertyPath: m_Name
       value: FurnaceFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922500298171632323, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_Volume
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32822,7 +32942,7 @@ GameObject:
   - component: {fileID: 3260616447473905546}
   - component: {fileID: 7762067043247584795}
   - component: {fileID: 8707273951917675547}
-  m_Layer: 9
+  m_Layer: 28
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
