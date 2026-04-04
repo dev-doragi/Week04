@@ -65,6 +65,27 @@ public class CapsuleMovement : MonoBehaviour
         _fallTimeoutDelta = FallTimeout;
     }
 
+    private void Update()
+    {
+        if (_input.interact)
+        {
+            Debug.Log("F키를 눌렀습니다");
+            _input.interact = false;
+        }
+
+        if (_input.drop)
+        {
+            Debug.Log("Q키를 눌렀습니다.");
+            _input.drop = false;
+        }
+
+        if (_input.click)
+        {
+            Debug.Log("마우스 좌클릭을 했습니다.");
+            _input.click = false;
+        }
+    }
+
     private void FixedUpdate()
     {
         GroundedCheck();
@@ -104,8 +125,8 @@ public class CapsuleMovement : MonoBehaviour
     {
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-        // if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-        if (_input.move == Vector2.zero) return;
+        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+        //if (_input.move == Vector2.zero) return;
 
         float currentHorizontalSpeed = new Vector3(_rb.linearVelocity.x, 0.0f, _rb.linearVelocity.z).magnitude;
         float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
@@ -119,12 +140,12 @@ public class CapsuleMovement : MonoBehaviour
             ? Mathf.Round(Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate) * 1000f) / 1000f
             : targetSpeed;
 
-        //Vector3 inputDirection = Vector3.zero;
+        Vector3 inputDirection = Vector3.zero;
 
-        //if (_input.move != Vector2.zero)
-        //    inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+        if (_input.move != Vector2.zero)
+            inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 
-        Vector3 inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+        //Vector3 inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 
         Vector3 horizontalVelocity = inputDirection.normalized * _speed;
         _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
