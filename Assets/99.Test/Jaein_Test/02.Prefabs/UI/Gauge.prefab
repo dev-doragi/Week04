@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 2492163497765741863}
   - component: {fileID: 4468795984789226389}
   - component: {fileID: 8259279570853295339}
+  - component: {fileID: 5535468126609655426}
   m_Layer: 5
   m_Name: Gauge
   m_TagString: Untagged
@@ -114,6 +115,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5535468126609655426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273454406198290118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9abbd21b267d9814f9e7bf52b29eaa5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GaugeController
+  _gaugePivot: {fileID: 1211950851258185405}
+  _fireVisual: {fileID: 991814859308217453}
+  _minAngle: 90
+  _maxAngle: -90
+  _minFireScale: {x: 0, y: 0, z: 0}
+  _maxFireScale: {x: 1, y: 1, z: 1}
+  _normalizedValue: 0.5
 --- !u!1 &6479159783931358473
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +236,7 @@ RectTransform:
   m_GameObject: {fileID: 6991498819219424694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.52, y: 0.52, z: 0.52}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1211950851258185405}
