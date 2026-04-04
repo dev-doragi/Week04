@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -119,8 +120,11 @@ public class FireIntensityController : MonoBehaviour
     [SerializeField] private AnimatedLightValue _animatedLightValue;
     [SerializeField] private AudioSource _audioSource;
 
+    [Header("Intensity Range")]
+    [SerializeField] private float _minIntensity = 0.5f;
+    [SerializeField] private float _maxIntensity = 1.5f;
+
     [Header("Control")]
-    [Range(0f, 2.5f)]
     [SerializeField] private float _intensity = 1f;
 
     [Header("Editor Preview")]
@@ -129,14 +133,34 @@ public class FireIntensityController : MonoBehaviour
     [Header("Captured Base Values")]
     [SerializeField, HideInInspector] private float _baseAudioVolume = 1f;
 
-    public float Intensity
+    public event Action<float> OnNormalizedIntensityChanged;
+
+    public float MinIntensity => _minIntensity;
+    public float MaxIntensity => _maxIntensity;
+    public float Intensity => _intensity;
+    public float NormalizedIntensity => Mathf.InverseLerp(_minIntensity, _maxIntensity, _intensity);
+
+    public void SetIntensity(float value)
     {
-        get => _intensity;
-        set
-        {
-            _intensity = Mathf.Clamp(value, 0f, 2.5f);
-            TryApply();
-        }
+        float clampedValue = Mathf.Clamp(value, _minIntensity, _maxIntensity);
+
+        if (Mathf.Approximately(_intensity, clampedValue))
+            return;
+
+        _intensity = clampedValue;
+        TryApply();
+        RaiseIntensityChanged();
+    }
+
+    public void SetNormalizedIntensity(float normalizedValue)
+    {
+        normalizedValue = Mathf.Clamp01(normalizedValue);
+        SetIntensity(Mathf.Lerp(_minIntensity, _maxIntensity, normalizedValue));
+    }
+
+    public void AddNormalized(float normalizedAmount)
+    {
+        SetNormalizedIntensity(NormalizedIntensity + normalizedAmount);
     }
 
     [ContextMenu("Capture Base Settings")]
@@ -162,6 +186,7 @@ public class FireIntensityController : MonoBehaviour
     public void ApplyNow()
     {
         TryApply(forceInEditor: true);
+        RaiseIntensityChanged();
     }
 
     [ContextMenu("Restore Base Settings")]
@@ -175,22 +200,31 @@ public class FireIntensityController : MonoBehaviour
 
         if (_audioSource != null)
             _audioSource.volume = _baseAudioVolume;
+
+        RaiseIntensityChanged();
     }
 
     private void OnEnable()
     {
         InvalidateChangedReferences();
+        _intensity = Mathf.Clamp(_intensity, _minIntensity, _maxIntensity);
         TryApply();
+        RaiseIntensityChanged();
     }
 
     private void OnValidate()
     {
-        //_intensity = Mathf.Clamp01(_intensity);
+        if (_maxIntensity < _minIntensity)
+            _maxIntensity = _minIntensity;
+
+        _intensity = Mathf.Clamp(_intensity, _minIntensity, _maxIntensity);
+
         InvalidateChangedReferences();
 
         if (!Application.isPlaying && _previewInEditMode)
         {
             TryApply(forceInEditor: true);
+            RaiseIntensityChanged();
         }
     }
 
@@ -260,9 +294,11 @@ public class FireIntensityController : MonoBehaviour
 
     private void RestoreParticleModule(ParticleModuleSettings module)
     {
-        if (module == null || !module.IsValid)
-            return;
-
         module.Apply(1f, 1f);
+    }
+
+    private void RaiseIntensityChanged()
+    {
+        OnNormalizedIntensityChanged?.Invoke(NormalizedIntensity);
     }
 }
