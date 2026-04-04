@@ -12,6 +12,7 @@ public class PlayerInputAction : MonoBehaviour
     public bool interact;
     public bool drop;
     public bool click;
+    public bool build;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -71,6 +72,11 @@ public class PlayerInputAction : MonoBehaviour
         ClickInput(value.isPressed);
     }
 
+    public void OnBuild(InputValue value)
+    {
+        BuildInput(value.isPressed);
+    }
+
     public void MoveInput(Vector2 newMoveDirection)
     {
         move = newMoveDirection;
@@ -104,6 +110,11 @@ public class PlayerInputAction : MonoBehaviour
     public void ClickInput(bool newClickState)
     {
         click = newClickState;
+    }
+
+    public void BuildInput(bool newBuildState)
+    {
+        build = newBuildState;
     }
 
     //private void OnApplicationFocus(bool hasFocus)

@@ -40,6 +40,17 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    public void Interact()
+    {
+        // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
+        TryPickUp();
+    }
+
+    public void ApplyWoodPatch()
+    {
+        // 나무블록 설치 로직 작성
+    }
+
     private void Swing(Transform axe)
     {
         _isSwinging = true;
@@ -57,12 +68,6 @@ public class PlayerInteraction : MonoBehaviour
             .SetEase(Ease.InOutQuad));
 
         sequence.OnComplete(() => _isSwinging = false);
-    }
-
-    public void Interact()
-    {
-        // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
-        TryPickUp();
     }
 
     public void TryPickUp()
