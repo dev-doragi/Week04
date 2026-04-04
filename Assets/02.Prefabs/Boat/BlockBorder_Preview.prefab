@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8545247256665951250}
   - component: {fileID: 8435508676656999073}
   m_Layer: 0
-  m_Name: BoatBorder
+  m_Name: BlockBorder_Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
