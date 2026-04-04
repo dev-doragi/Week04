@@ -17,3 +17,10 @@ public enum eWoodState
     Drying,
     Wet
 }
+
+public enum ePlayerState
+{
+    Fueling,
+    Crafting,
+    Steering
+}

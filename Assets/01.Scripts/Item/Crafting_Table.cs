@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VInspector.Libs;
 
 public class Crafting_Table : MonoBehaviour
 {
@@ -49,5 +50,16 @@ public class Crafting_Table : MonoBehaviour
         repoStack.Push(newItem);
 
         return true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            if(other.TryGetComponent(out PlayerInteraction player))
+            {
+
+            }
+        }
     }
 }
