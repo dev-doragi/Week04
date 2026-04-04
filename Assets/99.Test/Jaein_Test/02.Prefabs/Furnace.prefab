@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0.46, z: 9.2}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.48, y: 1.48, z: 1.48}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5506862323736636495}
@@ -74,6 +74,7 @@ MonoBehaviour:
   maxFuelGauge: 100
   fuelGauge: 100
   fuelEfficiency: 1
+  controller: {fileID: 4622440470087046162}
 --- !u!1 &3960218741175225933
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +500,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+--- !u!114 &4622440470087046162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5232575751357849727, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+  m_PrefabInstance: {fileID: 629346101134914669}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e7a28d7ebc779428a73e44de145d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireIntensityController
 --- !u!4 &5506862323736636495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
