@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 7440985909800063452}
   - component: {fileID: 1064831392028300018}
   m_Layer: 0
-  m_Name: Boat
+  m_Name: BoatPrev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
