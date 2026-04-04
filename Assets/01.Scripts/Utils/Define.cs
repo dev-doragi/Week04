@@ -20,6 +20,7 @@ public enum eWoodState
 
 public enum ePlayerState
 {
+    None,
     Fueling,
     Crafting,
     Steering

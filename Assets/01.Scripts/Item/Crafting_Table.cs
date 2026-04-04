@@ -58,7 +58,18 @@ public class Crafting_Table : MonoBehaviour
         {
             if(other.TryGetComponent(out PlayerInteraction player))
             {
+                player.OnChangedInteractionState(ePlayerState.Crafting);
+            }
+        }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (other.TryGetComponent(out PlayerInteraction player))
+            {
+                player.OnChangedInteractionState(ePlayerState.None);
             }
         }
     }

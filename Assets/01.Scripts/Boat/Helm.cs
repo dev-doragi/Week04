@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class Helm : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (other.TryGetComponent(out PlayerInteraction player))
+            {
+                player.OnChangedInteractionState(ePlayerState.Steering);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (other.TryGetComponent(out PlayerInteraction player))
+            {
+                player.OnChangedInteractionState(ePlayerState.None);
+            }
+        }
     }
 }

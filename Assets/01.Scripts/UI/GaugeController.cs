@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class GaugeController : MonoBehaviour
+public class GaugeController : UIBase
 {
     [Header("Source")]
     [SerializeField] private FireIntensityController _fireIntensityController;
@@ -41,7 +41,7 @@ public class GaugeController : MonoBehaviour
         _lastNormalizedValue = -1f;
     }
 
-    private void Apply(float normalizedValue)
+    public void Apply(float normalizedValue)
     {
         normalizedValue = Mathf.Clamp01(normalizedValue);
 
