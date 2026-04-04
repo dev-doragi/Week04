@@ -1584,7 +1584,7 @@ PrefabInstance:
       objectReference: {fileID: 270598635}
     - target: {fileID: 4474101467274949126, guid: 57eab700095dbc04f830ca7d51e27e33, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 1108345207
+      value: 1108345719
       objectReference: {fileID: 0}
     - target: {fileID: 5424848549728105916, guid: 57eab700095dbc04f830ca7d51e27e33, type: 3}
       propertyPath: fpCamera
