@@ -19870,6 +19870,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObjectPool
       objectReference: {fileID: 0}
+    - target: {fileID: 1078631655322862324, guid: fe8408cd37ca12f44a86063ac43e43e0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3147747174348366093, guid: fe8408cd37ca12f44a86063ac43e43e0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
