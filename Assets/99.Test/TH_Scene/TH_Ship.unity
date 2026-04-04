@@ -3239,7 +3239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &491861759
 Transform:
   m_ObjectHideFlags: 0
@@ -9611,7 +9611,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &1491279454
 MonoBehaviour:
@@ -9625,8 +9625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d5778953cce844aba759a99d184928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CapsuleMovement
-  MoveSpeed: 3
-  SprintSpeed: 5.335
+  MoveSpeed: 4
+  SprintSpeed: 6
   RotationSmoothTime: 0.12
   RotationSpeed: 1
   SpeedChangeRate: 10
@@ -9713,11 +9713,14 @@ MonoBehaviour:
   platformMask:
     serializedVersion: 2
     m_Bits: 512
-  minGroundNormalY: 0.35
-  idleSnap: 12
-  maxRelativeSpeed: 3.5
-  maxAssistAccel: 35
-  inputAction: {fileID: 1491279456}
+  allowBoatTagFallback: 1
+  minGroundNormalY: 0.05
+  probeRadius: 0.28
+  probeDistance: 1.4
+  followVertical: 1
+  followYaw: 1
+  yawFollow: 1
+  detachGraceTicks: 3
 --- !u!4 &1509620034 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 795726938077448455, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
@@ -12871,6 +12874,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 356077984398573941, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
+      propertyPath: forwardAcceleration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2879786710300142047, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
       propertyPath: biasLerp
       value: 0.03
