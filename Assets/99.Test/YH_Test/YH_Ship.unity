@@ -12024,7 +12024,7 @@ MonoBehaviour:
   targetGroup: {fileID: 1823208251}
   blockPrefab: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
   mainBody: {fileID: 1868685409}
-  newPos: {x: 0, y: 0, z: 15}
+  newPos: {x: 9, y: 0, z: 0}
 --- !u!114 &1868685411 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2879786710300142047, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
@@ -12725,6 +12725,10 @@ PrefabInstance:
       propertyPath: m_AngularDamping
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 6065202915427006220, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6213318768450970901, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
       propertyPath: m_Name
       value: Boat
@@ -12732,6 +12736,10 @@ PrefabInstance:
     - target: {fileID: 6760514958528534368, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8573023015805465193, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
