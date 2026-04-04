@@ -7,7 +7,6 @@ public class CapsuleMovement : MonoBehaviour
     [Header("이동")]
     public float MoveSpeed = 2.0f;
     public float SprintSpeed = 5.335f;
-    [Range(0.0f, 0.3f)] public float RotationSmoothTime = 0.12f;
     public float RotationSpeed = 1.0f;
     public float SpeedChangeRate = 10.0f;
 
@@ -66,58 +65,75 @@ public class CapsuleMovement : MonoBehaviour
         _fallTimeoutDelta = FallTimeout;
     }
 
-    private void Update()
+    public void Tick()
     {
-        // 테스트용 F2키 누르면 움직임 / 회전 멈추기
-        if (Keyboard.current.f2Key.wasPressedThisFrame)
-        {
-            isGameActive = false;
-            _rb.linearVelocity = Vector3.zero;
-
-            _cinemachineTargetPitch = 0f;
-            CinemachineCameraTarget.transform.localRotation = Quaternion.identity;
-        }
-
-        if (isGameActive)
-        {
-            if (_input.interact)
-            {
-                Debug.Log("F키를 눌렀습니다");
-                _input.interact = false;
-            }
-
-            if (_input.drop)
-            {
-                Debug.Log("Q키를 눌렀습니다.");
-                _input.drop = false;
-            }
-
-            if (_input.click)
-            {
-                Debug.Log("마우스 좌클릭을 했습니다.");
-                _input.click = false;
-            }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (isGameActive)
-        {
-            GroundedCheck();
-            JumpAndGravity();
-            Move();
-        }
         
     }
 
-    private void LateUpdate()
+    public void FixedTick()
     {
-        if (isGameActive)
-        {
-            CameraRotation();
-        }
+        GroundedCheck();
+        JumpAndGravity();
+        Move();
     }
+
+    public void LateTick()
+    {
+        CameraRotation();
+    }
+
+    //private void Update()
+    //{
+    //    // 테스트용 F2키 누르면 움직임 / 회전 멈추기
+    //    if (Keyboard.current.f2Key.wasPressedThisFrame)
+    //    {
+    //        isGameActive = false;
+    //        _rb.linearVelocity = Vector3.zero;
+
+    //        _cinemachineTargetPitch = 0f;
+    //        CinemachineCameraTarget.transform.localRotation = Quaternion.identity;
+    //    }
+
+    //    if (isGameActive)
+    //    {
+    //        if (_input.interact)
+    //        {
+    //            Debug.Log("F키를 눌렀습니다");
+    //            _input.interact = false;
+    //        }
+
+    //        if (_input.drop)
+    //        {
+    //            Debug.Log("Q키를 눌렀습니다.");
+    //            _input.drop = false;
+    //        }
+
+    //        if (_input.click)
+    //        {
+    //            Debug.Log("마우스 좌클릭을 했습니다.");
+    //            _input.click = false;
+    //        }
+    //    }
+    //}
+
+    //private void FixedUpdate()
+    //{
+    //    if (isGameActive)
+    //    {
+    //        GroundedCheck();
+    //        JumpAndGravity();
+    //        Move();
+    //    }
+        
+    //}
+
+    //private void LateUpdate()
+    //{
+    //    if (isGameActive)
+    //    {
+    //        CameraRotation();
+    //    }
+    //}
 
     // ── 카메라 ────────────────────────────────────────────
 
