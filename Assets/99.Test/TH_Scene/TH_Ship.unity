@@ -9611,7 +9611,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 2
 --- !u!114 &1491279454
 MonoBehaviour:
@@ -9691,9 +9691,13 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  interact: 0
+  drop: 0
+  click: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
+  _playerInput: {fileID: 1491279455}
 --- !u!114 &1491279458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12994,6 +12998,10 @@ PrefabInstance:
     - target: {fileID: 6213318768450970901, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213318768450970901, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
+      propertyPath: m_TagString
+      value: Boat
       objectReference: {fileID: 0}
     - target: {fileID: 6595562844307780650, guid: e65a5742ef702f5499ac445db8673b26, type: 3}
       propertyPath: Priority.m_Value
