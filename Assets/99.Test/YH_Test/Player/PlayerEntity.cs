@@ -22,8 +22,8 @@ public class PlayerEntity : MonoBehaviour
         if (_input.click)
         {
             _interaction.BoatBreaker(axe);
-            _input.click = false;
-        }
+            //_input.click = false;
+        } 
 
         if (_input.interact)
         {
