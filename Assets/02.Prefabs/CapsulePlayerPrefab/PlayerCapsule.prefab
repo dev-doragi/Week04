@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5710298244001575030}
   - component: {fileID: 7185038679730912878}
   - component: {fileID: 8534369521979332460}
+  - component: {fileID: 5247453998879813676}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -105,7 +106,7 @@ MonoBehaviour:
   GroundedRadius: 0.3
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 832
   CinemachineCameraTarget: {fileID: 2236412677346086965}
   TopClamp: 70
   BottomClamp: -30
@@ -253,6 +254,30 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5247453998879813676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155788920662168391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2efddd2378c116d4dab7973c3f736720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RigidbodyPlatformVelocityFollow
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 512
+  allowBoatTagFallback: 1
+  minGroundNormalY: 0.05
+  probeRadius: 0.28
+  probeDistance: 1.2
+  followVertical: 1
+  followYaw: 1
+  yawFollow: 1
+  detachGraceTicks: 3
+  inputAction: {fileID: 7185038679730912878}
 --- !u!1 &2236412677346086965
 GameObject:
   m_ObjectHideFlags: 0

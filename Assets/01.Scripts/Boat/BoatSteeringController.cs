@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -9,7 +9,7 @@ public class BoatSteeringController : MonoBehaviour
     [SerializeField] private Transform wheelObject;
 
     [Header("Enable")]
-    [SerializeField] private bool controllSteer = true;
+    [SerializeField] public bool controllSteer = false;
     [SerializeField] private bool enableHeadingCorrection = true;
 
     [Header("Input")]
