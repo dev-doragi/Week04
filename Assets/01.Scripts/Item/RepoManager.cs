@@ -1,0 +1,64 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RepoManager : MonoBehaviour
+{
+    private static RepoManager instance;
+    public static RepoManager Instance { get { return instance; } private set { instance = value; } }
+    public bool IsPlaying = true;
+
+    [SerializeField] private HashSet<Wood> dryingWoods = new HashSet<Wood>();
+    private Queue<Wood> removalQueue = new Queue<Wood>();
+    bool isDryUpdate = false;
+    private void Awake()
+    {
+        if(instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
+
+    void Start()
+    {
+        
+    }
+
+    public void RegisterWood(Wood wood)
+    {
+        if (dryingWoods.Add(wood))
+        {
+            isDryUpdate = true;
+        }
+    }
+
+    private void Update()
+    {
+        if (!isDryUpdate) return;
+
+        float dt = Time.deltaTime;
+
+        foreach (var wood in dryingWoods)
+        {
+            if (wood.OnDryWood(dt))
+            {
+                removalQueue.Enqueue(wood);
+            }
+        }
+
+        if (removalQueue.Count > 0)
+        {
+            while (removalQueue.Count > 0)
+            {
+                var wood = removalQueue.Dequeue();
+                dryingWoods.Remove(wood);
+            }
+
+            if (dryingWoods.Count == 0)
+            {
+                isDryUpdate = false;
+            }
+        }
+    }
+}
+

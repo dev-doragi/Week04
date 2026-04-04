@@ -3266,21 +3266,20 @@ MonoBehaviour:
   blocksRoot: {fileID: 1634250031034574067}
   targetCamera: {fileID: 568361169}
   blockPrefab: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+  wetBlockPrefab: {fileID: 0}
   previewPrefab: {fileID: 3824811778835995127, guid: df8c0b65d73207442a45db98695e607a, type: 3}
+  removePreviewPrefab: {fileID: 0}
   cellSize: {x: 3, y: 1, z: 3}
   cellOriginOffset: {x: 0, y: 0, z: 0}
   blockLayerMask:
     serializedVersion: 2
     m_Bits: 256
   rayDistance: 200
-  buildKey: 15
-  boatRb: {fileID: 7219888967294756923}
-  wobbleTorqueImpulse: 6
-  wobbleDownImpulse: 6
-  wobbleRandomYaw: 20
-  maxBoatAngularSpeed: 12
-  stability: {fileID: 245113262231984348}
-  _isWeight: 0
+  useScreenCenterRay: 1
+  buildHoldKey: 32
+  wetBuildKey: 21
+  removeKey: 34
+  applyCellSizeToPlacedBlock: 1
 --- !u!1 &519069902
 GameObject:
   m_ObjectHideFlags: 0
@@ -9727,7 +9726,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CapsuleMovement
   MoveSpeed: 5
   SprintSpeed: 5.335
-  RotationSmoothTime: 0.12
   RotationSpeed: 1
   SpeedChangeRate: 10
   JumpHeight: 1.2
@@ -13470,6 +13468,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 4519052482661188360}
   - {fileID: 4083501150427385255}
   - {fileID: 6645823805765766715}
   - {fileID: 6738450969264883419}
@@ -18644,8 +18643,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652567319521}
-  m_Layer: 0
-  m_Name: Furance
+  m_Layer: 9
+  m_Name: Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26411,8 +26410,8 @@ GameObject:
   - component: {fileID: 6645823805765766715}
   - component: {fileID: 5366159434705644623}
   - component: {fileID: 7202271455879783125}
-  m_Layer: 0
-  m_Name: Cylinder
+  m_Layer: 9
+  m_Name: Pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27204,6 +27203,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4519052482661188360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+  m_PrefabInstance: {fileID: 7129153132527600075}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &4556752602695896574
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30279,6 +30283,63 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &7129153132527600075
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 543450652567319521}
+    m_Modifications:
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.34531853
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.42666674
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.017369747
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557274508960741182, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+      propertyPath: m_Name
+      value: FurnaceFire
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
 --- !u!65 &7142704116739269858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32397,8 +32458,8 @@ GameObject:
   - component: {fileID: 6738450969264883419}
   - component: {fileID: 4109396431721890843}
   - component: {fileID: 7071182762106240176}
-  m_Layer: 0
-  m_Name: Cylinder.001
+  m_Layer: 9
+  m_Name: Woods
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32760,13 +32821,35 @@ GameObject:
   - component: {fileID: 4083501150427385255}
   - component: {fileID: 3260616447473905546}
   - component: {fileID: 7762067043247584795}
-  m_Layer: 0
-  m_Name: Cube.001
+  - component: {fileID: 8707273951917675547}
+  m_Layer: 9
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &8707273951917675547
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707273951917675546}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.020000005, y: 0.020000001, z: 0.002}
+  m_Center: {x: -0.00000011920929, y: -4.656612e-10, z: 0.015}
 --- !u!4 &8712122852981400685
 Transform:
   m_ObjectHideFlags: 0
