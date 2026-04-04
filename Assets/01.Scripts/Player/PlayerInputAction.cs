@@ -25,6 +25,8 @@ public class PlayerInputAction : MonoBehaviour
     private void Start()
     {
         _playerInput.SwitchCurrentActionMap("Player");
+
+        SetCursorState(true);
     }
 
 
@@ -38,7 +40,7 @@ public class PlayerInputAction : MonoBehaviour
         if (cursorInputForLook)
         {
 
-            Debug.Log(value.Get<Vector2>());
+            // Debug.Log(value.Get<Vector2>());
 
             LookInput(value.Get<Vector2>());
         }
@@ -109,8 +111,8 @@ public class PlayerInputAction : MonoBehaviour
     //	SetCursorState(cursorLocked);
     //}
 
-    //private void SetCursorState(bool newState)
-    //{
-    //	Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-    //}
+    private void SetCursorState(bool newState)
+    {
+        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    }
 }
