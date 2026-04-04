@@ -43,8 +43,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1396168290766121553}
   - component: {fileID: 608858482768629618}
-  - component: {fileID: 8218772514540542745}
-  - component: {fileID: 1226430066381425036}
+  - component: {fileID: 991231936969330789}
+  - component: {fileID: 7185038679730912878}
   - component: {fileID: 8534369521979332460}
   m_Layer: 8
   m_Name: PlayerCapsule
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8218772514540542745
+--- !u!114 &991231936969330789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
---- !u!114 &1226430066381425036
+--- !u!114 &7185038679730912878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -488,7 +488,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2530590186866559736}
-  m_Material: {fileID: 13400000, guid: 71bdc16943d0cdb40a17d052a8b7a938, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
