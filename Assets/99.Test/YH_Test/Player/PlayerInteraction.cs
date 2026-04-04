@@ -22,6 +22,7 @@ public class PlayerInteraction : MonoBehaviour
     private int _overlayLayer;
     private int _defaultLayer;
 
+    [SerializeField] private ePlayerState interactionState;
     private void Start()
     {
         _mainCamera = Camera.main;
@@ -43,12 +44,26 @@ public class PlayerInteraction : MonoBehaviour
     public void Interact()
     {
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
-        TryPickUp();
+        switch (interactionState)
+        {
+            case ePlayerState.None:
+                break;
+            case ePlayerState.Fueling:
+
+                break;
+            case ePlayerState.Crafting:
+
+                break;
+            case ePlayerState.Steering:
+
+                break;
+        }
     }
 
     public void ApplyWoodPatch()
     {
         // 나무블록 설치 로직 작성
+        TryPickUp();
     }
 
     private void Swing(Transform axe)
@@ -115,5 +130,10 @@ public class PlayerInteraction : MonoBehaviour
         _heldItem = null;
 
         axeOverlay.SetActive(true);
+    }
+
+    public void OnChangedInteractionState(ePlayerState nextState)
+    {
+        interactionState = nextState;
     }
 }

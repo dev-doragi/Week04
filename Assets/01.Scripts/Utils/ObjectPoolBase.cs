@@ -6,6 +6,7 @@ public class ObjectPoolBase : MonoBehaviour
 {
     public string key;
     public int prevCount = 5;
+    public eItemType type;
     public virtual void Init() { }
     public virtual void Setup() { }
     public virtual void OnRelease() { }
