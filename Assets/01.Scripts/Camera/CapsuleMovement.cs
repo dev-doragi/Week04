@@ -48,6 +48,7 @@ public class CapsuleMovement : MonoBehaviour
 
     private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
     private const float _threshold = 0.01f;
+    private bool isGameActive = true;
 
     private void Awake()
     {
@@ -67,35 +68,55 @@ public class CapsuleMovement : MonoBehaviour
 
     private void Update()
     {
-        if (_input.interact)
+        // 테스트용 F2키 누르면 움직임 / 회전 멈추기
+        if (Keyboard.current.f2Key.wasPressedThisFrame)
         {
-            Debug.Log("F키를 눌렀습니다");
-            _input.interact = false;
+            isGameActive = false;
+            _rb.linearVelocity = Vector3.zero;
+
+            _cinemachineTargetPitch = 0f;
+            CinemachineCameraTarget.transform.localRotation = Quaternion.identity;
         }
 
-        if (_input.drop)
+        if (isGameActive)
         {
-            Debug.Log("Q키를 눌렀습니다.");
-            _input.drop = false;
-        }
+            if (_input.interact)
+            {
+                Debug.Log("F키를 눌렀습니다");
+                _input.interact = false;
+            }
 
-        if (_input.click)
-        {
-            Debug.Log("마우스 좌클릭을 했습니다.");
-            _input.click = false;
+            if (_input.drop)
+            {
+                Debug.Log("Q키를 눌렀습니다.");
+                _input.drop = false;
+            }
+
+            if (_input.click)
+            {
+                Debug.Log("마우스 좌클릭을 했습니다.");
+                _input.click = false;
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        GroundedCheck();
-        JumpAndGravity();
-        Move();
+        if (isGameActive)
+        {
+            GroundedCheck();
+            JumpAndGravity();
+            Move();
+        }
+        
     }
 
     private void LateUpdate()
     {
-        CameraRotation();
+        if (isGameActive)
+        {
+            CameraRotation();
+        }
     }
 
     // ── 카메라 ────────────────────────────────────────────
@@ -126,7 +147,6 @@ public class CapsuleMovement : MonoBehaviour
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
         if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-        //if (_input.move == Vector2.zero) return;
 
         float currentHorizontalSpeed = new Vector3(_rb.linearVelocity.x, 0.0f, _rb.linearVelocity.z).magnitude;
         float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
@@ -144,8 +164,6 @@ public class CapsuleMovement : MonoBehaviour
 
         if (_input.move != Vector2.zero)
             inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
-
-        //Vector3 inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 
         Vector3 horizontalVelocity = inputDirection.normalized * _speed;
         _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
