@@ -38,6 +38,13 @@ public class PlayerEntity : MonoBehaviour
             _interaction.DropItem();
             _input.drop = false;
         }
+
+        if (_input.build)
+        {
+            Debug.Log("EÅ° Å¬¸¯");
+            _interaction.ApplyWoodPatch();
+            _input.build = false;
+        }
     }
 
     private void FixedUpdate()
