@@ -5205,6 +5205,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireBurst
       objectReference: {fileID: 0}
+    - target: {fileID: 403538149420445005, guid: bd436d71936f28b40bb50aa8942c627a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2868510433361412859, guid: bd436d71936f28b40bb50aa8942c627a, type: 3}
       propertyPath: looping
       value: 1
@@ -5400,6 +5404,10 @@ PrefabInstance:
     - target: {fileID: 5195873521632094991, guid: e794072c14d8dfd4d98abfb8597bb494, type: 3}
       propertyPath: m_Name
       value: Ember
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195873521632094991, guid: e794072c14d8dfd4d98abfb8597bb494, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
