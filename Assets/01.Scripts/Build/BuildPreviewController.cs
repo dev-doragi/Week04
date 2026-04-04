@@ -32,6 +32,9 @@ public class BoatBuildPreviewAndPlace : MonoBehaviour
 
     [SerializeField] private BoatStabilityByBlocks stability;
 
+    [Header("IsOperate")]
+    [SerializeField] private bool _isWeight = false;
+
 
 
     private readonly HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
@@ -291,7 +294,11 @@ public class BoatBuildPreviewAndPlace : MonoBehaviour
 
         occupiedCells.Add(cell);
 
-        ApplyBuildWobble(worldPos);
+        if(_isWeight)
+        {
+            ApplyBuildWobble(worldPos);
+
+        }
         if (stability != null)
         {
             stability.NotifyBlockPlaced(newBlock.transform.position);

@@ -8,24 +8,44 @@ public class BoatStabilityByBlocks : MonoBehaviour
     [SerializeField] private Rigidbody boatRb;
     [SerializeField] private LayerMask blockLayerMask = ~0;
 
-    [Header("Layout (Boat Local)")]
-    [SerializeField] private float layoutHalfWidth = 6f;  
-    [SerializeField] private float layoutHalfLength = 9f;
+    [Header("Center")]
+    [SerializeField] private Vector3 stabilityCenterLocal = Vector3.zero;
+    [SerializeField] private bool invertPitch = false;
+    [SerializeField] private bool autoCenterAtStart = true;
 
-    [Header("Persistent Imbalance")]
-    [SerializeField] private float rollAccel = 8f;
-    [SerializeField] private float pitchAccel = 6f;
-    [SerializeField] private float sinkAccel = 20f;
-    [SerializeField] private float deadZone = 0.05f;
-    [SerializeField] private float flipStart = 0.45f;
-    [SerializeField] private float flipBoost = 3f;
-    [SerializeField] private float biasLerp = 0.2f;
+    [Header("Block Grid")]
+    [SerializeField] private float blockSizeX = 3f;
+    [SerializeField] private float blockSizeZ = 3f;
+    [SerializeField] private bool captureBaselineAtStart = true;
 
-    [Header("Build Kick")]
-    [SerializeField] private float buildKickRoll = 0.5f;
-    [SerializeField] private float buildKickDown = 8f;
+    [Header("Per Block Tilt")]
+    [SerializeField] private float rollPerBlock = 0.01f;
+    [SerializeField] private float pitchPerBlock = 0.01f;
+    [SerializeField] private float sinkPerBlock = 0.005f;
+    [SerializeField] private float biasLerp = 0.05f;
+    [SerializeField] private float deadZoneBlocks = 0.15f;
+    [SerializeField] private float maxImbalanceBlocks = 5f;
+    [SerializeField] private float maxTorqueAccel = 0.15f;
+    [SerializeField] private float pressPointX = 4.5f;
+    [SerializeField] private float pressPointZ = 6f;
 
-    private Vector2 smoothedBias;
+    [Header("Build Kick (Optional)")]
+    [SerializeField] private float buildKickRoll = 0f;
+    [SerializeField] private float buildKickDown = 0f;
+
+
+    [SerializeField] private bool useManualCenterAnchor = true;
+    [SerializeField] private Transform manualCenterAnchor;
+
+
+
+
+
+
+
+    
+    private Vector2 baseBiasBlocks = Vector2.zero;
+    private Vector2 smoothedBiasBlocks = Vector2.zero;
 
     private void Awake()
     {
@@ -33,10 +53,107 @@ public class BoatStabilityByBlocks : MonoBehaviour
         {
             boatRb = GetComponent<Rigidbody>();
         }
+
         if (blocksRoot == null)
         {
             blocksRoot = transform;
         }
+    }
+
+    private void Start()
+    {
+        if (useManualCenterAnchor && manualCenterAnchor != null)
+        {
+            SetCenterFromAnchor();
+        }
+        else if (autoCenterAtStart)
+        {
+            AutoSetCenterFromBlocks();
+        }
+
+        if (captureBaselineAtStart)
+        {
+            Rebaseline();
+        }
+        else
+        {
+            smoothedBiasBlocks = Vector2.zero;
+        }
+    }
+
+
+    [ContextMenu("Set Center From Anchor")]
+    public void SetCenterFromAnchor()
+    {
+        if (manualCenterAnchor == null)
+        {
+            return;
+        }
+
+        stabilityCenterLocal = transform.InverseTransformPoint(manualCenterAnchor.position);
+    }
+
+    [ContextMenu("Log Stability Center")]
+    public void LogStabilityCenter()
+    {
+        Debug.Log("stabilityCenterLocal = " + stabilityCenterLocal);
+    }
+    [ContextMenu("Rebaseline")]
+    public void Rebaseline()
+    {
+        baseBiasBlocks = ComputeRawBiasBlocks();
+        smoothedBiasBlocks = Vector2.zero;
+    }
+
+    [ContextMenu("Auto Set Center From Blocks")]
+    public void AutoSetCenterFromBlocks()
+    {
+        if (blocksRoot == null)
+        {
+            return;
+        }
+
+        bool hasAny = false;
+        Vector3 minLocal = Vector3.zero;
+        Vector3 maxLocal = Vector3.zero;
+
+        int childCount = blocksRoot.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform child = blocksRoot.GetChild(i);
+
+            if (!child.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
+            if (!IsInLayerMask(child.gameObject.layer, blockLayerMask))
+            {
+                continue;
+            }
+
+            Vector3 local = transform.InverseTransformPoint(child.position);
+
+            if (!hasAny)
+            {
+                minLocal = local;
+                maxLocal = local;
+                hasAny = true;
+            }
+            else
+            {
+                minLocal = Vector3.Min(minLocal, local);
+                maxLocal = Vector3.Max(maxLocal, local);
+            }
+        }
+
+        if (!hasAny)
+        {
+            return;
+        }
+
+        stabilityCenterLocal.x = (minLocal.x + maxLocal.x) * 0.5f;
+        stabilityCenterLocal.z = (minLocal.z + maxLocal.z) * 0.5f;
     }
 
     private void FixedUpdate()
@@ -46,35 +163,43 @@ public class BoatStabilityByBlocks : MonoBehaviour
             return;
         }
 
-        Vector2 targetBias = ComputeBias01();
-        smoothedBias = Vector2.Lerp(smoothedBias, targetBias, Mathf.Clamp01(biasLerp));
+        Vector2 rawBias = ComputeRawBiasBlocks();
+        Vector2 targetBias = rawBias - baseBiasBlocks;
 
-        float bx = Mathf.Abs(smoothedBias.x) < deadZone ? 0f : smoothedBias.x;
-        float bz = Mathf.Abs(smoothedBias.y) < deadZone ? 0f : smoothedBias.y;
+        targetBias.x = Mathf.Clamp(targetBias.x, -maxImbalanceBlocks, maxImbalanceBlocks);
+        targetBias.y = Mathf.Clamp(targetBias.y, -maxImbalanceBlocks, maxImbalanceBlocks);
+
+        smoothedBiasBlocks = Vector2.Lerp(smoothedBiasBlocks, targetBias, Mathf.Clamp01(biasLerp));
+
+        float bx = Mathf.Abs(smoothedBiasBlocks.x) < deadZoneBlocks ? 0f : smoothedBiasBlocks.x;
+        float bz = Mathf.Abs(smoothedBiasBlocks.y) < deadZoneBlocks ? 0f : smoothedBiasBlocks.y;
 
         if (bx == 0f && bz == 0f)
         {
             return;
         }
 
-        float severity = Mathf.Max(Mathf.Abs(bx), Mathf.Abs(bz));
-        float unstableMul = 1f;
+        float pitchDir = invertPitch ? -1f : 1f;
 
-        if (severity > flipStart)
-        {
-            float t = Mathf.InverseLerp(flipStart, 1f, severity);
-            unstableMul = Mathf.Lerp(1f, flipBoost, t * t);
-        }
-
-        Vector3 rollTorque = -transform.forward * (bx * rollAccel * unstableMul);
-        Vector3 pitchTorque = transform.right * (bz * pitchAccel * unstableMul);
+        Vector3 rollTorque = -transform.forward * (bx * rollPerBlock);
+        Vector3 pitchTorque = transform.right * (bz * pitchPerBlock * pitchDir);
         Vector3 totalTorque = rollTorque + pitchTorque;
+
+        float torqueMag = totalTorque.magnitude;
+        if (torqueMag > maxTorqueAccel && torqueMag > 0.0001f)
+        {
+            totalTorque = totalTorque / torqueMag * maxTorqueAccel;
+        }
 
         boatRb.AddTorque(totalTorque, ForceMode.Acceleration);
 
-        Vector3 localPressPoint = new Vector3(bx * layoutHalfWidth, 0f, bz * layoutHalfLength);
+        float press = (Mathf.Abs(bx) + Mathf.Abs(bz)) * sinkPerBlock;
+
+        float localPressX = Mathf.Abs(bx) > 0.001f ? Mathf.Sign(bx) * pressPointX : 0f;
+        float localPressZ = Mathf.Abs(bz) > 0.001f ? Mathf.Sign(bz) * pressPointZ * pitchDir : 0f;
+
+        Vector3 localPressPoint = stabilityCenterLocal + new Vector3(localPressX, 0f, localPressZ);
         Vector3 worldPressPoint = transform.TransformPoint(localPressPoint);
-        float press = ((Mathf.Abs(bx) + Mathf.Abs(bz)) * 0.5f) * sinkAccel * unstableMul;
 
         boatRb.AddForceAtPosition(Vector3.down * press, worldPressPoint, ForceMode.Acceleration);
     }
@@ -86,53 +211,72 @@ public class BoatStabilityByBlocks : MonoBehaviour
             return;
         }
 
-        Vector3 localPos = transform.InverseTransformPoint(placedWorldPos);
-
-        if (Mathf.Abs(localPos.x) > 0.01f)
+        if (buildKickRoll > 0f)
         {
-            float side = localPos.x > 0f ? 1f : -1f;
-            float roll = -side * buildKickRoll;
-            boatRb.AddTorque(transform.forward * roll, ForceMode.VelocityChange);
+            Vector3 localPos = transform.InverseTransformPoint(placedWorldPos) - stabilityCenterLocal;
+
+            if (Mathf.Abs(localPos.x) > 0.01f)
+            {
+                float side = localPos.x > 0f ? 1f : -1f;
+                float roll = -side * buildKickRoll;
+                boatRb.AddTorque(transform.forward * roll, ForceMode.VelocityChange);
+            }
         }
 
-        boatRb.AddForceAtPosition(Vector3.down * buildKickDown, placedWorldPos, ForceMode.Acceleration);
+        if (buildKickDown > 0f)
+        {
+            boatRb.AddForceAtPosition(Vector3.down * buildKickDown, placedWorldPos, ForceMode.Acceleration);
+        }
     }
 
-    private Vector2 ComputeBias01()
+    private Vector2 ComputeRawBiasBlocks()
     {
-        int count = 0;
-        float sumX = 0f;
-        float sumZ = 0f;
+        int rightCount = 0;
+        int leftCount = 0;
+        int frontCount = 0;
+        int backCount = 0;
+
+        float epsX = blockSizeX * 0.25f;
+        float epsZ = blockSizeZ * 0.25f;
 
         int childCount = blocksRoot.childCount;
         for (int i = 0; i < childCount; i++)
         {
             Transform child = blocksRoot.GetChild(i);
+
             if (!child.gameObject.activeInHierarchy)
             {
                 continue;
             }
+
             if (!IsInLayerMask(child.gameObject.layer, blockLayerMask))
             {
                 continue;
             }
 
-            Vector3 local = transform.InverseTransformPoint(child.position);
-            sumX += local.x;
-            sumZ += local.z;
-            count++;
+            Vector3 local = transform.InverseTransformPoint(child.position) - stabilityCenterLocal;
+
+            if (local.x > epsX)
+            {
+                rightCount++;
+            }
+            else if (local.x < -epsX)
+            {
+                leftCount++;
+            }
+
+            if (local.z > epsZ)
+            {
+                frontCount++;
+            }
+            else if (local.z < -epsZ)
+            {
+                backCount++;
+            }
         }
 
-        if (count == 0)
-        {
-            return Vector2.zero;
-        }
-
-        float avgX = sumX / count;
-        float avgZ = sumZ / count;
-
-        float bx = Mathf.Clamp(avgX / Mathf.Max(0.001f, layoutHalfWidth), -1f, 1f);
-        float bz = Mathf.Clamp(avgZ / Mathf.Max(0.001f, layoutHalfLength), -1f, 1f);
+        float bx = rightCount - leftCount;
+        float bz = frontCount - backCount;
 
         return new Vector2(bx, bz);
     }
