@@ -127,13 +127,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9abbd21b267d9814f9e7bf52b29eaa5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GaugeController
+  _fireIntensityController: {fileID: 0}
   _gaugePivot: {fileID: 1211950851258185405}
-  _fireVisual: {fileID: 991814859308217453}
   _minAngle: 90
   _maxAngle: -90
-  _minFireScale: {x: 0, y: 0, z: 0}
-  _maxFireScale: {x: 1, y: 1, z: 1}
-  _normalizedValue: 0.5
+  _fireVisual: {fileID: 991814859308217453}
+  _minFireScale: {x: 0.4, y: 0.4, z: 0.4}
+  _maxFireScale: {x: 1.2, y: 1.2, z: 1.2}
+  _gaugeText: {fileID: 4782416686480122931}
 --- !u!1 &6479159783931358473
 GameObject:
   m_ObjectHideFlags: 0
