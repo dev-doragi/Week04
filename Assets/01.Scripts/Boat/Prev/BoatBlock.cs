@@ -1,13 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoatBlock : MonoBehaviour
 {
-    public Vector3Int cell;
-    public float mass = 1f;
-    public bool isCore;
+    [SerializeField] private float mass = 25f;
+    [SerializeField] private bool inHull = true;
 
-    void OnValidate()
+    public float Mass
     {
-        cell = Vector3Int.RoundToInt(transform.localPosition);
+        get { return mass; }
+    }
+
+    public bool InHull
+    {
+        get { return inHull; }
+        set { inHull = value; }
     }
 }
