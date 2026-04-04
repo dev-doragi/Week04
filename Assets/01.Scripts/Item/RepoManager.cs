@@ -8,6 +8,7 @@ public class RepoManager : MonoBehaviour
     public static RepoManager Instance { get { return instance; } private set { instance = value; } }
     public bool IsPlaying = true;
 
+    [SerializeField] private Dictionary<eItemType, int> storageDic = new();
     [SerializeField] private HashSet<Wood> dryingWoods = new HashSet<Wood>();
     private Queue<Wood> removalQueue = new Queue<Wood>();
     bool isDryUpdate = false;

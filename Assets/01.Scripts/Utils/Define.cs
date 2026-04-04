@@ -4,6 +4,7 @@ public enum eItemType
 {
     None = -1,
     Wood,
+    WetWood,
     Fabric,
     Block,
     Catcher,
