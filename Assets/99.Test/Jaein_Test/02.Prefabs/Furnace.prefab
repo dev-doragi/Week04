@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2744741269407517667}
-  m_Layer: 0
+  - component: {fileID: 2840987494707475239}
+  - component: {fileID: 1116312470272855200}
+  m_Layer: 9
   m_Name: Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0.46, z: 9.2}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.48, y: 1.48, z: 1.48}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5506862323736636495}
@@ -36,6 +38,43 @@ Transform:
   - {fileID: 4162103903345855916}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &2840987494707475239
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893252527056014278}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 1, z: 2}
+  m_Center: {x: -1, y: 0, z: 0}
+--- !u!114 &1116312470272855200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893252527056014278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b33a9fc9f13ca42812afe03652356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Furnace
+  maxFuelGauge: 100
+  fuelGauge: 100
+  fuelEfficiency: 1
+  controller: {fileID: 4622440470087046162}
 --- !u!1 &3960218741175225933
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,6 +500,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+--- !u!114 &4622440470087046162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5232575751357849727, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
+  m_PrefabInstance: {fileID: 629346101134914669}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e7a28d7ebc779428a73e44de145d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireIntensityController
 --- !u!4 &5506862323736636495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4960623638138165282, guid: e23f33e360a6fac4f9a133a2e0964b5b, type: 3}
