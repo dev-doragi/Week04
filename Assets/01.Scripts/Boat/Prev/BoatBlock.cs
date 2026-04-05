@@ -16,4 +16,6 @@ public class BoatBlock : MonoBehaviour
         get { return inHull; }
         set { inHull = value; }
     }
+
+    
 }

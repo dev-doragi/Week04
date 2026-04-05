@@ -9,6 +9,7 @@ TagManager:
   - UI
   - CinemachineTarget
   - Boat
+  - Block
   layers:
   - Default
   - TransparentFX

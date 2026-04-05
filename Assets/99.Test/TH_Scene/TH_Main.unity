@@ -4682,13 +4682,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704106162}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.17574313, z: -0, w: 0.98443604}
-  m_LocalPosition: {x: 56.5, y: -7.5, z: -9.8}
-  m_LocalScale: {x: 61.526505, y: 120.701744, z: 120.701744}
+  m_LocalRotation: {x: -0, y: 0.08837926, z: -0, w: 0.9960869}
+  m_LocalPosition: {x: 68.3, y: -7.5, z: -19.1}
+  m_LocalScale: {x: 51.19374, y: 100.43109, z: 100.43109}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1379026288}
-  m_LocalEulerAnglesHint: {x: 0, y: 20.244, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 10.141, z: 0}
 --- !u!65 &704106164
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4717,7 +4717,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704106162}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5326,6 +5326,118 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 763023201}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &780779242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 780779243}
+  - component: {fileID: 780779246}
+  - component: {fileID: 780779245}
+  - component: {fileID: 780779244}
+  m_Layer: 0
+  m_Name: Cube (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &780779243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780779242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9, y: -45.5, z: -3.4}
+  m_LocalScale: {x: 76.461, y: 25.546188, z: 167.25}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1379026288}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &780779244
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780779242}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &780779245
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780779242}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &780779246
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780779242}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &784241660
 GameObject:
@@ -7444,8 +7556,52 @@ PrefabInstance:
       propertyPath: m_Name
       value: Furnace
       objectReference: {fileID: 0}
+    - target: {fileID: 3893252527056014278, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893252527056014278, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
+    - target: {fileID: 3960218741175225933, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4263246934407848930, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615498149976956871, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633109810411591241, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7349844798120135978, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
       propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901049584089839494, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8295907327726344981, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595844521949210118, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025105919227435909, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9113712391072269139, guid: 6914552991d18cc4f88ca56e96967d57, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8848,6 +9004,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1318877929}
+  - component: {fileID: 1318877930}
+  - component: {fileID: 1318877931}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -8864,13 +9022,57 @@ Transform:
   m_GameObject: {fileID: 1318877928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.028929, y: -37, z: -12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -18.028929, y: 7.3, z: -12}
+  m_LocalScale: {x: 0.23987, y: 0.23987, z: 0.23987}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1379026288}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318877930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318877928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0030ae7c679fa8459bed7e7c4a9eab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockBreakBlock
+  blockTag: Block
+  turnPerBreakDegree: 20
+  turnPower: 15
+  maxTurnSpeedDegree: 35
+  centerIgnoreX: 0.1
+--- !u!54 &1318877931
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318877928}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1320610821
 GameObject:
   m_ObjectHideFlags: 0
@@ -9067,8 +9269,8 @@ Transform:
   m_GameObject: {fileID: 1375669148}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: -7.5, z: 6.8}
-  m_LocalScale: {x: 76.461, y: 150, z: 150}
+  m_LocalPosition: {x: 9, y: 15.5, z: -9.2}
+  m_LocalScale: {x: 76.461, y: 105.6195, z: 167.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1379026288}
@@ -9101,7 +9303,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375669148}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9894,6 +10096,9 @@ PrefabInstance:
       addedObject: {fileID: 1375669149}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c7b9256cc90524a44855bf4b3a08bec6, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 780779243}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c7b9256cc90524a44855bf4b3a08bec6, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 704106163}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c7b9256cc90524a44855bf4b3a08bec6, type: 3}
       insertIndex: -1
@@ -9928,7 +10133,7 @@ Transform:
   m_GameObject: {fileID: 1495899222}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.22927544, z: -0, w: 0.9733616}
-  m_LocalPosition: {x: -31.8, y: -7.5, z: 1.7}
+  m_LocalPosition: {x: -45.8, y: -7.5, z: -10.9}
   m_LocalScale: {x: 55.209282, y: 108.308716, z: 108.308716}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9962,7 +10167,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495899222}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11796,6 +12001,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1917971429}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1924248957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924248959}
+  - component: {fileID: 1924248958}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1924248958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924248957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676aa902dac09b64494a1bda86214f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  isDontDestroyOnLoad: 1
+--- !u!4 &1924248959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924248957}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -54.77872, y: 63.3806, z: -146.13414}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1952579525
 GameObject:
   m_ObjectHideFlags: 0
@@ -11810,7 +12060,7 @@ GameObject:
   - component: {fileID: 1952579527}
   m_Layer: 8
   m_Name: BoatMetal (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13360,7 +13610,7 @@ GameObject:
   - component: {fileID: 6509746307683786262}
   m_Layer: 8
   m_Name: BoatBorder
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13431,9 +13681,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1988991745710496177}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13460,7 +13710,7 @@ GameObject:
   - component: {fileID: 2945429664320096796}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13534,9 +13784,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3033878601925248794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13555,7 +13805,7 @@ GameObject:
   - component: {fileID: 2915837272297757522}
   m_Layer: 8
   m_Name: BoatBorder (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13720,7 +13970,7 @@ GameObject:
   - component: {fileID: 8481609389508859847}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13833,6 +14083,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -13892,7 +14146,7 @@ GameObject:
   - component: {fileID: 8768469931228449616}
   m_Layer: 8
   m_Name: BoatBorder (2)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13911,7 +14165,7 @@ GameObject:
   - component: {fileID: 8151522036032279984}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14135,7 +14389,7 @@ GameObject:
   - component: {fileID: 5172771323241460130}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14154,7 +14408,7 @@ GameObject:
   - component: {fileID: 8792640331399586254}
   m_Layer: 8
   m_Name: BoatBorder
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14256,9 +14510,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7919447062810655590}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Middle
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14330,7 +14584,7 @@ GameObject:
   - component: {fileID: 817630032693405572}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14365,9 +14619,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2366180982149152339}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 0F
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14386,7 +14640,7 @@ GameObject:
   - component: {fileID: 9039295454255334534}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14405,7 +14659,7 @@ GameObject:
   - component: {fileID: 3942484309522315423}
   m_Layer: 8
   m_Name: BoatBorder (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14494,7 +14748,7 @@ GameObject:
   - component: {fileID: 361532476334520745}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14668,7 +14922,7 @@ GameObject:
   - component: {fileID: 1278355070189039536}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15110,7 +15364,7 @@ GameObject:
   - component: {fileID: 4545119877467538111}
   m_Layer: 8
   m_Name: BoatBorder
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15325,7 +15579,7 @@ GameObject:
   - component: {fileID: 3111333025407355915}
   m_Layer: 8
   m_Name: BoatMetal (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15409,9 +15663,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4269226252465354246}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15430,7 +15684,7 @@ GameObject:
   - component: {fileID: 5640558146977553786}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15444,9 +15698,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5967891964248099661}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Middle
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15465,7 +15719,7 @@ GameObject:
   - component: {fileID: 1269153249999778745}
   m_Layer: 8
   m_Name: RealBoatMetal
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15484,7 +15738,7 @@ GameObject:
   - component: {fileID: 2135586303863419187}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15636,7 +15890,7 @@ GameObject:
   - component: {fileID: 1106063239943969090}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15656,6 +15910,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15760,9 +16018,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7733440071030209738}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Middle
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15796,7 +16054,7 @@ GameObject:
   - component: {fileID: 4601789904909856199}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16075,9 +16333,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5742953142214159310}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16418,7 +16676,7 @@ GameObject:
   - component: {fileID: 2206428001571701187}
   m_Layer: 8
   m_Name: BoatBlock (6)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16437,7 +16695,7 @@ GameObject:
   - component: {fileID: 3459434547965242086}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16457,6 +16715,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16532,7 +16794,7 @@ GameObject:
   - component: {fileID: 7040187104688019795}
   m_Layer: 8
   m_Name: BoatBorder
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16592,7 +16854,7 @@ GameObject:
   - component: {fileID: 8222515468838745688}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16710,7 +16972,7 @@ GameObject:
   - component: {fileID: 6168856052601713022}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16734,6 +16996,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16841,7 +17107,7 @@ GameObject:
   - component: {fileID: 758554615537769024}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16865,6 +17131,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16925,7 +17195,7 @@ GameObject:
   - component: {fileID: 7074116756099929356}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17065,7 +17335,7 @@ GameObject:
   - component: {fileID: 6751288338838422592}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17113,7 +17383,7 @@ GameObject:
   - component: {fileID: 2692297584619723427}
   m_Layer: 8
   m_Name: BoatMetal (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17133,6 +17403,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17193,7 +17467,7 @@ GameObject:
   - component: {fileID: 133619334267284029}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17276,7 +17550,7 @@ GameObject:
   - component: {fileID: 5126726405678948791}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17303,7 +17577,7 @@ GameObject:
   - component: {fileID: 4553415385215643012}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17423,7 +17697,7 @@ GameObject:
   - component: {fileID: 955803498898251445}
   m_Layer: 8
   m_Name: BoatMetal (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17454,9 +17728,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 745377256208188648}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17653,7 +17927,7 @@ GameObject:
   - component: {fileID: 3503275935596670960}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17693,7 +17967,7 @@ GameObject:
   - component: {fileID: 2720780187800337226}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17712,7 +17986,7 @@ GameObject:
   - component: {fileID: 6645955054750173816}
   m_Layer: 8
   m_Name: BoatMetal (2)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17966,6 +18240,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -18025,7 +18303,7 @@ GameObject:
   - component: {fileID: 5522708049702449965}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18052,7 +18330,7 @@ GameObject:
   - component: {fileID: 6494094596497422758}
   m_Layer: 8
   m_Name: BoatMetal (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18071,7 +18349,7 @@ GameObject:
   - component: {fileID: 1799092245306517043}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18205,6 +18483,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -18280,9 +18562,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4229192965955712721}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Middle
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18660,7 +18942,7 @@ GameObject:
   - component: {fileID: 5139576471713588083}
   m_Layer: 8
   m_Name: BoatMetal
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18695,9 +18977,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5499459147133066094}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18724,7 +19006,7 @@ GameObject:
   - component: {fileID: 6772075987072678220}
   m_Layer: 8
   m_Name: BoatMetal (2)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18773,7 +19055,7 @@ GameObject:
   - component: {fileID: 2934791922086462669}
   m_Layer: 8
   m_Name: BoatMetal
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18841,7 +19123,7 @@ GameObject:
   - component: {fileID: 8279954584029040806}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19075,7 +19357,7 @@ GameObject:
   - component: {fileID: 5668468769126487974}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19095,6 +19377,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19178,7 +19464,7 @@ GameObject:
   - component: {fileID: 4796134550028947596}
   m_Layer: 8
   m_Name: BoatMetal (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24030,6 +24316,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -24089,7 +24379,7 @@ GameObject:
   - component: {fileID: 8493632131495978831}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28948,7 +29238,7 @@ GameObject:
   - component: {fileID: 5529922121278660543}
   m_Layer: 8
   m_Name: BoatBorder (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29086,9 +29376,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8416397312248319665}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29152,9 +29442,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5218036183059112404}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 2F
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29216,6 +29506,10 @@ PrefabInstance:
     - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -29445,7 +29739,7 @@ GameObject:
   - component: {fileID: 7221612445583919953}
   m_Layer: 8
   m_Name: BoatBorder (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29464,7 +29758,7 @@ GameObject:
   - component: {fileID: 3117418269276068097}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30077,7 +30371,7 @@ GameObject:
   - component: {fileID: 2404615994191014221}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30091,9 +30385,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6720370197228916725}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30249,7 +30543,7 @@ GameObject:
   - component: {fileID: 1488016754688856230}
   m_Layer: 8
   m_Name: BoatBorder
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30268,7 +30562,7 @@ GameObject:
   - component: {fileID: 1696784268048893633}
   m_Layer: 8
   m_Name: BoatBlock (6)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30336,7 +30630,7 @@ GameObject:
   - component: {fileID: 8565114526614007923}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30421,7 +30715,7 @@ GameObject:
   - component: {fileID: 993510070481794798}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30440,7 +30734,7 @@ GameObject:
   - component: {fileID: 5420154147676532139}
   m_Layer: 8
   m_Name: BoatMetal (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30550,7 +30844,7 @@ GameObject:
   - component: {fileID: 8863313791140061345}
   m_Layer: 8
   m_Name: BoatMetal (2)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30680,7 +30974,7 @@ GameObject:
   - component: {fileID: 4103058416294092613}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30880,13 +31174,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6278438809109956762}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 1F
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6546619378064144461
 Transform:
   m_ObjectHideFlags: 0
@@ -31011,7 +31305,7 @@ GameObject:
   - component: {fileID: 8076483437319650291}
   m_Layer: 8
   m_Name: BoatBlock (6)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31189,9 +31483,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5770568402968523407}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Front
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31373,7 +31667,7 @@ GameObject:
   - component: {fileID: 2500218672134464206}
   m_Layer: 8
   m_Name: BoatMetal (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31492,7 +31786,7 @@ GameObject:
   - component: {fileID: 531806066088824131}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31625,7 +31919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boat
   forwardAcceleration: 10
   maxSpeed: 12
-  _gameStart: 0
+  _gameStart: 1
 --- !u!4 &7143572460611891654
 Transform:
   m_ObjectHideFlags: 0
@@ -31676,7 +31970,7 @@ GameObject:
   - component: {fileID: 2740318652492317762}
   m_Layer: 8
   m_Name: BoatBorder (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31837,7 +32131,7 @@ GameObject:
   - component: {fileID: 6547205269333568599}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32013,7 +32307,7 @@ GameObject:
   - component: {fileID: 2554841835019477678}
   m_Layer: 8
   m_Name: BoatMetal
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32078,7 +32372,7 @@ GameObject:
   - component: {fileID: 8984598220446539719}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32177,7 +32471,7 @@ GameObject:
   - component: {fileID: 6825505491785153305}
   m_Layer: 8
   m_Name: BoatMetal
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32337,9 +32631,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5540918100382763463}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Back
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32727,7 +33021,7 @@ GameObject:
   - component: {fileID: 6278529367276204947}
   m_Layer: 8
   m_Name: BoatBlock (7)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32842,7 +33136,7 @@ GameObject:
   - component: {fileID: 7178566710626807055}
   m_Layer: 8
   m_Name: BoatMetal (2)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32980,7 +33274,7 @@ GameObject:
   - component: {fileID: 4291052773229076466}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33022,7 +33316,7 @@ GameObject:
   - component: {fileID: 5056640477784472120}
   m_Layer: 8
   m_Name: BoatBorder (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33056,7 +33350,7 @@ GameObject:
   - component: {fileID: 1325378356116619473}
   m_Layer: 8
   m_Name: BoatBlock (3)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33090,7 +33384,7 @@ GameObject:
   - component: {fileID: 3406795381591602721}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33127,9 +33421,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 160041605133995625}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 2F (1)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33197,7 +33491,7 @@ GameObject:
   - component: {fileID: 5183137571465594470}
   m_Layer: 8
   m_Name: BoatBlock (8)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33404,6 +33698,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
     - target: {fileID: 5662353401871357054, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -33463,7 +33761,7 @@ GameObject:
   - component: {fileID: 2464583843112438093}
   m_Layer: 8
   m_Name: BoatBlock (4)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33561,7 +33859,7 @@ GameObject:
   - component: {fileID: 1217329077212448350}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33604,9 +33902,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6813727729437035059}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Blocks
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33646,7 +33944,7 @@ GameObject:
   - component: {fileID: 4182174739926655768}
   m_Layer: 8
   m_Name: BoatBlock (5)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33681,7 +33979,7 @@ GameObject:
   - component: {fileID: 6480129052417833255}
   m_Layer: 8
   m_Name: BoatBlock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33700,7 +33998,7 @@ GameObject:
   - component: {fileID: 7605238105410367435}
   m_Layer: 8
   m_Name: BoatBlock (6)
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33770,3 +34068,4 @@ SceneRoots:
   - {fileID: 1430365220}
   - {fileID: 1684474503}
   - {fileID: 1318877929}
+  - {fileID: 1924248959}
