@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -15,13 +15,13 @@ public class UIManager : MonoBehaviour
             Destroy(this);
     }
 
-    //UI ¿­ ¶§
+    //UI ï¿½ï¿½ ï¿½ï¿½
     public T ShowUI<T>() where T : UIBase
     {
         var ui = uiList.Find(x => x is T) as T;
         if (ui == null)
         {
-            Debug.LogError($"{typeof(T)} UI ¾øÀ½");
+            Debug.LogError($"{typeof(T)} UI ï¿½ï¿½ï¿½ï¿½");
             return null;
         }
         ui.gameObject.SetActive(true);
@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
         return ui as T;
     }
 
-    //UI ´ÝÀ» ¶§
+    //UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public void HideUI<T>() where T : UIBase
     {
         var ui = uiList.Find(x => x is T);
@@ -41,19 +41,21 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"{typeof(T).Name}¸¦ Ã£À» ¼ö ¾ø¾î ²ôÁö ¸øÇß½À´Ï´Ù.");
+            Debug.LogWarning($"{typeof(T).Name}ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
-    //Á¤º¸¸¸ °¡Á®¿Ã¶§
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½
     public T GetUI<T>() where T : UIBase
     {
         var ui = uiList.Find(x => x is T);
         if (ui == null)
         {
-            Debug.LogError($"{typeof(T)} UI ¾øÀ½");
+            Debug.LogError($"{typeof(T)} UI ï¿½ï¿½ï¿½ï¿½");
             return null;
         }
         return ui as T;
     }
+
+
 }
