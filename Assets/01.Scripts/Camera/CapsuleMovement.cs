@@ -44,6 +44,8 @@ public class CapsuleMovement : MonoBehaviour
     private Rigidbody _rb;
     private PlayerInputAction _input;
     private GameObject _mainCamera;
+    private RigidbodyPlatformVelocityFollow _platformFollow;
+
 
     private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
     private const float _threshold = 0.01f;
@@ -60,6 +62,8 @@ public class CapsuleMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _input = GetComponent<PlayerInputAction>();
         _playerInput = GetComponent<PlayerInput>();
+        _platformFollow = GetComponent<RigidbodyPlatformVelocityFollow>();
+
 
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
@@ -162,28 +166,36 @@ public class CapsuleMovement : MonoBehaviour
     {
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+        if (_input.move == Vector2.zero)
+        {
+            targetSpeed = 0.0f;
+        }
 
-        float currentHorizontalSpeed = new Vector3(_rb.linearVelocity.x, 0.0f, _rb.linearVelocity.z).magnitude;
+        Vector3 platformVelocity = _platformFollow != null? _platformFollow.CurrentPlatformVelocity : Vector3.zero;
+
+        Vector3 relativeHorizontalVelocity = new Vector3(_rb.linearVelocity.x - platformVelocity.x, 0.0f,_rb.linearVelocity.z - platformVelocity.z);
+
+        float currentHorizontalSpeed = relativeHorizontalVelocity.magnitude;
         float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-        // 목표 속도로 부드럽게 가속/감속
         float speedOffset = 0.1f;
-        bool needsSpeedChange = currentHorizontalSpeed < targetSpeed - speedOffset ||
-                                 currentHorizontalSpeed > targetSpeed + speedOffset;
+        bool needsSpeedChange = currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset;
 
-        _speed = needsSpeedChange
-            ? Mathf.Round(Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate) * 1000f) / 1000f
-            : targetSpeed;
+        _speed = needsSpeedChange? Mathf.Round( Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate) * 1000f) / 1000f : targetSpeed;
 
         Vector3 inputDirection = Vector3.zero;
 
         if (_input.move != Vector2.zero)
+        {
             inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+        }
 
-        Vector3 horizontalVelocity = inputDirection.normalized * _speed;
-        _rb.linearVelocity = new Vector3(horizontalVelocity.x, _rb.linearVelocity.y, horizontalVelocity.z);
+        Vector3 desiredRelativeHorizontal = inputDirection.normalized * _speed;
+        Vector3 finalHorizontal = desiredRelativeHorizontal + new Vector3(platformVelocity.x, 0f, platformVelocity.z);
+
+        _rb.linearVelocity = new Vector3(finalHorizontal.x, _rb.linearVelocity.y, finalHorizontal.z);
     }
+
 
     // ── 점프/중력 ────────────────────────────────────────
 
