@@ -2,6 +2,8 @@ using UnityEngine;
 
 [DefaultExecutionOrder(5000)]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerEntity))]
+[RequireComponent(typeof(PlayerInputAction))]
 public class RigidbodyPlatformVelocityFollow : MonoBehaviour
 {
     [Header("Detect")]
@@ -15,21 +17,18 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
     [SerializeField] private bool followVertical = true;
     [SerializeField] private bool followYaw = true;
     [SerializeField] private float yawFollow = 1f;
-
     [SerializeField] private int detachGraceTicks = 3;
+
     private int missTicks;
-    private PlayerEntity playerEntity;
-
-
     private Rigidbody rb;
     private Rigidbody currentPlatformRb;
-
-    private Vector3 lastPlatformPos;
     private Quaternion lastPlatformRot;
     private bool hasPlatformState;
+
+    private PlayerEntity playerEntity;
     [SerializeField] private PlayerInputAction inputAction;
 
-
+    public Vector3 CurrentPlatformVelocity { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +36,7 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
         inputAction = GetComponent<PlayerInputAction>();
         playerEntity = GetComponent<PlayerEntity>();
         rb.sleepThreshold = 0f;
+        CurrentPlatformVelocity = Vector3.zero;
     }
 
     private void FixedUpdate()
@@ -62,55 +62,42 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
             {
                 currentPlatformRb = null;
                 hasPlatformState = false;
+                CurrentPlatformVelocity = Vector3.zero;
                 return;
             }
         }
 
-        Vector3 platformPos = currentPlatformRb.position;
         Quaternion platformRot = currentPlatformRb.rotation;
+        CurrentPlatformVelocity = currentPlatformRb.GetPointVelocity(rb.position);
 
-        bool idle = playerEntity.InputLock || inputAction == null || inputAction.move.sqrMagnitude < 0.0001f;
+        bool hasMoveInput = inputAction.move.sqrMagnitude > 0.0001f;
+        bool idle = playerEntity.InputLock || !hasMoveInput;
+
         if (idle)
         {
-            Vector3 platformVel = currentPlatformRb.GetPointVelocity(rb.position);
             Vector3 v = rb.linearVelocity;
-            rb.linearVelocity = new Vector3(platformVel.x, v.y, platformVel.z);
-
-            lastPlatformPos = platformPos;
-            lastPlatformRot = platformRot;
-            hasPlatformState = true;
-            return;
+            float y = followVertical ? CurrentPlatformVelocity.y : v.y;
+            rb.linearVelocity = new Vector3(CurrentPlatformVelocity.x, y, CurrentPlatformVelocity.z);
         }
+
         if (!hasPlatformState)
         {
-            lastPlatformPos = platformPos;
             lastPlatformRot = platformRot;
             hasPlatformState = true;
             return;
         }
-
-        Vector3 posDelta = platformPos - lastPlatformPos;
-        Quaternion rotDelta = platformRot * Quaternion.Inverse(lastPlatformRot);
-
-        Vector3 pivotToPlayer = rb.position - platformPos;
-        Vector3 rotatedPivot = rotDelta * pivotToPlayer;
-        Vector3 rotMoveDelta = rotatedPivot - pivotToPlayer;
-
-        if (!followVertical)
-        {
-            posDelta.y = 0f;
-            rotMoveDelta.y = 0f;
-        }
-
-        rb.MovePosition(rb.position + posDelta + rotMoveDelta);
 
         if (followYaw)
         {
-            float yaw = Mathf.DeltaAngle(0f, rotDelta.eulerAngles.y) * Mathf.Clamp01(yawFollow);
-            rb.MoveRotation(Quaternion.Euler(0f, yaw, 0f) * rb.rotation);
+            Quaternion rotDelta = platformRot * Quaternion.Inverse(lastPlatformRot);
+            float yawDelta = Mathf.DeltaAngle(0f, rotDelta.eulerAngles.y) * Mathf.Clamp01(yawFollow);
+
+            if (Mathf.Abs(yawDelta) > 0.0001f)
+            {
+                rb.MoveRotation(Quaternion.Euler(0f, yawDelta, 0f) * rb.rotation);
+            }
         }
 
-        lastPlatformPos = platformPos;
         lastPlatformRot = platformRot;
     }
 
@@ -130,7 +117,8 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
 
         float bestDistance = float.MaxValue;
 
-        for (int i = 0; i < hits.Length; i++)
+        int hitCount = hits.Length;
+        for (int i = 0; i < hitCount; i++)
         {
             RaycastHit hit = hits[i];
 
