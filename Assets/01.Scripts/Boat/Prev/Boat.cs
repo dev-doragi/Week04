@@ -7,7 +7,7 @@ public class Boat : MonoBehaviour
     [Header("Move")]
     [SerializeField] float forwardAcceleration = 100f;
     [SerializeField] float maxSpeed = 6f;
-    [SerializeField] private bool _gameStart = false;
+    [SerializeField] public bool GameStart = false;
     Rigidbody rb;
     void Awake()
     {
@@ -15,7 +15,7 @@ public class Boat : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(_gameStart)
+        if(GameStart)
         {
             Vector3 forward = transform.forward;
             forward.y = 0f;

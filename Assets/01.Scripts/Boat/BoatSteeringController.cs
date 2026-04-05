@@ -9,7 +9,7 @@ public class BoatSteeringController : MonoBehaviour
     [SerializeField] private Transform wheelObject;
 
     [Header("Enable")]
-    [SerializeField] public bool controllSteer = false;
+    [SerializeField] public bool ControllSteer = false;
     [SerializeField] private bool enableHeadingCorrection = true;
 
     [Header("Input")]
@@ -58,7 +58,7 @@ public class BoatSteeringController : MonoBehaviour
         float rawInput = 0f;
         Keyboard keyboard = Keyboard.current;
 
-        if (controllSteer && keyboard != null)
+        if (ControllSteer && keyboard != null)
         {
             if (keyboard[rightKey].isPressed)
             {
