@@ -7,6 +7,8 @@ public class PlayerEntity : MonoBehaviour
     public PlayerInteraction _interaction { get; private set; }
     public PlayerInputAction _input;
 
+    public bool InputLock = false;
+
     [SerializeField] private Transform axe;
 
     private void Awake()
@@ -27,21 +29,18 @@ public class PlayerEntity : MonoBehaviour
 
         if (_input.interact)
         {
-            Debug.Log("f키 클릭");
             _interaction.Interact();
             _input.interact = false;
         }
 
         if (_input.drop)
         {
-            Debug.Log("Q키 클릭");
             _interaction.DropItem();
             _input.drop = false;
         }
 
         if (_input.build)
         {
-            Debug.Log("E키 클릭");
             _interaction.ApplyWoodPatch();
             _input.build = false;
         }
@@ -49,7 +48,10 @@ public class PlayerEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _movement.FixedTick();
+        if(InputLock == false)
+        {
+            _movement.FixedTick();
+        }
     }
 
     private void LateUpdate()

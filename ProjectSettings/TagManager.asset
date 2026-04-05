@@ -9,6 +9,10 @@ TagManager:
   - UI
   - CinemachineTarget
   - Boat
+  - Block
+  - Furnace
+  - Crafting
+  - Helm
   layers:
   - Default
   - TransparentFX

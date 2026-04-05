@@ -18,6 +18,7 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
 
     [SerializeField] private int detachGraceTicks = 3;
     private int missTicks;
+    private PlayerEntity playerEntity;
 
 
     private Rigidbody rb;
@@ -33,7 +34,8 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (inputAction == null) inputAction = GetComponent<PlayerInputAction>();
+        inputAction = GetComponent<PlayerInputAction>();
+        playerEntity = GetComponent<PlayerEntity>();
         rb.sleepThreshold = 0f;
     }
 
@@ -66,7 +68,8 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
 
         Vector3 platformPos = currentPlatformRb.position;
         Quaternion platformRot = currentPlatformRb.rotation;
-        bool idle = inputAction == null || inputAction.move.sqrMagnitude < 0.0001f;
+
+        bool idle = playerEntity.InputLock || inputAction == null || inputAction.move.sqrMagnitude < 0.0001f;
         if (idle)
         {
             Vector3 platformVel = currentPlatformRb.GetPointVelocity(rb.position);

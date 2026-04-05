@@ -1108,6 +1108,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 349144959}
     m_Modifications:
+    - target: {fileID: 872716161399864466, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 872716161399864466, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 872716161399864466, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 872716161399864466, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 876426095218577436, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1150,7 +1166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1366987830660612082, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 800
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1366987830660612082, guid: 7793ffc180cfafa40b11ca3bbc1c3f60, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10404,6 +10420,7 @@ MonoBehaviour:
   interact: 0
   drop: 0
   click: 0
+  build: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
