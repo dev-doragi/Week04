@@ -134,6 +134,7 @@ MonoBehaviour:
   itemLayer:
     serializedVersion: 2
     m_Bits: 2048
+  interactionState: 0
 --- !u!114 &7185038679730912878
 MonoBehaviour:
   m_ObjectHideFlags: 0
