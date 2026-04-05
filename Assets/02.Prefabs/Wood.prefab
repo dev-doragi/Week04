@@ -9,10 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2320807816993174080}
+  - component: {fileID: -2356644790016981821}
   - component: {fileID: 2912660426770481831}
   - component: {fileID: 7030430951827878963}
   - component: {fileID: 6613556566685370444}
-  m_Layer: 0
+  - component: {fileID: 5372111891563706750}
+  m_Layer: 11
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,6 +36,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2356644790016981821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346832950545963912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba89e9ae151e4a448415b031f85eac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Wood
+  key: Wood
+  prevCount: 5
+  type: 0
+  Type: 0
+  IsBurn: 1
+  IsCraft: 1
+  rb: {fileID: 5372111891563706750}
+  coll: {fileID: 6613556566685370444}
+  baseFuelAmount: 10
+  wetFuelAmount: 3
+  curState: 0
+  dryTime: 5
+  curProgressTime: 0
+  _renderer: {fileID: 7030430951827878963}
 --- !u!33 &2912660426770481831
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -67,7 +95,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 5f12c7822ccde9045866535e87840412, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,3 +140,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &5372111891563706750
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346832950545963912}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

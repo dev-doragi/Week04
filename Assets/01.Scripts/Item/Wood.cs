@@ -4,8 +4,8 @@ using UnityEngine.UIElements;
 public class Wood : BaseResource
 {
 
-    [SerializeField] private float baseFuelAmount = 4f;
-    [SerializeField] private float wetFuelAmount = 2f;
+    [SerializeField] private float baseFuelAmount = 10f;
+    [SerializeField] private float wetFuelAmount = 3f;
 
     [SerializeField] eWoodState curState;
     [SerializeField] private float dryTime = 5f;
@@ -42,12 +42,12 @@ public class Wood : BaseResource
                 break;
 
             case eWoodState.Wet:
-                _propBlock.SetFloat(WetnessId, 1);
+                _propBlock.SetFloat(WetnessId, 2);
 
                 break;
 
             case eWoodState.Dried:
-                _propBlock.SetFloat(WetnessId, 0);
+                _propBlock.SetFloat(WetnessId, 1);
                 break;
         }
         _renderer.SetPropertyBlock(_propBlock);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using VInspector.Libs;
 
@@ -8,6 +9,12 @@ public class Crafting_Table : MonoBehaviour
     [SerializeField] private Stack<BaseResource> repoStack = new Stack<BaseResource>();
     [SerializeField] private Transform[] repoSlot = new Transform[3];
     [SerializeField] private int maxCount = 3;
+
+    public BaseResource OnCheckedCrafting()
+    {
+        if (repoStack.Count == 0) return null;
+         return OnCraftItem();
+    }
 
     //TODO : 알맞는 데이터 풀링 리턴하기
     public BaseResource OnCraftItem()
@@ -28,14 +35,14 @@ public class Crafting_Table : MonoBehaviour
             repoStack.Clear();
             return null;
         }
-        return null;
+        return PopResourceItem();
     }
 
     public BaseResource PopResourceItem()
     {
-        if (repoStack.Count == 0) return null;
         if(repoStack.TryPop(out BaseResource item))
         {
+            item.transform.localScale = Vector3.one;
             return item;
         }
         return null;
@@ -45,8 +52,10 @@ public class Crafting_Table : MonoBehaviour
     {
         if (repoStack.Count > maxCount || !newItem.IsCraft) return false;
 
-
-        newItem.transform.position = repoSlot[repoStack.Count].position;
+        newItem.coll.isTrigger = true;
+        newItem.transform.SetParent(repoSlot[repoStack.Count]);
+        newItem.transform.localScale = Vector3.one * 0.5f;
+        newItem.transform.localPosition = Vector3.zero;
         repoStack.Push(newItem);
 
         return true;
