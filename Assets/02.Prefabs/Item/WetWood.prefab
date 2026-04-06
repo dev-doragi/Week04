@@ -51,10 +51,10 @@ MonoBehaviour:
   key: WetWood
   prevCount: 5
   type: 1
+  IsEquipped: 0
   IsBurn: 1
   IsCraft: 0
   IsCollected: 0
-  IsEquipped: 0
   rb: {fileID: 5372111891563706750}
   coll: {fileID: 1525050915215551948}
   driedFuelAmount: 10
@@ -91,7 +91,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &1525050915215551948

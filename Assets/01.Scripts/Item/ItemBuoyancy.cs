@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ItemBuoyancy : MonoBehaviour
@@ -16,7 +16,7 @@ public class ItemBuoyancy : MonoBehaviour
     };
 
     [Header("Buoyancy")]
-    private float buoyancyAcceleration = 6f; //튀어오르는세기
+    [SerializeField] private float buoyancyAcceleration = 6f; //튀어오르는세기
     private float maxSubmergeDepth = 0.35f; // 잠김깊이
 
     [Header("Damping")]
