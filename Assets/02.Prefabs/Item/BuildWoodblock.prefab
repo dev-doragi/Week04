@@ -156,7 +156,6 @@ MonoBehaviour:
   key: BuildWoodBlock
   prevCount: 10
   type: 11
-  Type: 11
   IsBurn: 0
   IsCraft: 0
   rb: {fileID: 4019263454669679217}

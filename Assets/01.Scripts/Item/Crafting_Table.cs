@@ -33,7 +33,7 @@ public class Crafting_Table : MonoBehaviour
         if (counts.TryGetValue(typeof(Wood), out int w) && w == 3)
         {
             ReturnToPool();
-            return GetCraftItem<WoodBlock>();
+            return GetCraftItem<BuildWoodBlock>();
         }
         // 2. 나무 1개 + 천 2개인지 확인
         else if (counts.TryGetValue(typeof(Wood), out int w1) && w1 == 1 &&
