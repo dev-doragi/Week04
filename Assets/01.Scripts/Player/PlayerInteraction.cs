@@ -135,61 +135,103 @@ public class PlayerInteraction : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction * pickupRange, Color.red, 1f);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, pickupRange, itemLayer))
+        RaycastHit hit;
+        bool didHit = Physics.Raycast(ray, out hit, pickupRange, itemLayer, QueryTriggerInteraction.Ignore);
+        if (!didHit)
         {
-            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green, 1f);
-            PickUpItem(hit.collider.gameObject);
+            return;
         }
+
+        BaseResource item = hit.collider.GetComponentInParent<BaseResource>();
+        if (item == null)
+        {
+            return;
+        }
+
+        PickUpItem(item.gameObject);
     }
 
     private void PickUpItem(GameObject item)
     {
-        if(_heldItem != null) return;
+        if (_heldItem != null) return;
 
-        // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
-        if (!item.TryGetComponent<BaseResource>(out var poolObj))
+        if (!item.TryGetComponent<BaseResource>(out BaseResource poolObj))
         {
             return;
+        }
+
+        NetBlock selfNet;
+        bool isSelfNet = poolObj.TryGetComponent<NetBlock>(out selfNet);
+
+        if (!isSelfNet)
+        {
+            NetBlock parentNet = poolObj.GetComponentInParent<NetBlock>();
+            if (parentNet != null)
+            {
+                parentNet.ReleaseCaughtItem(poolObj);
+            }
         }
 
         axeOverlay.gameObject.SetActive(false);
         player.isHoldAxe = false;
         poolObj.IsEquipped = true;
-        //item.transform.SetParent(playerEntity.transform);
-        //item.gameObject.layer = _overlayLayer;
-        //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
-        //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        if (isSelfNet && selfNet != null)
+        {
+            selfNet.SetInstalled(false);
+        }
 
         poolObj.transform.SetParent(null);
         Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
-        foreach (Transform child in allChildren)
+        int childCount = allChildren.Length;
+
+        for (int i = 0; i < childCount; i++)
         {
-            child.gameObject.layer = _overlayLayer;
+            allChildren[i].gameObject.layer = _overlayLayer;
         }
 
         poolObj.transform.position = grabObjectPos;
         poolObj.transform.eulerAngles = grabObjectRot;
 
         poolObj.rb.useGravity = false;
-        poolObj.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
+        poolObj.rb.isKinematic = true;
+        poolObj.rb.linearVelocity = Vector3.zero;
+        poolObj.rb.angularVelocity = Vector3.zero;
 
         poolObj.coll.isTrigger = true;
+
         if (!poolObj.IsCollected)
+        {
             RepoManager.Instance.Register(poolObj);
+        }
+
         poolObj.IsCollected = true;
 
         currentItemOverlay = item;
-        _heldItem = poolObj; // 캐싱된 컴포넌트 할당
-
-
+        _heldItem = poolObj;
     }
+
 
     private void PickUpItem(BaseResource item)
     {
 
+        NetBlock parentNet = item.GetComponentInParent<NetBlock>();
+        if (parentNet != null)
+        {
+            parentNet.ReleaseCaughtItem(item);
+        }
+
+
         axeOverlay.gameObject.SetActive(false);
         player.isHoldAxe = false;
         item.IsEquipped = true;
+
+        NetBlock netBlockB;
+        bool pickedNetB = item.TryGetComponent<NetBlock>(out netBlockB);
+        if (pickedNetB && netBlockB != null)
+        {
+            netBlockB.SetInstalled(false);
+        }
         //item.gameObject.layer = _overlayLayer;
         //item.transform.SetParent(playerEntity.transform);
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
@@ -550,6 +592,105 @@ public class PlayerInteraction : MonoBehaviour
 
         return true;
     }
+    public bool IsHoldingNetBlock()
+    {
+        if (_heldItem == null || currentItemOverlay == null)
+        {
+            return false;
+        }
+
+        NetBlock netBlock;
+        bool isNet = currentItemOverlay.TryGetComponent<NetBlock>(out netBlock);
+        if (!isNet || netBlock == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool TryPlaceHeldNetBlock(Vector3 worldPosition, Quaternion worldRotation, Transform parentBlock)
+    {
+        if (_heldItem == null)
+        {
+            return false;
+        }
+
+        NetBlock heldNet;
+        bool isNet = _heldItem.TryGetComponent<NetBlock>(out heldNet);
+        if (!isNet || heldNet == null)
+        {
+            return false;
+        }
+
+        if (parentBlock != null)
+        {
+            heldNet.transform.SetParent(parentBlock, true);
+        }
+
+        heldNet.transform.SetPositionAndRotation(worldPosition, worldRotation);
+
+        Rigidbody rootBoatRb = FindTopRigidbodyFrom(parentBlock);
+        heldNet.BindBoatRigidbody(rootBoatRb);
+        heldNet.SetInstalled(true);
+
+        Transform[] allChildren = heldNet.GetComponentsInChildren<Transform>(true);
+        int childCount = allChildren.Length;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            allChildren[i].gameObject.layer = _defaultLayer;
+        }
+
+        if (heldNet.coll != null)
+        {
+            heldNet.coll.isTrigger = true;
+        }
+
+        if (heldNet.rb != null)
+        {
+            heldNet.rb.isKinematic = true;
+            heldNet.rb.useGravity = false;
+            heldNet.rb.linearVelocity = Vector3.zero;
+            heldNet.rb.angularVelocity = Vector3.zero;
+        }
+
+        heldNet.IsCollected = false;
+        heldNet.IsEquipped = false;
+
+        _heldItem = null;
+
+        if (axeOverlay != null)
+        {
+            axeOverlay.SetActive(true);
+        }
+
+        player.isHoldAxe = true;
+        currentItemOverlay = axeOverlay;
+
+        return true;
+    }
+
+    private Rigidbody FindTopRigidbodyFrom(Transform start)
+    {
+        Transform current = start;
+        Rigidbody found = null;
+
+        while (current != null)
+        {
+            Rigidbody candidate = current.GetComponent<Rigidbody>();
+            if (candidate != null)
+            {
+                found = candidate;
+            }
+
+            current = current.parent;
+        }
+
+        return found;
+    }
+
+
 
 
 }
