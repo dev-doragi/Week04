@@ -50,6 +50,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private ParticlePoolObject _hittingParticle;
 
+    private IInteractable _currentInteractable;
+    private GameObject _currentInteractableObject;
+
     [SerializeField] private PlayerEntity playerEntity;
     [SerializeField] private Transform boatTr;
     [SerializeField] private ePlayerState interactionState;
@@ -489,7 +492,7 @@ public class PlayerInteraction : MonoBehaviour
             return false;
         }
 
-        if (heldWood.CurState == eWoodState.Dried)
+        if (heldWood.CurState == eWoodState.Dried)  
         {
             return false;
         }
