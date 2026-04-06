@@ -19,6 +19,13 @@ public class ObjectPoolManager : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        SyncPoolPrefabKeys();
+    }
+
+    private void OnValidate() // 에디터에서도 자동 동기화
+    {
+        SyncPoolPrefabKeys();
     }
 
     private void Start()
@@ -28,8 +35,11 @@ public class ObjectPoolManager : MonoBehaviour
 
     public void Initialized()
     {
-        foreach(var prefab in poolPrefab)
+        foreach (var prefab in poolPrefab)
         {
+            if (prefab == null)
+                continue;
+
             if (!poolDic.ContainsKey(prefab.key))
                 poolDic.Add(prefab.key, new Queue<ObjectPoolBase>());
 
@@ -40,14 +50,39 @@ public class ObjectPoolManager : MonoBehaviour
         }
     }
 
+    private void SyncPoolPrefabKeys() // 프리팹 동기화
+    {
+        if (poolPrefab == null)
+            return;
+
+        for (int i = 0; i < poolPrefab.Count; i++)
+        {
+            if (poolPrefab[i] == null)
+                continue;
+
+            poolPrefab[i].key = poolPrefab[i].name;
+        }
+    }
+
     public void OnCreatedPools(string key)
     {
         var prefab = GetPrefabInfo(key);
-        var item = OnCreatedPool(key, prefab);
-
-        if (item != null)
+        if (prefab == null)
         {
-            poolDic[key].Enqueue(item);
+            Debug.LogError($"풀 프리팹 정보 없음: {key}");
+            return;
+        }
+
+        int createCount = Mathf.Max(1, prefab.prevCount);
+
+        for (int i = 0; i < createCount; i++)
+        {
+            var item = OnCreatedPool(key, prefab);
+
+            if (item != null)
+            {
+                poolDic[key].Enqueue(item);
+            }
         }
     }
 
@@ -123,6 +158,40 @@ public class ObjectPoolManager : MonoBehaviour
         itemActiveHash.Add(item);
         item.gameObject.SetActive(true);
         item.Setup();
+        return item;
+    }
+
+    // 위치 값을 추가한 버전
+    public ObjectPoolBase OnSpawnPool(string key, Vector3 position)
+    {
+        if (!poolDic.TryGetValue(key, out var itemQueue))
+        {
+            Debug.LogError($"데이터 없음 추가요망: {key}");
+            return null;
+        }
+
+        ObjectPoolBase item;
+        if (itemQueue.Count <= 0)
+        {
+            item = OnCreatedPool(key, null, true);
+        }
+        else
+        {
+            item = itemQueue.Dequeue();
+        }
+
+        if (!poolActiveHash.TryGetValue(key, out var itemActiveHash))
+        {
+            var newHash = new HashSet<ObjectPoolBase>();
+            poolActiveHash.Add(key, newHash);
+            itemActiveHash = newHash;
+        }
+
+        item.transform.position = position;
+        itemActiveHash.Add(item);
+        item.gameObject.SetActive(true);
+        item.Setup();
+
         return item;
     }
 

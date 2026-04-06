@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4977054696814803887}
   - component: {fileID: 4122961303112988713}
   - component: {fileID: 7226969508232561092}
+  - component: {fileID: 8749012729786963862}
   m_Layer: 0
   m_Name: Break
   m_TagString: Untagged
@@ -47,14 +48,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7365840280360650540}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4842,6 +4843,23 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &8749012729786963862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7365840280360650540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe57b4ca124327f4480dcc2357e27cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticlePoolObject
+  key: 0
+  prevCount: 5
+  type: 8
+  _rootParticleSystem: {fileID: 4122961303112988713}
+  _autoReleaseOnStop: 1
 --- !u!1001 &2236789784228878320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4904,6 +4922,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2531898469191195451, guid: e4fb05ac332c8b04cabd6c79df9e8ca7, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5645844721926635392, guid: e4fb05ac332c8b04cabd6c79df9e8ca7, type: 3}
+      propertyPath: lengthInSec
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5645844721926635392, guid: e4fb05ac332c8b04cabd6c79df9e8ca7, type: 3}
@@ -5608,6 +5630,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4977054696814803887}
     m_Modifications:
+    - target: {fileID: 6313758928375282765, guid: 3fa7e6ce5ef5a1f48b8dd9bcc0dcc694, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6313758928375282765, guid: 3fa7e6ce5ef5a1f48b8dd9bcc0dcc694, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
       value: 0.90270585
