@@ -6,15 +6,17 @@ public enum ePoolType
     Wood,
     WetWood,
     Fabric,
-    Block,
+    WoodBlock,
     Catcher,
     PoofRealistic,
     PoofCartoon,
     Hitting,
     Break,
     HitBase,
-    Max,
-    BuildWoodBlock
+    BuildWoodBlock,
+    Net,
+    Rock,
+    Max
 }
 
 public enum eWoodState

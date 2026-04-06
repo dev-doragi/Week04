@@ -26,7 +26,7 @@ public class PlayerInteraction : MonoBehaviour
     [Header("F키_아이템 줍기")]
     public GameObject axeOverlay;
     public GameObject currentItemOverlay;
-    public float pickupRange = 2f;
+    public float pickupRange = 7f;
     public LayerMask itemLayer;
 
     [Header("조타 운전")]
@@ -142,7 +142,7 @@ public class PlayerInteraction : MonoBehaviour
     private void PickUpItem(GameObject item)
     {
         // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
-        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj))
+        if (!item.TryGetComponent<BaseResource>(out var poolObj))
         {
             return;
         }
@@ -161,15 +161,13 @@ public class PlayerInteraction : MonoBehaviour
             child.gameObject.layer = _overlayLayer;
         }
 
-        item.transform.position = grabObjectPos;
-        item.transform.eulerAngles = grabObjectRot;
+        poolObj.transform.position = grabObjectPos;
+        poolObj.transform.eulerAngles = grabObjectRot;
 
-        var itemRb = item.GetComponent<Rigidbody>();
-        itemRb.useGravity = false;
-        itemRb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
+        poolObj.rb.useGravity = false;
+        poolObj.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
 
-        var itemColl = item.GetComponent<BoxCollider>();
-        itemColl.isTrigger = true;
+        poolObj.coll.isTrigger = true;
 
         currentItemOverlay = item;
         _heldItem = poolObj; // 캐싱된 컴포넌트 할당
@@ -199,7 +197,7 @@ public class PlayerInteraction : MonoBehaviour
 
         item.rb.useGravity = false;
         item.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
-
+        item.IsCollected = true;
         item.coll.isTrigger = true;
 
         currentItemOverlay = item.gameObject;

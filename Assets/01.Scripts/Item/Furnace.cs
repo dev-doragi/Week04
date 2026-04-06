@@ -1,4 +1,4 @@
-using Unity.IntegerTime;
+ï»¿using Unity.IntegerTime;
 using UnityEngine;
 
 public class Furnace : MonoBehaviour
@@ -8,6 +8,7 @@ public class Furnace : MonoBehaviour
     public float FuelGauge => fuelGauge;
     [SerializeField] private float fuelEfficiency = 1;
     [SerializeField] FireIntensityController controller;
+
     private void FixedUpdate()
     {
         DecreaseFuel();
@@ -16,9 +17,9 @@ public class Furnace : MonoBehaviour
     public void OnInteractItem(Wood wood)
     {
         var addPoint = wood.GetRefuelAmount();
-        fuelGauge = Mathf.Max(fuelGauge, fuelGauge + addPoint);
+        fuelGauge = Mathf.Clamp(fuelGauge + addPoint, 0f, maxFuelGauge);
         SetFuranceFire(fuelGauge);
-        SetFuranceUI(fuelGauge);
+        //SetFuranceUI(fuelGauge);
     }
 
     public void SetFuranceFire(float amount)
@@ -27,22 +28,22 @@ public class Furnace : MonoBehaviour
         controller.SetIntensity(ratio + 0.5f);
     }
 
-    public void SetFuranceUI(float amount)
-    {
-        var ui = UIManager.Instance.GetUI<GaugeController>();
-        ui.Apply(amount);
-    }
+    //public void SetFuranceUI(float amount)
+    //{
+    //    var ui = UIManager.Instance.GetUI<GaugeController>();
+    //    ui.Apply(amount);
+    //}
 
     public void DecreaseFuel()
     {
         fuelGauge -= Time.fixedDeltaTime * fuelEfficiency;
         fuelGauge = Mathf.Max(0, fuelGauge);
         SetFuranceFire(fuelGauge);
-        SetFuranceUI(fuelGauge);
+        //SetFuranceUI(fuelGauge);
 
         if (fuelGauge <= 0)
         {
-            //TODO ½ÇÆÐ¿£µù
+            //TODO ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½
         }
     }
 
