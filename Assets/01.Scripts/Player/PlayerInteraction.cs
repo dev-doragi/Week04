@@ -97,9 +97,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         switch (state)
         {
-            case ePlayerState.Pickup:
-                return InteractionKeyType.F;
-
             case ePlayerState.Fueling:
                 return InteractionKeyType.F;
 
@@ -117,9 +114,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         switch (state)
         {
-            case ePlayerState.Pickup:
-                return "아이템 줍기";
-
             case ePlayerState.Fueling:
                 return "연료 넣기";
 
@@ -169,10 +163,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             case ePlayerState.None:
                 return;
-            case ePlayerState.Pickup:
-                if (_heldItem != null) return;
-                TryPickUp();
-                break;
             case ePlayerState.Fueling:
                 if (_heldItem == null) return;
                 //사라지게 만들고 연료 추가

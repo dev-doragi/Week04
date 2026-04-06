@@ -2077,8 +2077,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC0C1\uD638\uC791\uC6A9"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 89f26a309dca3494d9ebe37c111a54d9, type: 2}
-  m_sharedMaterial: {fileID: 5441190467689370442, guid: 89f26a309dca3494d9ebe37c111a54d9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 947dfe5b99faf29418075b1db10dc8ac, type: 2}
+  m_sharedMaterial: {fileID: 8473887268300441314, guid: 947dfe5b99faf29418075b1db10dc8ac, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
