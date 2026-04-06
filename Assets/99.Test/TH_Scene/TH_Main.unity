@@ -1220,8 +1220,10 @@ MonoBehaviour:
   player: {fileID: 6623533065678189205}
   activePriority: 20
   inactivePriority: 10
+  mainBrain: {fileID: 197247122}
   fpCamera: {fileID: 839716545}
   tpCamera: {fileID: 910472272}
+  overlayCamera: {fileID: 1889322045}
   isFirstPerson: 1
   interactionState: 0
 --- !u!114 &197247122
@@ -3136,6 +3138,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b5082118998a4488ee8fe598444cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoatSteeringController
+--- !u!114 &381129254 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6823262324730250775, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
+  m_PrefabInstance: {fileID: 381129247}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381129249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517b79a8a49351d4b89e5fb1d716a528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boat
 --- !u!4 &386906510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5606811121278830897, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
@@ -5052,6 +5065,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5535468126609655426, guid: d5f965c3d41e6ae4581332eab2722c8e, type: 3}
+      propertyPath: _boat
+      value: 
+      objectReference: {fileID: 381129254}
     - target: {fileID: 5535468126609655426, guid: d5f965c3d41e6ae4581332eab2722c8e, type: 3}
       propertyPath: _fireIntensityController
       value: 

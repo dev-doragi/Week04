@@ -90,36 +90,31 @@ public class Wood : BaseResource
         if (curState == eWoodState.Wet)
         {
             curProgressTime = Mathf.Max(0.01f, dryTime);
-            case eWoodState.Drying:
-                IsCraft = false;
-                break;
-
-            case eWoodState.Wet:
-                _propBlock.SetFloat(WetnessId, 2);
-                IsCraft = false;
-                break;
-
-            case eWoodState.Dried:
-                _propBlock.SetFloat(WetnessId, 1);
-                IsCraft = true;
-                break;
+            IsCraft = false;
         }
-        else if (curState == eWoodState.Dried)
+        else if (curState == eWoodState.Drying)
+        {
+            if (curProgressTime <= 0f)
+            {
+                curProgressTime = Mathf.Max(0.01f, dryTime);
+            }
+
+            IsCraft = false;
+
+            if (RepoManager.Instance != null)
+            {
+                RepoManager.Instance.RegisterWood(this);
+            }
+        }
+        else // Dried
         {
             curProgressTime = 0f;
-        }
-        else if (curState == eWoodState.Drying && curProgressTime <= 0f)
-        {
-            curProgressTime = Mathf.Max(0.01f, dryTime);
-        }
-
-        if (curState == eWoodState.Drying && RepoManager.Instance != null)
-        {
-            RepoManager.Instance.RegisterWood(this);
+            IsCraft = true;
         }
 
         ApplyVisualByState();
     }
+
 
     public bool OnDryWood(float progressTime)
     {
