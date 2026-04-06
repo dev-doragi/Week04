@@ -321,5 +321,10 @@ public class PlayerInteraction : MonoBehaviour
         outlineCursor.SetActive(false);
         Destroy(block);
         ResetChopping();
+
+        if (ObjectPoolManager.Instance != null)
+        {
+            ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), block.transform.position);
+        }
     }
 }
