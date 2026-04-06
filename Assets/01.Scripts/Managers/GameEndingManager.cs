@@ -31,7 +31,7 @@ public class GameEndingManager : MonoBehaviour
     {
         clearSceneCamera.SetActive(false);
         drownSceneCamera.SetActive(false);
-        //faildSceneCamera.SetActive(false);
+        faildSceneCamera.SetActive(false);
 
         // 테스트용
         //WinGame();
@@ -46,6 +46,10 @@ public class GameEndingManager : MonoBehaviour
         if (Keyboard.current.f2Key.wasPressedThisFrame)
         {
             DieByDrowning();
+        }
+        if (Keyboard.current.f3Key.wasPressedThisFrame)
+        {
+            FaildGame();
         }
     }
 
@@ -70,6 +74,7 @@ public class GameEndingManager : MonoBehaviour
     {
         SetEndingCutscene();
 
+        boat.SetActive(false);
         boatCopy.SetActive(true);
 
         drownSceneCamera.SetActive(true);
@@ -79,7 +84,16 @@ public class GameEndingManager : MonoBehaviour
     public void FaildGame()
     {
         SetEndingCutscene();
-        //faildSceneCamera.SetActive(true);
+        faildSceneCamera.SetActive(true);
+
+        var rb = boat.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+
+        rb = player.GetComponent<Rigidbody>();
+        //rb.isKinematic = true;
+
+        boat.transform.position = boatPos.position;
+
         faildOverTimeline.Play();
     }
 
