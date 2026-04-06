@@ -25,7 +25,10 @@ public class PlayerEntity : MonoBehaviour
         {
             _interaction.BoatBreaker(axe);
             //_input.click = false;
-        } 
+        } else
+        {
+            _interaction.ResetOutline();
+        }
 
         if (_input.interact)
         {
