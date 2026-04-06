@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(ItemBuoyancy))]
 public class BaseResource : ObjectPoolBase
 {
     public bool IsBurn;
