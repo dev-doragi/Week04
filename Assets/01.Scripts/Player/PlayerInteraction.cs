@@ -145,6 +145,7 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         axeOverlay.gameObject.SetActive(false);
+        player.isHoldAxe = false;
 
         //item.transform.SetParent(playerEntity.transform);
         //item.gameObject.layer = _overlayLayer;
@@ -177,11 +178,21 @@ public class PlayerInteraction : MonoBehaviour
         if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
 
         axeOverlay.gameObject.SetActive(false);
+        player.isHoldAxe = false;
 
-        item.gameObject.layer = _overlayLayer;
-        item.transform.SetParent(playerEntity.transform);
-        item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
-        item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+        //item.gameObject.layer = _overlayLayer;
+        //item.transform.SetParent(playerEntity.transform);
+        //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
+        //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = _overlayLayer;
+        }
+
+        item.transform.position = grabObjectPos;
+        item.transform.eulerAngles = grabObjectRot;
 
         item.rb.useGravity = false;
         item.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
@@ -269,6 +280,7 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     _heldItem = null;
 
+                    player.isHoldAxe = true;
                     if (axeOverlay != null) axeOverlay.SetActive(true);
                     currentItemOverlay = axeOverlay;
                 }
