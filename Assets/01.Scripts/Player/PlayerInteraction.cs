@@ -20,12 +20,16 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject boat;
     public PlayerEntity player;
 
-    private GameObject _heldItem;
+    // private GameObject _heldItem;
+
+    private ObjectPoolBase _heldItem;
     private Camera _mainCamera;
 
     private int _overlayLayer;
     private int _defaultLayer;
 
+    [SerializeField] private PlayerEntity playerEntity;
+    [SerializeField] private Transform boatTr;
     [SerializeField] private ePlayerState interactionState;
     private void Start()
     {
@@ -47,22 +51,27 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log(interactionState);
+        if (_heldItem == null) return;
 
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
         switch (interactionState)
         {
             case ePlayerState.None:
+
                 break;
             case ePlayerState.Fueling:
-
+                //사라지게 만들고 연료 추가
+                OnRefuel();
                 break;
             case ePlayerState.Crafting:
-
+                //사라지게 만들고 크래프팅 쪽에 정보 넣어주기
+                OnCraft();
                 break;
             case ePlayerState.Steering:
                 if (!player.InputLock) SteeringWheel();
                 else AwayFromWheel();
+
+                InGameManager.Instance.OnChangedGameMode();
                 break;
         }
     }
@@ -107,36 +116,82 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PickUpItem(GameObject item)
     {
+        // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
+        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
+
         axeOverlay.gameObject.SetActive(false);
 
-        item.layer = _overlayLayer;
-        item.transform.position = new Vector3(-0.831f, 1.04f, -2.665f);
-        item.GetComponent<Rigidbody>().isKinematic = true;
-        item.GetComponent<Rigidbody>().useGravity = false;
-        item.GetComponent<BoxCollider>().isTrigger = true;
+        item.gameObject.layer = _overlayLayer;
+        item.transform.SetParent(playerEntity.transform);
+        item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
+        item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        var itemRb = item.GetComponent<Rigidbody>();
+        itemRb.useGravity = false;
+        itemRb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
+
+        var itemColl = item.GetComponent<BoxCollider>();
+        itemColl.isTrigger = true;
 
         currentItemOverlay = item;
-        //currentItemOverlay.SetActive(true);
+        _heldItem = poolObj; // 캐싱된 컴포넌트 할당
+    }
 
-        _heldItem = item;
+    private void PickUpItem(BaseResource item)
+    {
+        // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
+        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
+
+        axeOverlay.gameObject.SetActive(false);
+
+        item.gameObject.layer = _overlayLayer;
+        item.transform.SetParent(playerEntity.transform);
+        item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
+        item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        item.rb.useGravity = false;
+        item.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
+
+        item.coll.isTrigger = true;
+
+        currentItemOverlay = item.gameObject;
+        _heldItem = poolObj; // 캐싱된 컴포넌트 할당
     }
 
     public void DropItem()
     {
         if (_heldItem == null) return;
 
-        _heldItem.layer = _defaultLayer;
-        _heldItem.GetComponent<Rigidbody>().isKinematic = false;
-        _heldItem.GetComponent<Rigidbody>().useGravity = true;
-        _heldItem.GetComponent<BoxCollider>().isTrigger = false;
+        Rigidbody itemRb = _heldItem.GetComponent<Rigidbody>();
+        BoxCollider itemColl = _heldItem.GetComponent<BoxCollider>();
 
-        _heldItem.transform.position = transform.position + transform.forward * 1f;
-        _heldItem.GetComponent<Rigidbody>().AddForce(transform.forward * 2f + Vector3.up * 1f, ForceMode.Impulse);
+        // 1. 부모 해제 및 레이어 복구
+        _heldItem.transform.SetParent(boatTr);
+        _heldItem.gameObject.layer = _defaultLayer;
 
+        // 2. 위치 설정 (플레이어 정면 바닥 쪽)
+        // 플레이어 중심에서 앞쪽으로 1m, 위쪽으로 0.2m 지점 계산
+        Vector3 dropPos = transform.position + (transform.forward * 1.0f) + (Vector3.up * 0.2f);
+
+        // 유니티 6 키네마틱 물체는 MovePosition이 가장 안전함
+        itemRb.MovePosition(dropPos);
+        itemRb.rotation = Quaternion.identity; // 떨굴 때 회전 초기화 (똑바로 서게 함)
+
+        // 3. 물리 속성 변경
+        itemColl.isTrigger = false;
+
+        // 4. [핵심] 정지 상태 강제 주입
+        // 던지는 힘을 없애기 위해 모든 속도를 0으로 초기화
+        itemRb.isKinematic = false;
+        itemRb.useGravity = true;
+        itemRb.linearVelocity = Vector3.zero;
+        itemRb.angularVelocity = Vector3.zero;
+
+        // 5. UI 및 상태 업데이트
+        if (axeOverlay != null) axeOverlay.SetActive(true);
         currentItemOverlay = axeOverlay;
-        _heldItem = null;
 
-        axeOverlay.SetActive(true);
+        _heldItem = null;
     }
 
     public void OnChangedInteractionState(ePlayerState nextState)
@@ -154,5 +209,48 @@ public class PlayerInteraction : MonoBehaviour
     {
         player.InputLock = false;
         boat.GetComponent<BoatSteeringController>().ControllSteer = false;
+    }
+
+    public void OnRefuel()
+    {
+        if (_heldItem == null) return;
+        if (!(_heldItem.type == eItemType.Wood || _heldItem.type == eItemType.WetWood))
+            return;
+        if(_heldItem.TryGetComponent<Wood>(out var wood))
+        {
+            InGameManager.Instance.OnRefuel(wood);
+            ObjectPoolManager.Instance.OnRelease(wood.key, wood);
+            _heldItem = null;
+
+            if (axeOverlay != null) axeOverlay.SetActive(true);
+            currentItemOverlay = axeOverlay;
+        }
+    }
+
+    public void OnCraft()
+    {
+        if (_heldItem == null)
+        {
+            var item = InGameManager.Instance.PopResource();
+            if(item == null) return;
+
+            PickUpItem(item);
+        }
+        else
+        {
+            if (!(_heldItem.type == eItemType.Wood || _heldItem.type == eItemType.Fabric))
+                return;
+
+            if (_heldItem.TryGetComponent<BaseResource>(out var item))
+            {
+                if (InGameManager.Instance.TryCrafting(item))
+                {
+                    _heldItem = null;
+
+                    if (axeOverlay != null) axeOverlay.SetActive(true);
+                    currentItemOverlay = axeOverlay;
+                }
+            }
+        }
     }
 }
