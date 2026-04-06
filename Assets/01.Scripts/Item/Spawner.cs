@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -132,9 +132,9 @@ public class Spawner : Singleton<Spawner>
     {
         ObjectPoolBase obj = null;
 
-        if (key == "Wood")
+        if (key == "WetWood")
         {
-            obj = ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+            obj = ObjectPoolManager.Instance.OnSpawnResources<Wood>("WetWood");
         }
         else if (key == "Fabric")
         {
