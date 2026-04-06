@@ -8,6 +8,15 @@ public class PlayerInteraction : MonoBehaviour
     public float swingDuration = 0.2f;
     public float returnDuration = 0.15f;
 
+    [Space(10)]
+    public GameObject outlineCursor;
+    public LayerMask blockLayer;
+    public float chopTimeRequired = 1.5f;   // 부서지는데 필요 시간
+    public float reachDistance = 3.0f;      // 손이 닿는 거리
+
+    private float _currentChopTime = 0.0f;  // 현재 도끼질을 한 시간(진척도)
+    private Transform _currentTargetBlock;  // 지금 때리고 있는 나무(시선 벗어났는지 확인 용)
+
     private bool _isSwinging = false;
 
     [Header("F키_아이템 줍기")]
@@ -47,6 +56,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             Swing(axe);
         }
+
+        PerformingChopping();
+    }
+
+    public void ResetOutline()
+    {
+        outlineCursor.gameObject.SetActive(false);
     }
 
     public void Interact()
@@ -83,6 +99,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Swing(Transform axe)
     {
+        if (_isSwinging) return;
+
         _isSwinging = true;
 
         Sequence sequence = DOTween.Sequence();
@@ -251,5 +269,57 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void PerformingChopping()
+    {
+        Ray ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, reachDistance, blockLayer))
+        {
+            outlineCursor.SetActive(true);
+            outlineCursor.transform.position = hit.collider.transform.position;
+            outlineCursor.transform.rotation = boat.transform.rotation;
+
+            if (_currentTargetBlock != hit.transform)
+            {
+                _currentTargetBlock = hit.transform;
+                _currentChopTime = 0.0f;
+            }
+
+            _currentChopTime += Time.deltaTime;
+
+            Debug.Log($"나무 캐는 중... {(int)(_currentChopTime / chopTimeRequired * 100)}%");
+
+            if (_currentChopTime >= chopTimeRequired)
+            {
+                BreakBlock(hit.collider.gameObject);
+            }
+        }
+        else
+        {
+            // 허공 쳐다보면 도끼질 멈춤
+            outlineCursor.SetActive(false);
+            ResetChopping();
+        }
+    }
+
+    private void ResetChopping()
+    {
+        if (_currentChopTime > 0)
+        {
+            Debug.Log("도끼질 취소");
+        }
+
+        _currentChopTime = 0.0f;
+        _currentTargetBlock = null;
+    }
+
+    private void BreakBlock(GameObject block)
+    {
+        outlineCursor.SetActive(false);
+        Destroy(block);
+        ResetChopping();
     }
 }
