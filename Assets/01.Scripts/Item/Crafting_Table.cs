@@ -23,19 +23,19 @@ public class Crafting_Table : MonoBehaviour
          return OnCraftItem();
     }
 
-    //TODO : ¾Ë¸Â´Â µ¥ÀÌÅÍ Ç®¸µ ¸®ÅÏÇÏ±â
+    //TODO : ï¿½Ë¸Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
     public BaseResource OnCraftItem()
     {
         var counts = repoStack.GroupBy(x => x.GetType())
                       .ToDictionary(g => g.Key, g => g.Count());
 
-        // 1. ³ª¹« 3°³ÀÎÁö È®ÀÎ
+        // 1. ï¿½ï¿½ï¿½ï¿½ 3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         if (counts.TryGetValue(typeof(Wood), out int w) && w == 3)
         {
             ReturnToPool();
             return GetCraftItem<BuildWoodBlock>();
         }
-        // 2. ³ª¹« 1°³ + Ãµ 2°³ÀÎÁö È®ÀÎ
+        // 2. ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ + Ãµ 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         else if (counts.TryGetValue(typeof(Wood), out int w1) && w1 == 1 &&
                  counts.TryGetValue(typeof(Fabric), out int c2) && c2 == 2)
         {
@@ -57,19 +57,41 @@ public class Crafting_Table : MonoBehaviour
 
     public bool OnPushItem(BaseResource newItem)
     {
-        if (repoStack.Count > maxCount || !newItem.IsCraft) return false;
-
-        Transform[] allChildren = newItem.GetComponentsInChildren<Transform>(true);
-
-        foreach (Transform child in allChildren)
+        if (newItem == null)
         {
-            child.gameObject.layer = _overlayLayer;
+            return false;
         }
 
-        newItem.coll.isTrigger = true;
-        newItem.transform.SetParent(repoSlot[repoStack.Count]);
+        if (!newItem.IsCraft)
+        {
+            return false;
+        }
+
+        int slotIndex = repoStack.Count;
+
+        if (slotIndex >= maxCount) return false;
+
+        if (repoSlot == null || slotIndex >= repoSlot.Length || repoSlot[slotIndex] == null) return false;
+        
+
+        Transform[] allChildren = newItem.GetComponentsInChildren<Transform>(true);
+        int childCount = allChildren.Length;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            allChildren[i].gameObject.layer = _overlayLayer;
+        }
+
+        if (newItem.coll != null)
+        {
+            newItem.coll.isTrigger = true;
+        }
+
+        newItem.transform.SetParent(repoSlot[slotIndex], false);
         newItem.transform.localScale = Vector3.one * 0.5f;
         newItem.transform.localPosition = Vector3.zero;
+        newItem.transform.localRotation = Quaternion.identity;
+
         repoStack.Push(newItem);
 
         return true;
@@ -86,7 +108,7 @@ public class Crafting_Table : MonoBehaviour
         { 
             var item = repoStack.Pop();
             item.transform.localScale = Vector3.one;
-            //TODO ºÎ¸ð¹Ù²ã³õ±â
+            //TODO ï¿½Î¸ï¿½Ù²ï¿½ï¿½ï¿½ï¿½
             item.transform.SetParent(ObjectPoolManager.Instance.gameObject.transform);
             ObjectPoolManager.Instance.OnRelease(item.key, item);
         }

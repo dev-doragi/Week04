@@ -1,69 +1,199 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Wood : BaseResource
 {
-
-    [SerializeField] private float baseFuelAmount = 10f;
+    [Header("Fuel")]
+    [SerializeField] private float driedFuelAmount = 10f;
     [SerializeField] private float wetFuelAmount = 3f;
 
-    [SerializeField] eWoodState curState;
+    [Header("Drying")]
+    [SerializeField] private eWoodState curState = eWoodState.Dried;
     [SerializeField] private float dryTime = 5f;
-    [SerializeField] private float curProgressTime;
+    [SerializeField] private float curProgressTime = 0f;
     public float CurProgressTime => curProgressTime;
+    public eWoodState CurState => curState;
 
-    [SerializeField] private MeshRenderer _renderer;
-    [SerializeField] private MaterialPropertyBlock _propBlock;
-    [SerializeField] private static readonly int WetnessId = Shader.PropertyToID("_Wetness");
+    [Header("Visual")]
+    [SerializeField] private MeshRenderer targetRenderer;
+    [SerializeField] private string wetnessPropertyName = "_Wetness";
+    [SerializeField] private float wetnessWhenWet = 2f;
+    [SerializeField] private float wetnessWhenDried = 1f;
+
+    private MaterialPropertyBlock propBlock;
+    private int wetnessId;
+
+    private void Awake()
+    {
+        CacheReferences();
+        ApplyVisualByState();
+    }
+
+    public override void Setup()
+    {
+        base.Setup();
+        CacheReferences();
+
+        if (type == ePoolType.WetWood)
+        {
+            curState = eWoodState.Wet;
+            curProgressTime = Mathf.Max(0.01f, dryTime);
+        }
+        else
+        {
+            curState = eWoodState.Dried;
+            curProgressTime = 0f;
+        }
+
+        ApplyVisualByState();
+    }
 
     public override void PutResource()
     {
         base.PutResource();
-        if (curState != eWoodState.Wet) return;
-        OnChangedWoodState(eWoodState.Drying);
+
+        if (curState == eWoodState.Wet)
+        {
+            StartDrying();
+        }
     }
 
     public float GetRefuelAmount()
     {
-        return curState == eWoodState.Dried ? baseFuelAmount : wetFuelAmount;
+        if (curState == eWoodState.Dried)
+        {
+            return driedFuelAmount;
+        }
+
+        return wetFuelAmount;
     }
 
     public void OnChangedWoodState(eWoodState nextState)
     {
-        if (curState == nextState) return;
+        if (curState == nextState)
+        {
+            return;
+        }
 
         curState = nextState;
 
-        _renderer.GetPropertyBlock(_propBlock);
-        switch (nextState)
+        if (curState == eWoodState.Wet)
         {
-            case eWoodState.Drying:
-
-                break;
-
-            case eWoodState.Wet:
-                _propBlock.SetFloat(WetnessId, 2);
-
-                break;
-
-            case eWoodState.Dried:
-                _propBlock.SetFloat(WetnessId, 1);
-                break;
+            curProgressTime = Mathf.Max(0.01f, dryTime);
         }
-        _renderer.SetPropertyBlock(_propBlock);
+        else if (curState == eWoodState.Dried)
+        {
+            curProgressTime = 0f;
+        }
+        else if (curState == eWoodState.Drying && curProgressTime <= 0f)
+        {
+            curProgressTime = Mathf.Max(0.01f, dryTime);
+        }
+
+        if (curState == eWoodState.Drying && RepoManager.Instance != null)
+        {
+            RepoManager.Instance.RegisterWood(this);
+        }
+
+        ApplyVisualByState();
     }
 
     public bool OnDryWood(float progressTime)
     {
-        curProgressTime -= progressTime;
-
-        if(dryTime <= 0)
+        if (curState != eWoodState.Drying)
         {
-            curProgressTime = 0;
+            return false;
+        }
+
+        curProgressTime -= Mathf.Max(0f, progressTime);
+
+        if (curProgressTime <= 0f)
+        {
+            curProgressTime = 0f;
             OnChangedWoodState(eWoodState.Dried);
             return true;
         }
 
+        ApplyVisualByDryProgress();
         return false;
+    }
+
+    private void StartDrying()
+    {
+        curState = eWoodState.Drying;
+        curProgressTime = Mathf.Max(curProgressTime, Mathf.Max(0.01f, dryTime));
+
+        if (RepoManager.Instance != null)
+        {
+            RepoManager.Instance.RegisterWood(this);
+        }
+
+        ApplyVisualByDryProgress();
+    }
+
+    private void CacheReferences()
+    {
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+
+        if (coll == null)
+        {
+            coll = GetComponent<BoxCollider>();
+        }
+
+        if (targetRenderer == null)
+        {
+            targetRenderer = GetComponentInChildren<MeshRenderer>();
+        }
+
+        if (propBlock == null)
+        {
+            propBlock = new MaterialPropertyBlock();
+        }
+
+        wetnessId = Shader.PropertyToID(wetnessPropertyName);
+    }
+
+    private void ApplyVisualByState()
+    {
+        if (targetRenderer == null)
+        {
+            return;
+        }
+
+        targetRenderer.GetPropertyBlock(propBlock);
+
+        if (curState == eWoodState.Wet)
+        {
+            propBlock.SetFloat(wetnessId, wetnessWhenWet);
+        }
+        else if (curState == eWoodState.Dried)
+        {
+            propBlock.SetFloat(wetnessId, wetnessWhenDried);
+        }
+        else
+        {
+            float ratio = 1f - Mathf.Clamp01(curProgressTime / Mathf.Max(0.01f, dryTime));
+            float wetness = Mathf.Lerp(wetnessWhenWet, wetnessWhenDried, ratio);
+            propBlock.SetFloat(wetnessId, wetness);
+        }
+
+        targetRenderer.SetPropertyBlock(propBlock);
+    }
+
+    private void ApplyVisualByDryProgress()
+    {
+        if (targetRenderer == null)
+        {
+            return;
+        }
+
+        float ratio = 1f - Mathf.Clamp01(curProgressTime / Mathf.Max(0.01f, dryTime));
+        float wetness = Mathf.Lerp(wetnessWhenWet, wetnessWhenDried, ratio);
+
+        targetRenderer.GetPropertyBlock(propBlock);
+        propBlock.SetFloat(wetnessId, wetness);
+        targetRenderer.SetPropertyBlock(propBlock);
     }
 }
