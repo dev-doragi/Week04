@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections;
 
 public class CameraManager : MonoBehaviour
 {
@@ -11,8 +12,10 @@ public class CameraManager : MonoBehaviour
     public int inactivePriority = 10;
 
     [Space(10)]
+    public CinemachineBrain mainBrain;
     public CinemachineCamera fpCamera;
     public CinemachineCamera tpCamera;
+    public GameObject overlayCamera;
 
     [Space(10)]
     public bool isFirstPerson = true;
@@ -34,11 +37,25 @@ public class CameraManager : MonoBehaviour
         {
             fpCamera.Priority = inactivePriority;
             tpCamera.Priority = activePriority;
+            overlayCamera.SetActive(false);
         }
         else
         {
             fpCamera.Priority = activePriority;
             tpCamera.Priority = inactivePriority;
+            StartCoroutine(WaitAndEnableOverlay());
         }
+    }
+
+    IEnumerator WaitAndEnableOverlay()
+    {
+        yield return null;
+
+        while(mainBrain.IsBlending)
+        {
+            yield return null;
+        }
+
+        overlayCamera.SetActive(true);
     }
 }
