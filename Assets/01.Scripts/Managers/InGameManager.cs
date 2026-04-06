@@ -36,6 +36,6 @@ public class InGameManager : MonoBehaviour
 
     public BaseResource PopResource()
     {
-        return table.PopResourceItem();
+        return table.OnCheckedCrafting();
     }
 }
