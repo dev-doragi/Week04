@@ -233,15 +233,13 @@ public class PlayerInteraction : MonoBehaviour
 
         item.IsEquipped = false;
 
-        // 레이어 복원
         Transform[] allChildren = _heldItem.GetComponentsInChildren<Transform>(true);
         foreach (Transform child in allChildren)
         {
             child.gameObject.layer = _defaultLayer;
         }
 
-        // Rigidbody 세팅
-        var prevInterp = item.rb.interpolation;
+        // ★ 보간 비활성화
         item.rb.interpolation = RigidbodyInterpolation.None;
         item.rb.position = dropPos;
         item.rb.rotation = dropRot;
@@ -249,7 +247,6 @@ public class PlayerInteraction : MonoBehaviour
 
         Physics.SyncTransforms();
 
-        // 끼임 방지: 여전히 겹치면 위로 밀어올림
         if (IsOverlapping(item.coll))
         {
             dropPos = ResolveOverlap(dropPos, item.coll);
@@ -261,9 +258,10 @@ public class PlayerInteraction : MonoBehaviour
         item.rb.useGravity = true;
         item.rb.linearVelocity = Vector3.zero;
         item.rb.angularVelocity = Vector3.zero;
-        item.rb.interpolation = prevInterp;
 
-        // 플레이어와 충돌 무시
+        // ★ DropItem에서만 보간 복원
+        item.rb.interpolation = RigidbodyInterpolation.Interpolate;
+
         Collider playerColl = player.GetComponent<Collider>();
         if (playerColl != null)
         {
@@ -428,7 +426,7 @@ public class PlayerInteraction : MonoBehaviour
         if (_heldItem == null)
         {
             var item = InGameManager.Instance.PopResource();
-            if(item == null) return;
+            if (item == null) return;
 
             PickUpItem(item);
         }
@@ -439,6 +437,9 @@ public class PlayerInteraction : MonoBehaviour
 
             if (_heldItem.TryGetComponent<BaseResource>(out var item))
             {
+                // ★ 보간 비활성화
+                item.rb.interpolation = RigidbodyInterpolation.None;
+
                 if (InGameManager.Instance.TryCrafting(item))
                 {
                     _heldItem = null;
@@ -616,39 +617,29 @@ public class PlayerInteraction : MonoBehaviour
 
     public bool TryPlaceHeldWetWood(Vector3 worldPosition, Quaternion worldRotation, Transform parentOnBoat)
     {
-        if (_heldItem == null)
-        {
-            return false;
-        }
+        if (_heldItem == null) return false;
 
-        Wood heldWood;
-        bool isWood = _heldItem.TryGetComponent<Wood>(out heldWood);
-        if (!isWood || heldWood == null)
-        {
-            return false;
-        }
+        if (!_heldItem.TryGetComponent<Wood>(out var heldWood)) return false;
 
-        if (heldWood.CurState == eWoodState.Dried)
-        {
-            return false;
-        }
+        if (heldWood.CurState == eWoodState.Dried) return false;
 
-        if (parentOnBoat != null)
-        {
-            heldWood.transform.SetParent(parentOnBoat, true);
-        }
+        // ★ 보간 비활성화
+        heldWood.rb.interpolation = RigidbodyInterpolation.None;
+
+        heldWood.transform.SetParent(null);
 
         heldWood.transform.SetPositionAndRotation(worldPosition, worldRotation);
+
+        Transform targetParent = parentOnBoat != null ? parentOnBoat : boatTr;
+        heldWood.transform.SetParent(targetParent, true);
 
         if (heldWood.CurState == eWoodState.Wet)
         {
             heldWood.OnChangedWoodState(eWoodState.Drying);
         }
 
-        heldWood.transform.SetParent(boatTr);
         Transform[] allChildren = heldWood.GetComponentsInChildren<Transform>(true);
-        int childCount = allChildren.Length;
-        for (int i = 0; i < childCount; i++)
+        for (int i = 0; i < allChildren.Length; i++)
         {
             allChildren[i].gameObject.layer = _defaultLayer;
         }
@@ -657,7 +648,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             heldWood.coll.isTrigger = false;
         }
-
         if (heldWood.rb != null)
         {
             heldWood.rb.isKinematic = true;
@@ -676,12 +666,7 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         _heldItem = null;
-
-        if (axeOverlay != null)
-        {
-            axeOverlay.SetActive(true);
-        }
-
+        if (axeOverlay != null) axeOverlay.SetActive(true);
         player.isHoldAxe = true;
         currentItemOverlay = axeOverlay;
 
