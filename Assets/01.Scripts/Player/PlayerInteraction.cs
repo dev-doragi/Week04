@@ -122,7 +122,7 @@ public class PlayerInteraction : MonoBehaviour
                 return "제작하기";
 
             case ePlayerState.Steering:
-                return "조타하기";
+                return "조종하기";
         }
 
         return string.Empty;
@@ -175,10 +175,8 @@ public class PlayerInteraction : MonoBehaviour
         switch (interactionState)
         {
             case ePlayerState.None:
-                if (_heldItem == null)
-                {
-                    TryPickUp();
-                }
+                if (_heldItem == null) return;
+
                 break;
 
             case ePlayerState.Fueling:

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 public class PlayerEntity : MonoBehaviour
@@ -22,7 +22,7 @@ public class PlayerEntity : MonoBehaviour
 
     private void Update()
     {
-        // Å¬¸¯ ÁßÀÏ ¶§
+        // Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         if (_input.click && isHoldAxe)
         {
             _interaction.BoatBreaker(axe);
