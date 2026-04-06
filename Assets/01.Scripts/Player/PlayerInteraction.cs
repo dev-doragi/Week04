@@ -163,7 +163,11 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (_heldItem == null)
             {
+                _isSteering = !_isSteering;
+
                 InGameManager.Instance.OnChangedGameMode();
+
+                RefreshInteractionUI();
             }
             return;
         }
