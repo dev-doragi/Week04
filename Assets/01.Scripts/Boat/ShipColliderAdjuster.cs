@@ -9,10 +9,13 @@ public class ShipAreaManager : MonoBehaviour
 
     private Bounds _currentBounds; // 기즈모 표시용 저장 변수
 
-    void Awake()
+    void Start()
     {
         if (shipAreaCollider == null)
             shipAreaCollider = GetComponent<BoxCollider>();
+        
+        InGameManager.Instance.boatCollUpdateAction -= AdjustCollider;
+        InGameManager.Instance.boatCollUpdateAction += AdjustCollider;
 
         // 시작할 때 한 번 맞춤
         AdjustCollider();

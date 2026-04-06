@@ -55,7 +55,7 @@ MonoBehaviour:
     spawnOffsetZ: 150
     minSpawnCount: 1
     maxSpawnCount: 3
-    randomZRange: 80
+    randomZRange: 45
     nextTargetZ: 0
   - poolKey: Fabric
     spawnIntervalZ: 100
@@ -63,7 +63,7 @@ MonoBehaviour:
     spawnOffsetZ: 150
     minSpawnCount: 1
     maxSpawnCount: 3
-    randomZRange: 80
+    randomZRange: 45
     nextTargetZ: 0
   - poolKey: RockBreakBlock
     spawnIntervalZ: 250
@@ -71,7 +71,7 @@ MonoBehaviour:
     spawnOffsetZ: 150
     minSpawnCount: 1
     maxSpawnCount: 3
-    randomZRange: 200
+    randomZRange: 100
     nextTargetZ: 0
   despawnOffsetZ: 500
   retryStepZ: 50

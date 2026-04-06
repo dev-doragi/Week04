@@ -11,14 +11,15 @@ public class RepoManager : MonoBehaviour
     [Header("Status")]
     public bool isPlaying = true;
 
+
     // [����] ResourceItem�� poolKey(string)�� ������� �� ���� �ǽð� �ڿ��� ����
-    private Dictionary<string, HashSet<BaseResource>> _resourcesOnShip = new();
+    private Dictionary<ePoolType, HashSet<BaseResource>> _resourcesOnShip = new();
 
     // [���� ���� �ý���]
     private HashSet<Wood> dryingWoods = new HashSet<Wood>();
     private Queue<Wood> removalQueue = new Queue<Wood>();
     private bool isDryUpdate = false;
-    public Action<string, int> OnResourceChanged;
+    public Action<ePoolType, int> OnResourceChanged;
 
     private void Awake()
     {
@@ -30,9 +31,10 @@ public class RepoManager : MonoBehaviour
 
     public void Register(BaseResource item)
     {
-        if (item == null || !item.IsCollected) return;
+        if (item == null || item.IsCollected) return;
 
-        string key = item.key;
+        var key = item.type;
+        item.IsCollected = true;
         if (!_resourcesOnShip.ContainsKey(key))
             _resourcesOnShip[key] = new HashSet<BaseResource>();
 
@@ -49,9 +51,10 @@ public class RepoManager : MonoBehaviour
 
     public void Unregister(BaseResource item)
     {
-        if (item == null) return;
+        if (item == null || !item.IsCollected) return;
 
-        string key = item.key;
+        var key = item.type;
+        item.IsCollected = false;
         if (_resourcesOnShip.TryGetValue(key, out var set))
         {
             if (set.Remove(item))
@@ -63,7 +66,7 @@ public class RepoManager : MonoBehaviour
     }
 
     // Ư�� �ڿ��� �� ���� Ȯ�� (UI ��� ȣ��)
-    public int GetResourceCount(string poolKey)
+    public int GetResourceCount(ePoolType poolKey)
     {
         if (_resourcesOnShip.TryGetValue(poolKey, out var set))
         {

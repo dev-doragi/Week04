@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2436496613875023490}
   - component: {fileID: 3849599478750558923}
   - component: {fileID: 3097015878972967886}
-  m_Layer: 0
+  - component: {fileID: 8624049083942600276}
+  m_Layer: 11
   m_Name: Fabric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +52,9 @@ MonoBehaviour:
   prevCount: 5
   type: 2
   IsBurn: 0
-  IsCraft: 0
+  IsCraft: 1
+  IsCollected: 0
+  IsEquipped: 0
   rb: {fileID: 3849599478750558923}
   coll: {fileID: 3097015878972967886}
 --- !u!54 &3849599478750558923
@@ -102,6 +105,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8624049083942600276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818490756852698260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a71defaba68d6d409604caa466eeb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemBuoyancy
 --- !u!1 &6510193130162977819
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +128,7 @@ GameObject:
   - component: {fileID: 6848932241572160409}
   - component: {fileID: 4158498795161463318}
   - component: {fileID: 2418576986580320628}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: wrinkled-cloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
