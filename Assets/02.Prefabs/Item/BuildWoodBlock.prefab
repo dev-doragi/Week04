@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5396622146655114813}
   - component: {fileID: 2293452671891764987}
   m_Layer: 11
-  m_Name: BuildWoodBlock2
+  m_Name: BuildWoodBlock
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
