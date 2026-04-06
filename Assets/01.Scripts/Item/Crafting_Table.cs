@@ -11,10 +11,11 @@ public class Crafting_Table : MonoBehaviour
     [SerializeField] private int maxCount = 3;
 
     private int _overlayLayer;
-
+    private int _buildLayer;
     private void Start()
     {
         _overlayLayer = LayerMask.NameToLayer("Interact");
+        _buildLayer = LayerMask.NameToLayer("Building");
     }
 
     public BaseResource OnCheckedCrafting()
@@ -49,6 +50,7 @@ public class Crafting_Table : MonoBehaviour
     {
         if(repoStack.TryPop(out BaseResource item))
         {
+            ChangedLayerMask(item, _overlayLayer);
             item.transform.localScale = Vector3.one;
             return item;
         }
@@ -72,15 +74,9 @@ public class Crafting_Table : MonoBehaviour
         if (slotIndex >= maxCount) return false;
 
         if (repoSlot == null || slotIndex >= repoSlot.Length || repoSlot[slotIndex] == null) return false;
-        
 
-        Transform[] allChildren = newItem.GetComponentsInChildren<Transform>(true);
-        int childCount = allChildren.Length;
 
-        for (int i = 0; i < childCount; i++)
-        {
-            allChildren[i].gameObject.layer = _overlayLayer;
-        }
+        ChangedLayerMask(newItem, _buildLayer);
 
         if (newItem.coll != null)
         {
@@ -93,13 +89,15 @@ public class Crafting_Table : MonoBehaviour
         newItem.transform.localRotation = Quaternion.identity;
 
         repoStack.Push(newItem);
-
+        
         return true;
     }
 
     public T GetCraftItem<T>() where T : BaseResource 
     {
-        return ObjectPoolManager.Instance.OnSpawnResources<T>();
+        var obj = ObjectPoolManager.Instance.OnSpawnResources<T>();
+        RepoManager.Instance.Register(obj);
+        return obj;
     }
 
     private void ReturnToPool()
@@ -110,6 +108,11 @@ public class Crafting_Table : MonoBehaviour
             item.transform.localScale = Vector3.one;
             //TODO �θ�ٲ����
             item.transform.SetParent(ObjectPoolManager.Instance.gameObject.transform);
+
+            ChangedLayerMask(item, _overlayLayer);
+
+            RepoManager.Instance.Unregister(item);
+            item.IsCollected = false;
             ObjectPoolManager.Instance.OnRelease(item.key, item);
         }
     }
@@ -133,6 +136,17 @@ public class Crafting_Table : MonoBehaviour
             {
                 player.OnChangedInteractionState(ePlayerState.None);
             }
+        }
+    }
+
+    private void ChangedLayerMask(BaseResource item, int layer)
+    {
+        Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
+        int childCount = allChildren.Length;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            allChildren[i].gameObject.layer = layer;
         }
     }
 }

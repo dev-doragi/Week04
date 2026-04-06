@@ -156,9 +156,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildWoodBlock
   key: BuildWoodBlock
   prevCount: 10
-  type: 11
+  type: 10
   IsBurn: 0
   IsCraft: 0
+  IsCollected: 0
+  IsEquipped: 0
   rb: {fileID: 4019263454669679217}
   coll: {fileID: 131932121214013066}
 --- !u!114 &2293452671891764987

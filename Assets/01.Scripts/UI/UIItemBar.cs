@@ -31,21 +31,20 @@ public class UIItemBar : MonoBehaviour
     }
 
     // 자원 수량이 변할 때마다 호출됨
-    private void UpdateResourceUI(string key, int count)
+    private void UpdateResourceUI(ePoolType key, int count)
     {
-        // key값은 BaseResource나 에셋에 설정된 poolKey와 일치해야 합니다.
         switch (key)
         {
-            case "Wood":
+            case ePoolType.Wood:
                 if (woodTxt != null) woodTxt.text = count.ToString();
                 break;
-            case "WetWood":
+            case ePoolType.WetWood:
                 if (wetWoodTxt != null) wetWoodTxt.text = count.ToString();
                 break;
-            case "Fabric":
+            case ePoolType.Fabric:
                 if (fabricTxt != null) fabricTxt.text = count.ToString();
                 break;
-            case "WoodBlock":
+            case ePoolType.BuildWoodBlock:
                 if (woodBlockTxt != null) woodBlockTxt.text = count.ToString();
                 break;
         }
@@ -54,9 +53,9 @@ public class UIItemBar : MonoBehaviour
     // 전체 UI 강제 새로고침 (필요 시 호출)
     public void RefreshAllUI()
     {
-        UpdateResourceUI("Wood", RepoManager.Instance.GetResourceCount("Wood"));
-        UpdateResourceUI("WetWood", RepoManager.Instance.GetResourceCount("WetWood"));
-        UpdateResourceUI("Fabric", RepoManager.Instance.GetResourceCount("Fabric"));
-        UpdateResourceUI("WoodBlock", RepoManager.Instance.GetResourceCount("WoodBlock"));
+        UpdateResourceUI(ePoolType.Wood, RepoManager.Instance.GetResourceCount(ePoolType.Wood));
+        UpdateResourceUI(ePoolType.WetWood, RepoManager.Instance.GetResourceCount(ePoolType.WetWood));
+        UpdateResourceUI(ePoolType.Fabric, RepoManager.Instance.GetResourceCount(ePoolType.Fabric));
+        UpdateResourceUI(ePoolType.BuildWoodBlock, RepoManager.Instance.GetResourceCount(ePoolType.BuildWoodBlock));
     }
 }

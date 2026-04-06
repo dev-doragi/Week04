@@ -6,7 +6,7 @@ public class ShipResourceDetector : MonoBehaviour
     {
         if (other.TryGetComponent<BaseResource>(out var res))
         {
-            res.IsCollected = true;
+            if (!res.IsCollected) return;
             RepoManager.Instance.Register(res);
         }
     }
@@ -15,7 +15,7 @@ public class ShipResourceDetector : MonoBehaviour
     {
         if (other.TryGetComponent<BaseResource>(out var res))
         {
-            res.IsCollected = false;
+            if (res.IsEquipped) return;
             RepoManager.Instance.Unregister(res);
         }
     }
