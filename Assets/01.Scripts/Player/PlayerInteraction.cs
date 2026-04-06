@@ -1,9 +1,12 @@
-﻿using UnityEngine;
-using DG.Tweening;
+﻿using DG.Tweening;
+using Unity.Cinemachine;
 using UnityEditor.UIElements;
+using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    public CinemachineTargetGroup targetGroup;
+
     [Header("좌클릭(도끼)")]
     public float swingAngle = 80f;
     public float swingDuration = 0.2f;
@@ -336,6 +339,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void BreakBlock(GameObject block)
     {
+        targetGroup.RemoveMember(block.transform);
+
         outlineCursor.SetActive(false);
         Destroy(block);
         ResetChopping();
@@ -345,6 +350,7 @@ public class PlayerInteraction : MonoBehaviour
             ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), block.transform.position);
         }
     }
+
     public bool IsHoldingBuildWoodBlock()
     {
         if (_heldItem == null || currentItemOverlay == null)
