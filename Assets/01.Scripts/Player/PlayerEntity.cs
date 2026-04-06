@@ -8,6 +8,7 @@ public class PlayerEntity : MonoBehaviour
     public PlayerInputAction _input;
 
     public bool InputLock = false;
+    public bool isHoldAxe = true;
 
     [SerializeField] private Transform axe;
 
@@ -21,7 +22,7 @@ public class PlayerEntity : MonoBehaviour
 
     private void Update()
     {
-        if (_input.click)
+        if (_input.click && isHoldAxe)
         {
             _interaction.BoatBreaker(axe);
             //_input.click = false;
