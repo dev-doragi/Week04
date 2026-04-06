@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4197119538467381634}
   - component: {fileID: 3902015393263478243}
   - component: {fileID: 5521682643623928380}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3979978861893238031}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WoodOnePiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}

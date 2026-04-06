@@ -141,12 +141,16 @@ public class PlayerInteraction : MonoBehaviour
     private void PickUpItem(GameObject item)
     {
         // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
-        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
+        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj))
+        {
+            Debug.LogError("픽업 실패: 이 프리팹에는 ObjectPoolBase 컴포넌트가 없습니다! 이름: " + item.name);
+            return;
+        }
 
         axeOverlay.gameObject.SetActive(false);
 
-        item.gameObject.layer = _overlayLayer;
         //item.transform.SetParent(playerEntity.transform);
+        item.gameObject.layer = _overlayLayer;
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
         //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
         item.transform.position = grabObjectPos;
@@ -287,12 +291,10 @@ public class PlayerInteraction : MonoBehaviour
 
             _currentChopTime += Time.deltaTime;
 
-            Debug.Log($"나무 캐는 중... {(int)(_currentChopTime / chopTimeRequired * 100)}%");
-
             if (_currentChopTime >= chopTimeRequired)
             {
-                woodOnePiece.SetActive(true);
-                axeOverlay.SetActive(false);
+                GameObject singleWood = Instantiate(woodOnePiece);
+                PickUpItem(singleWood);
                 BreakBlock(hit.collider.gameObject);
             }
         }

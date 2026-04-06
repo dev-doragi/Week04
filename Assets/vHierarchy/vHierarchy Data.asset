@@ -15,6 +15,7 @@ MonoBehaviour:
   sceneDatas_byGuid:
     keys:
     - 3a210c4a156d7a94f8885715d394d765
+    - feef017065af1f144ac1b49c01aa1b91
     values:
     - goDatas_byGlobalId:
         keys:
@@ -59,6 +60,49 @@ MonoBehaviour:
           iconNameOrGuid: 
           isIconRecursive: 0
           isColorRecursive: 1
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-2108321925-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-1651036766-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-548249236-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-285401263-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-564701476-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-1063313845-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-428553294-0
+        - globalObjectIdString: GlobalObjectId_V1-2-feef017065af1f144ac1b49c01aa1b91-257049083-0
+        values:
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
   bookmarks:
   - _go: {fileID: 0}
     globalId:
