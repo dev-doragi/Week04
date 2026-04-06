@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; // TextMeshPro 사용을 위해 필수 추가
 
 public class CompassBar : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class CompassBar : MonoBehaviour
     public RectTransform westMarkerTransform;
     public RectTransform objectiveMarkerTransform;
 
+    [Header("Distance UI")]
+    [Tooltip("목적지 마커 자식으로 있는 거리 표시용 텍스트")]
+    public TextMeshProUGUI objectiveDistanceText;
+
     [Header("Transform References")]
     public Transform cameraObjectTransform;      // 메인 카메라 (플레이어 시선)
     public Transform objectiveObjectTransform;
@@ -21,7 +26,7 @@ public class CompassBar : MonoBehaviour
     private List<RectTransform> _tickPool = new List<RectTransform>();
 
     [Header("Compass Settings")]
-    [Tooltip("나침반 UI가 렌더링할 전체 시야각 (180으로 설정 시 바의 양 끝이 정확히 좌/우 90도를 의미함)")]
+    [Tooltip("나침반 UI가 렌더링할 전체 시야각")]
     public float visibleAngleRange = 180f;
 
     private void Start()
@@ -45,11 +50,27 @@ public class CompassBar : MonoBehaviour
 
     private void UpdateMarkers()
     {
-        // 목적지는 월드좌표 기반
+        // 1. 목적지 거리 및 위치 업데이트
         if (objectiveObjectTransform != null)
-            SetMarkerPosition(objectiveMarkerTransform, objectiveObjectTransform.position);
+        {
+            // 거리 계산 (실시간)
+            float distance = Vector3.Distance(cameraObjectTransform.position, objectiveObjectTransform.position);
 
-        // 절대 방위
+            // 마커 위치 설정 및 가시성 여부 반환
+            bool isVisible = SetMarkerPosition(objectiveMarkerTransform, objectiveObjectTransform.position);
+
+            // 나침반 영역 안에 있을 때만 텍스트 업데이트
+            if (isVisible && objectiveDistanceText != null)
+            {
+                objectiveDistanceText.text = $"{Mathf.RoundToInt(distance)}m";
+            }
+        }
+        else
+        {
+            objectiveMarkerTransform.gameObject.SetActive(false);
+        }
+
+        // 2. 절대 방위 업데이트
         SetMarkerDirection(northMarkerTransform, Vector3.forward);
         SetMarkerDirection(southMarkerTransform, Vector3.back);
         SetMarkerDirection(eastMarkerTransform, Vector3.right);
@@ -73,13 +94,14 @@ public class CompassBar : MonoBehaviour
         }
     }
 
-    private void SetMarkerPosition(RectTransform markerTransform, Vector3 worldPosition)
+    // 반환 타입을 bool로 수정하여 가시성 상태를 외부(UpdateMarkers)에서 알 수 있게 함
+    private bool SetMarkerPosition(RectTransform markerTransform, Vector3 worldPosition)
     {
         Vector3 directionToTarget = worldPosition - cameraObjectTransform.position;
-        SetMarkerDirection(markerTransform, directionToTarget);
+        return SetMarkerDirection(markerTransform, directionToTarget);
     }
 
-    private void SetMarkerDirection(RectTransform markerTransform, Vector3 targetDirection)
+    private bool SetMarkerDirection(RectTransform markerTransform, Vector3 targetDirection)
     {
         Vector2 targetDir = new Vector2(targetDirection.x, targetDirection.z).normalized;
         Vector2 cameraForward = new Vector2(cameraObjectTransform.forward.x, cameraObjectTransform.forward.z).normalized;
@@ -88,16 +110,19 @@ public class CompassBar : MonoBehaviour
 
         float compassPositionX = angle / (visibleAngleRange / 2f);
 
+        // 절댓값이 1.0 이하일 때만 활성화 (나침반 UI 범위 내)
         if (Mathf.Abs(compassPositionX) <= 1.0f)
         {
             markerTransform.gameObject.SetActive(true);
 
             float xPos = (compassBarTransform.rect.width / 2f) * compassPositionX;
             markerTransform.anchoredPosition = new Vector2(xPos, 0f);
+            return true;
         }
         else
         {
             markerTransform.gameObject.SetActive(false);
+            return false;
         }
     }
 }
