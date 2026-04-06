@@ -49,9 +49,12 @@ public class PlayerInteraction : MonoBehaviour
     private bool isSteering;
     private ParticlePoolObject _hittingParticle;
 
-    [SerializeField] private PlayerEntity playerEntity;
+    [SerializeField] private UI_InteractionPrompt _interactionUI;
+
     [SerializeField] private Transform boatTr;
     [SerializeField] private ePlayerState interactionState;
+    [SerializeField] private bool _isSteering;
+
     private void Start()
     {
         _mainCamera = Camera.main;
@@ -59,8 +62,85 @@ public class PlayerInteraction : MonoBehaviour
         _defaultLayer = LayerMask.NameToLayer("Interact");
 
         currentItemOverlay = axeOverlay;
+        RefreshInteractionUI();
     }
 
+    private void RefreshInteractionUI()
+    {
+        if (_interactionUI == null)
+            return;
+
+        if (interactionState == ePlayerState.None)
+        {
+            _interactionUI.Hide();
+            return;
+        }
+
+        if (interactionState == ePlayerState.Steering && _isSteering)
+        {
+            _interactionUI.Hide();
+            return;
+        }
+
+        InteractionKeyType keyType = GetInteractionKeyByState(interactionState);
+        string actionText = GetInteractionTextByState(interactionState);
+
+        if (keyType == InteractionKeyType.None || string.IsNullOrEmpty(actionText))
+        {
+            _interactionUI.Hide();
+            return;
+        }
+
+        _interactionUI.Show($"{GetInteractionKeyString(keyType)}를 눌러 {actionText}");
+    }
+
+    private InteractionKeyType GetInteractionKeyByState(ePlayerState state)
+    {
+        switch (state)
+        {
+            case ePlayerState.Fueling:
+                return InteractionKeyType.F;
+
+            case ePlayerState.Crafting:
+                return InteractionKeyType.F;
+
+            case ePlayerState.Steering:
+                return InteractionKeyType.F;
+        }
+
+        return InteractionKeyType.None;
+    }
+
+    private string GetInteractionTextByState(ePlayerState state)
+    {
+        switch (state)
+        {
+            case ePlayerState.Fueling:
+                return "연료 넣기";
+
+            case ePlayerState.Crafting:
+                return "제작하기";
+
+            case ePlayerState.Steering:
+                return "조종하기";
+        }
+
+        return string.Empty;
+    }
+
+    private string GetInteractionKeyString(InteractionKeyType keyType)
+    {
+        switch (keyType)
+        {
+            case InteractionKeyType.E:
+                return "E";
+
+            case InteractionKeyType.F:
+                return "F";
+        }
+
+        return string.Empty;
+    }
 
     public void BoatBreaker(Transform axe)
     {
@@ -79,30 +159,38 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
+        if (interactionState == ePlayerState.Steering)
+        {
+            if (_heldItem == null)
+            {
+                _isSteering = !_isSteering;
+
+                InGameManager.Instance.OnChangedGameMode();
+
+                RefreshInteractionUI();
+            }
+            return;
+        }
+
         switch (interactionState)
         {
             case ePlayerState.None:
-                if(isSteering)
-                {
-                    isSteering = false;
-                    InGameManager.Instance.OnChangedGameMode();
-                }
                 if (_heldItem == null) return;
+
                 break;
+
             case ePlayerState.Fueling:
-                if (_heldItem == null) return;
-                //사라지게 만들고 연료 추가
-                OnRefuel();
+                if (_heldItem != null)
+                {
+                    OnRefuel();
+                }
                 break;
+
             case ePlayerState.Crafting:
-                //사라지게 만들고 크래프팅 쪽에 정보 넣어주기
                 OnCraft();
                 break;
-            case ePlayerState.Steering:
-                if (_heldItem != null) return;
-                isSteering = !isSteering;
-                InGameManager.Instance.OnChangedGameMode();
+
+            default:
                 break;
         }
     }
@@ -111,6 +199,12 @@ public class PlayerInteraction : MonoBehaviour
     {
         // 나무블록 설치 로직 작성
         TryPickUp();
+    }
+
+    public void EndSteering()
+    {
+        _isSteering = false;
+        RefreshInteractionUI();
     }
 
     private void Swing(Transform axe)
@@ -393,7 +487,13 @@ public class PlayerInteraction : MonoBehaviour
     }
     public void OnChangedInteractionState(ePlayerState nextState)
     {
+        if (nextState != ePlayerState.Steering)
+        {
+            _isSteering = false;
+        }
+
         interactionState = nextState;
+        RefreshInteractionUI();
     }
 
     public void OnRefuel()

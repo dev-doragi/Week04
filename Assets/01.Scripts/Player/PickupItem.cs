@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PickupItem : MonoBehaviour, IInteractable
+public class PickupItem : MonoBehaviour
 {
     public void Interact(PlayerMovement player)
     {
