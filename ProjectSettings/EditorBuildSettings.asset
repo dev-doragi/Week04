@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/99.Test/JCS/01.TestTitleScene.unity
     guid: 5c05d8c89a6844f4cb84244f00924e6e
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.Test/JCS/02.TestMainScene.unity
     guid: 7e23c7cee35dd6a49b6fec9afddc1a0f
   m_configObjects:
