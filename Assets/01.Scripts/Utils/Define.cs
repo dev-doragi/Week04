@@ -16,6 +16,7 @@ public enum ePoolType
     BuildWoodBlock,
     Net,
     Rock,
+    Refuel,
     Max
 }
 
