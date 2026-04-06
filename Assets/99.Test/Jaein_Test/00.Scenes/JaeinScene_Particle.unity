@@ -10857,7 +10857,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bfa83e8cbf524542ba782ba47029dd3, type: 2}
+  - {fileID: 2100000, guid: 6d13dd802d4b91d4bbb0de00735bf981, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11017,7 +11017,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 70359751edd22ec4fb2b5f3f07c001bd, type: 2}
+  - {fileID: 2100000, guid: 44e83590b8bf0364aa2f17bdbae1d4c2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16192,7 +16192,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -16245,7 +16245,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -20927,7 +20927,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -20980,7 +20980,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -30136,6 +30136,8 @@ MonoBehaviour:
   _sparkBaseLight: {fileID: 0}
   _animatedLightValue: {fileID: 0}
   _audioSource: {fileID: 0}
+  _minIntensity: 0.5
+  _maxIntensity: 1.5
   _intensity: 0.92
   _previewInEditMode: 1
   _baseAudioVolume: 1
@@ -45239,6 +45241,8 @@ MonoBehaviour:
   _sparkBaseLight: {fileID: 716487975}
   _animatedLightValue: {fileID: 0}
   _audioSource: {fileID: 8556493129233170757}
+  _minIntensity: 0.5
+  _maxIntensity: 1.5
   _intensity: 1
   _previewInEditMode: 1
   _baseAudioVolume: 1
