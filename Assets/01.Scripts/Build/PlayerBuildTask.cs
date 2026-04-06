@@ -32,10 +32,6 @@ public class PlayerBuildTask : MonoBehaviour
     [SerializeField] private Key wetWoodPlaceKey = Key.E;
     [SerializeField] private float wetWoodPlaceHeightOffset = 0.08f;
     [SerializeField] private float wetWoodPlaceSurfaceMinNormalY = 0.6f;
-    [Header("Net")]
-    [SerializeField] private Key netPlaceKey = Key.E;
-    private bool wasHoldingNetBlock = false;
-    private bool netPlaceArmed = false;
 
     private bool wasHoldingWetWood = false;
     private bool wetWoodPlaceArmed = false;
@@ -94,18 +90,6 @@ public class PlayerBuildTask : MonoBehaviour
     }
 
     bool holdingNetBlock = playerInteraction != null && playerInteraction.IsHoldingNetBlock();
-    if (holdingNetBlock && !wasHoldingNetBlock)
-    {
-    if (Keyboard.current == null)
-    {
-        netPlaceArmed = true;
-    }
-    else
-    {
-        netPlaceArmed = !Keyboard.current[netPlaceKey].isPressed;
-    }
-    }
-    wasHoldingNetBlock = holdingNetBlock;
 
     if (holdingNetBlock)
     {
@@ -124,21 +108,11 @@ public class PlayerBuildTask : MonoBehaviour
 
         ShowPreviewWorld(netWorldPos, netWorldRot, cellSize);
 
-        if (!netPlaceArmed)
-        {
-            if (Keyboard.current != null && !Keyboard.current[netPlaceKey].isPressed)
-            {
-                netPlaceArmed = true;
-            }
-            return;
-        }
-
-        if (Keyboard.current != null && Keyboard.current[netPlaceKey].wasPressedThisFrame)
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             bool placedNet = playerInteraction.TryPlaceHeldNetBlock(netWorldPos, netWorldRot, anchorBlock);
             if (placedNet)
             {
-                netPlaceArmed = false;
                 HidePreview();
                 RebuildOccupiedCells();
             }
@@ -146,6 +120,7 @@ public class PlayerBuildTask : MonoBehaviour
 
         return;
     }
+
 
     if (!CanBuildNow())
     {
