@@ -2884,11 +2884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6823262324730250775, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
       propertyPath: GameStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6823262324730250775, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
       propertyPath: maxSpeedLimit
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6823262324730250775, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
       propertyPath: fireController
@@ -10332,7 +10332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1309138329
 MonoBehaviour:
   m_ObjectHideFlags: 0
