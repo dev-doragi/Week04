@@ -51,10 +51,10 @@ MonoBehaviour:
   key: Fabric
   prevCount: 5
   type: 2
+  IsEquipped: 0
   IsBurn: 0
   IsCraft: 1
   IsCollected: 0
-  IsEquipped: 0
   rb: {fileID: 3849599478750558923}
   coll: {fileID: 3097015878972967886}
 --- !u!54 &3849599478750558923
@@ -103,8 +103,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.0201116, y: 0.49995804, z: 1.9749908}
+  m_Center: {x: 0.3155501, y: 0.17581224, z: 0.66213226}
 --- !u!114 &8624049083942600276
 MonoBehaviour:
   m_ObjectHideFlags: 0
