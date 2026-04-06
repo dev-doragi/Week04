@@ -88,7 +88,7 @@ public class Spawner : Singleton<Spawner>
                             baseForwardPos.z + randomOffsetZ
                         );
 
-                        if (IsPositionSafeOptimized(potentialPos, minSafeDistanceSqr))
+                        if (IsPositionSafeOptimized(potentialPos, minSafeDistanceSqr, data.poolKey))
                         {
                             SpawnObject(data.poolKey, potentialPos);
                             successfullySpawned++;

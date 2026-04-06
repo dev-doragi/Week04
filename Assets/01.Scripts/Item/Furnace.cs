@@ -14,6 +14,15 @@ public class Furnace : MonoBehaviour
         DecreaseFuel();
     }
 
+    private void OnDestroy()
+    {
+        var gameMgr = GameManager.Instance;
+        if (gameMgr != null && gameMgr.isGameActive)
+        {
+            GameManager.Instance.FaildGameOver();
+        }
+    }
+
     public void OnInteractItem(Wood wood)
     {
         var addPoint = wood.GetRefuelAmount();

@@ -50,6 +50,11 @@ public class PlayerEntity : MonoBehaviour
                 _interaction.ApplyWoodPatch();
                 _input.build = false;
             }
+
+            if(transform.position.y < 0)
+            {
+                GameManager.Instance.DrownGameOver();
+            }
         }
     }
 

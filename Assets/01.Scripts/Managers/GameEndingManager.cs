@@ -29,6 +29,7 @@ public class GameEndingManager : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.ending = this;
         clearSceneCamera.SetActive(false);
         drownSceneCamera.SetActive(false);
         faildSceneCamera.SetActive(false);
@@ -81,6 +82,7 @@ public class GameEndingManager : MonoBehaviour
 
     private void SetEndingCutscene()
     {
+        if (inGameUI == null | inGameCameras == null) return;
         inGameUI.SetActive(false);
         inGameCameras.SetActive(false);
     }

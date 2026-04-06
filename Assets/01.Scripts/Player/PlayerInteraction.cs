@@ -154,7 +154,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public void ResetOutline()
     {
-        outlineCursor.gameObject.SetActive(false);
+        if(outlineCursor != null)
+            outlineCursor.gameObject.SetActive(false);
     }
 
     public void Interact()
