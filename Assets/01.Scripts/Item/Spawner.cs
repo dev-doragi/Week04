@@ -77,15 +77,18 @@ public class Spawner : Singleton<Spawner>
 
                 for (int s = 0; s < spawnCount; s++)
                 {
+                    // 각 오브젝트마다 Z 기준점을 spawnIntervalZ 간격으로 분산
+                    float spreadZ = (s - (spawnCount - 1) / 2f) * (data.spawnIntervalZ / spawnCount);
+
                     for (int i = 0; i < maxRetryAttempts; i++)
                     {
                         float randomX = UnityEngine.Random.Range(mapMinX, mapMaxX);
-                        float randomOffsetZ = UnityEngine.Random.Range(-data.randomZRange, data.randomZRange);
+                        float randomOffsetZ = UnityEngine.Random.Range(-data.randomZRange * 0.5f, data.randomZRange * 0.5f);
 
                         Vector3 potentialPos = new Vector3(
                             randomX,
                             10f,
-                            baseForwardPos.z + randomOffsetZ
+                            baseForwardPos.z + spreadZ + randomOffsetZ  // 분산된 Z 기준 + 소폭 랜덤
                         );
 
                         if (IsPositionSafeOptimized(potentialPos, minSafeDistanceSqr, data.poolKey))
