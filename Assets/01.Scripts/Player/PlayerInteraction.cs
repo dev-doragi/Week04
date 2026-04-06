@@ -67,8 +67,6 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        
-
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
         switch (interactionState)
         {

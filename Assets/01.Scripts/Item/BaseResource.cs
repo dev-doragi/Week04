@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class BaseResource : ObjectPoolBase
 {
-    public ePoolType Type;
     public bool IsBurn;
     public bool IsCraft;
     public Rigidbody rb;

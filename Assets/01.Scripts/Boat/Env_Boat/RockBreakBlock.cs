@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RockBreakBlock : MonoBehaviour
+public class RockBreakBlock : ObjectPoolBase
 {
     [Header("Block")]
     [SerializeField] private string blockTag = "Block";
