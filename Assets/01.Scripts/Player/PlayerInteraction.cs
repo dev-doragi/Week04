@@ -233,6 +233,7 @@ public class PlayerInteraction : MonoBehaviour
         itemRb.angularVelocity = Vector3.zero;
 
         // 5. UI 및 상태 업데이트
+        player.isHoldAxe = true;
         if (axeOverlay != null) axeOverlay.SetActive(true);
         currentItemOverlay = axeOverlay;
 
@@ -256,6 +257,7 @@ public class PlayerInteraction : MonoBehaviour
             _heldItem = null;
 
             if (axeOverlay != null) axeOverlay.SetActive(true);
+            player.isHoldAxe = true;
             currentItemOverlay = axeOverlay;
         }
     }
@@ -280,8 +282,8 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     _heldItem = null;
 
-                    player.isHoldAxe = true;
                     if (axeOverlay != null) axeOverlay.SetActive(true);
+                    player.isHoldAxe = true;
                     currentItemOverlay = axeOverlay;
                 }
             }
@@ -309,8 +311,9 @@ public class PlayerInteraction : MonoBehaviour
 
             if (_currentChopTime >= chopTimeRequired)
             {
-                GameObject singleWood = Instantiate(woodOnePiece);
-                PickUpItem(singleWood);
+                var wood = ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+                wood.OnChangedWoodState(eWoodState.Dried);
+                PickUpItem(wood);
                 BreakBlock(hit.collider.gameObject);
             }
         }
@@ -351,7 +354,11 @@ public class PlayerInteraction : MonoBehaviour
             return false;
         }
 
-        BuildWoodBlock buildWoodBlock = currentItemOverlay.GetComponent<BuildWoodBlock>();      
+        BuildWoodBlock buildWoodBlock = currentItemOverlay.GetComponent<BuildWoodBlock>();
+        if(buildWoodBlock == null)
+        {
+            return false;
+        }
 
         if (buildWoodBlock.key != "BuildWoodBlock")
         {
@@ -389,6 +396,7 @@ public class PlayerInteraction : MonoBehaviour
         if (axeOverlay != null)
         {
             axeOverlay.SetActive(true);
+            player.isHoldAxe = true;
         }
 
         currentItemOverlay = axeOverlay;
