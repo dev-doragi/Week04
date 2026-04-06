@@ -115,9 +115,10 @@ public class ObjectPoolManager : MonoBehaviour
         return pool;
     }
 
-    public T OnSpawnResources<T>() where T : ObjectPoolBase
+    public T OnSpawnResources<T>(string key = null) where T : ObjectPoolBase
     {
-        string key = typeof(T).Name;
+        if(key == null)
+            key = typeof(T).Name;
         T resource = OnSpawnPool(key) as T;
         if (resource == null)
         {

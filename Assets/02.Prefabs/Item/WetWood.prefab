@@ -54,6 +54,7 @@ MonoBehaviour:
   IsBurn: 1
   IsCraft: 0
   IsCollected: 0
+  IsEquipped: 0
   rb: {fileID: 5372111891563706750}
   coll: {fileID: 1525050915215551948}
   driedFuelAmount: 10
@@ -65,6 +66,7 @@ MonoBehaviour:
   wetnessPropertyName: _Wetness
   wetnessWhenWet: 2
   wetnessWhenDried: 1
+  isPlacedOnBoat: 0
 --- !u!54 &5372111891563706750
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -89,9 +91,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &1525050915215551948
 BoxCollider:
   m_ObjectHideFlags: 0

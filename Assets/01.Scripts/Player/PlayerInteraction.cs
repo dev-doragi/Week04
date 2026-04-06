@@ -160,6 +160,7 @@ public class PlayerInteraction : MonoBehaviour
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
         //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
 
+        poolObj.transform.SetParent(null);
         Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
         foreach (Transform child in allChildren)
         {
@@ -173,13 +174,14 @@ public class PlayerInteraction : MonoBehaviour
         poolObj.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
 
         poolObj.coll.isTrigger = true;
+        if (!poolObj.IsCollected)
+            RepoManager.Instance.Register(poolObj);
         poolObj.IsCollected = true;
 
         currentItemOverlay = item;
         _heldItem = poolObj; // 캐싱된 컴포넌트 할당
 
-        if (!poolObj.IsCollected)
-            RepoManager.Instance.Register(poolObj);
+
     }
 
     private void PickUpItem(BaseResource item)
@@ -193,6 +195,7 @@ public class PlayerInteraction : MonoBehaviour
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
         //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
 
+        item.transform.SetParent(null);
         Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
         foreach (Transform child in allChildren)
         {
@@ -204,14 +207,15 @@ public class PlayerInteraction : MonoBehaviour
 
         item.rb.useGravity = false;
         item.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
+        if (!item.IsCollected)
+            RepoManager.Instance.Register(item);
         item.IsCollected = true;
         item.coll.isTrigger = true;
 
         currentItemOverlay = item.gameObject;
         _heldItem = item; // 캐싱된 컴포넌트 할당
 
-        if (!item.IsCollected)
-            RepoManager.Instance.Register(item);
+
     }
 
     public void DropItem()
