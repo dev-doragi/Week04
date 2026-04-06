@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -10,7 +10,7 @@ public class Boat : MonoBehaviour
     [SerializeField] public bool GameStart = false;
     Rigidbody rb;
 
-    // ÇöÀç ¼Óµµ °ª
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½
     public float CurrentSpeed
     {
         get
