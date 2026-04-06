@@ -10,6 +10,13 @@ public class Crafting_Table : MonoBehaviour
     [SerializeField] private Transform[] repoSlot = new Transform[3];
     [SerializeField] private int maxCount = 3;
 
+    private int _overlayLayer;
+
+    private void Start()
+    {
+        _overlayLayer = LayerMask.NameToLayer("Interact");
+    }
+
     public BaseResource OnCheckedCrafting()
     {
         if (repoStack.Count == 0) return null;
@@ -26,14 +33,14 @@ public class Crafting_Table : MonoBehaviour
         if (counts.TryGetValue(typeof(Wood), out int w) && w == 3)
         {
             ReturnToPool();
-            return GetCraftItem();
+            return GetCraftItem<WoodBlock>();
         }
         // 2. 나무 1개 + 천 2개인지 확인
         else if (counts.TryGetValue(typeof(Wood), out int w1) && w1 == 1 &&
                  counts.TryGetValue(typeof(Fabric), out int c2) && c2 == 2)
         {
             ReturnToPool();
-            return GetCraftItem();
+            return GetCraftItem<NetBlock>();
         }
         return PopResourceItem();
     }
@@ -52,6 +59,13 @@ public class Crafting_Table : MonoBehaviour
     {
         if (repoStack.Count > maxCount || !newItem.IsCraft) return false;
 
+        Transform[] allChildren = newItem.GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = _overlayLayer;
+        }
+
         newItem.coll.isTrigger = true;
         newItem.transform.SetParent(repoSlot[repoStack.Count]);
         newItem.transform.localScale = Vector3.one * 0.5f;
@@ -61,9 +75,9 @@ public class Crafting_Table : MonoBehaviour
         return true;
     }
 
-    public BaseResource GetCraftItem()
+    public T GetCraftItem<T>() where T : BaseResource 
     {
-        return ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+        return ObjectPoolManager.Instance.OnSpawnResources<T>();
     }
 
     private void ReturnToPool()

@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
+using UnityEditor.UIElements;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -28,6 +29,12 @@ public class PlayerInteraction : MonoBehaviour
     [Header("조타 운전")]
     public GameObject boat;
     public PlayerEntity player;
+
+    [Header("손에 들 오브젝트 목록")]
+    public GameObject woodOnePiece;
+    public GameObject woodFullSet;
+    public Vector3 grabObjectPos = new Vector3(3.62f, -1.8f, -195f);
+    public Vector3 grabObjectRot = new Vector3(-60f, 0f, -15f);
 
     // private GameObject _heldItem;
 
@@ -67,8 +74,6 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        
-
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
         switch (interactionState)
         {
@@ -134,14 +139,27 @@ public class PlayerInteraction : MonoBehaviour
     private void PickUpItem(GameObject item)
     {
         // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
-        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
+        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj))
+        {
+            return;
+        }
 
         axeOverlay.gameObject.SetActive(false);
+        player.isHoldAxe = false;
 
-        item.gameObject.layer = _overlayLayer;
-        item.transform.SetParent(playerEntity.transform);
-        item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
-        item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+        //item.transform.SetParent(playerEntity.transform);
+        //item.gameObject.layer = _overlayLayer;
+        //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
+        //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = _overlayLayer;
+        }
+
+        item.transform.position = grabObjectPos;
+        item.transform.eulerAngles = grabObjectRot;
 
         var itemRb = item.GetComponent<Rigidbody>();
         itemRb.useGravity = false;
@@ -160,11 +178,21 @@ public class PlayerInteraction : MonoBehaviour
         if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
 
         axeOverlay.gameObject.SetActive(false);
+        player.isHoldAxe = false;
 
-        item.gameObject.layer = _overlayLayer;
-        item.transform.SetParent(playerEntity.transform);
-        item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
-        item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+        //item.gameObject.layer = _overlayLayer;
+        //item.transform.SetParent(playerEntity.transform);
+        //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
+        //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = _overlayLayer;
+        }
+
+        item.transform.position = grabObjectPos;
+        item.transform.eulerAngles = grabObjectRot;
 
         item.rb.useGravity = false;
         item.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
@@ -216,18 +244,6 @@ public class PlayerInteraction : MonoBehaviour
         interactionState = nextState;
     }
 
-    public void SteeringWheel()
-    {
-        player.InputLock = true;
-        boat.GetComponent<BoatSteeringController>().ControllSteer = true;
-    }
-
-    public void AwayFromWheel()
-    {
-        player.InputLock = false;
-        boat.GetComponent<BoatSteeringController>().ControllSteer = false;
-    }
-
     public void OnRefuel()
     {
         if (_heldItem == null) return;
@@ -264,6 +280,7 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     _heldItem = null;
 
+                    player.isHoldAxe = true;
                     if (axeOverlay != null) axeOverlay.SetActive(true);
                     currentItemOverlay = axeOverlay;
                 }
@@ -280,7 +297,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             outlineCursor.SetActive(true);
             outlineCursor.transform.position = hit.collider.transform.position;
-            outlineCursor.transform.rotation = boat.transform.rotation;
+            outlineCursor.transform.rotation = boat.transform.rotation * Quaternion.Euler(0f, 90f, 0f);
 
             if (_currentTargetBlock != hit.transform)
             {
@@ -290,10 +307,10 @@ public class PlayerInteraction : MonoBehaviour
 
             _currentChopTime += Time.deltaTime;
 
-            Debug.Log($"나무 캐는 중... {(int)(_currentChopTime / chopTimeRequired * 100)}%");
-
             if (_currentChopTime >= chopTimeRequired)
             {
+                GameObject singleWood = Instantiate(woodOnePiece);
+                PickUpItem(singleWood);
                 BreakBlock(hit.collider.gameObject);
             }
         }
