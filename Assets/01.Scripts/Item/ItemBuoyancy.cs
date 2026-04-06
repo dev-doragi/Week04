@@ -4,10 +4,10 @@ using UnityEngine;
 public class ItemBuoyancy : MonoBehaviour
 {
     [Header("Refs")]
-    [SerializeField] private WaterController waterController;
+    private WaterController waterController;
 
     [Header("Float Points (Local)")]
-    [SerializeField] private Vector3[] localFloatPoints =
+    private Vector3[] localFloatPoints =
     {
         new Vector3(-0.2f, -0.15f, -0.2f),
         new Vector3( 0.2f, -0.15f, -0.2f),
@@ -16,14 +16,14 @@ public class ItemBuoyancy : MonoBehaviour
     };
 
     [Header("Buoyancy")]
-    [SerializeField] private float buoyancyAcceleration = 20f;
-    [SerializeField] private float maxSubmergeDepth = 0.35f;
+    private float buoyancyAcceleration = 6f; //튀어오르는세기
+    private float maxSubmergeDepth = 0.35f; // 잠김깊이
 
     [Header("Damping")]
-    [SerializeField] private float airLinearDamping = 0.05f;
-    [SerializeField] private float waterLinearDamping = 2.5f;
-    [SerializeField] private float airAngularDamping = 0.05f;
-    [SerializeField] private float waterAngularDamping = 1.8f;
+    private float airLinearDamping = 0.05f; //공기저항
+    private float waterLinearDamping = 2.5f; // 물저항
+    private float airAngularDamping = 0.05f; //공기회전저항
+    private float waterAngularDamping = 1.8f; //물속회전저항
 
     private Rigidbody rb;
     private float submergedFraction;
