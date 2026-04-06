@@ -51,15 +51,16 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        if (_heldItem == null) return;
+        
 
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
         switch (interactionState)
         {
             case ePlayerState.None:
-
+                if (_heldItem == null) return;
                 break;
             case ePlayerState.Fueling:
+                if (_heldItem == null) return;
                 //사라지게 만들고 연료 추가
                 OnRefuel();
                 break;
@@ -68,9 +69,7 @@ public class PlayerInteraction : MonoBehaviour
                 OnCraft();
                 break;
             case ePlayerState.Steering:
-                if (!player.InputLock) SteeringWheel();
-                else AwayFromWheel();
-
+                if (_heldItem != null) return;
                 InGameManager.Instance.OnChangedGameMode();
                 break;
         }
