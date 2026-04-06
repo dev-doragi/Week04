@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,8 @@ public class PlayerBuildTask : MonoBehaviour
 
     private readonly HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
     private GameObject previewInstance;
+
+    public CinemachineTargetGroup targetGroup;
 
     private void Awake()
     {
@@ -291,6 +294,8 @@ public class PlayerBuildTask : MonoBehaviour
 
         GameObject newBlock = Instantiate(blockPrefab, worldPos, worldRot, blocksRoot);
         newBlock.SetActive(true);
+
+        targetGroup.AddMember(newBlock.transform, 1f, 2f);
 
         if (applyCellSizeToPlacedBlock)
         {
