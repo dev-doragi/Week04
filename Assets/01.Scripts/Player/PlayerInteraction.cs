@@ -141,16 +141,22 @@ public class PlayerInteraction : MonoBehaviour
         // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
         if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj))
         {
-            Debug.LogError("픽업 실패: 이 프리팹에는 ObjectPoolBase 컴포넌트가 없습니다! 이름: " + item.name);
             return;
         }
 
         axeOverlay.gameObject.SetActive(false);
 
         //item.transform.SetParent(playerEntity.transform);
-        item.gameObject.layer = _overlayLayer;
+        //item.gameObject.layer = _overlayLayer;
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
         //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+
+        Transform[] allChildren = item.GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = _overlayLayer;
+        }
+
         item.transform.position = grabObjectPos;
         item.transform.eulerAngles = grabObjectRot;
 
