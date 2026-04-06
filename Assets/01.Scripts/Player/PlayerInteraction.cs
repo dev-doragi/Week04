@@ -16,6 +16,12 @@ public class PlayerInteraction : MonoBehaviour
     public float pickupRange = 2f;
     public LayerMask itemLayer;
 
+    [Header("조타 운전")]
+    public GameObject boat;
+    public PlayerEntity player;
+
+    // private GameObject _heldItem;
+
     private ObjectPoolBase _heldItem;
     private Camera _mainCamera;
 
@@ -62,6 +68,9 @@ public class PlayerInteraction : MonoBehaviour
                 OnCraft();
                 break;
             case ePlayerState.Steering:
+                if (!player.InputLock) SteeringWheel();
+                else AwayFromWheel();
+
                 InGameManager.Instance.OnChangedGameMode();
                 break;
         }
@@ -188,6 +197,18 @@ public class PlayerInteraction : MonoBehaviour
     public void OnChangedInteractionState(ePlayerState nextState)
     {
         interactionState = nextState;
+    }
+
+    public void SteeringWheel()
+    {
+        player.InputLock = true;
+        boat.GetComponent<BoatSteeringController>().ControllSteer = true;
+    }
+
+    public void AwayFromWheel()
+    {
+        player.InputLock = false;
+        boat.GetComponent<BoatSteeringController>().ControllSteer = false;
     }
 
     public void OnRefuel()

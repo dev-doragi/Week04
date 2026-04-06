@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +31,9 @@ public class BoatBuildController : MonoBehaviour
 
     [Header("Placement")]
     [SerializeField] private bool applyCellSizeToPlacedBlock = true; //나무 블록 크기 조정
+
+    [Header("Minimap Camera")]
+    [SerializeField] private CinemachineTargetGroup targetGroup;
 
     private HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
     private GameObject previewInstance;
@@ -385,15 +389,17 @@ public class BoatBuildController : MonoBehaviour
         }
     }
     private void RemoveBlock(Transform targetBlock, Vector3Int cell)
-        {
+    {
             if (targetBlock == null)
             {
                 return;
             }
 
-            Destroy(targetBlock.gameObject);
+        targetGroup.RemoveMember(targetBlock.transform);
+
+        Destroy(targetBlock.gameObject);
             occupiedCells.Remove(cell);
-        }
+    }
     private void PlaceBlock(Vector3Int cell) // 블록 생성
     {
         if (blockPrefab == null || blocksRoot == null)
@@ -416,6 +422,8 @@ public class BoatBuildController : MonoBehaviour
         {
             newBlock.transform.localScale = cellSize;
         }
+
+        targetGroup.AddMember(newBlock.transform, 1f, 2f);
 
         occupiedCells.Add(cell);
     } 
