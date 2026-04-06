@@ -69,7 +69,7 @@ public class RepoManager : MonoBehaviour
     public void GetResourceItem(BaseResource item)
     {
         if (item == null) return;
-        if(storageDic.TryGetValue(item.Type, out var storage))
+        if(storageDic.TryGetValue(item.type, out var storage))
         {
             storage += 1;
         }
@@ -78,7 +78,7 @@ public class RepoManager : MonoBehaviour
     public void RemoveResourceItem(BaseResource item)
     {
         if (item == null) return;
-        if (storageDic.TryGetValue(item.Type, out var storage))
+        if (storageDic.TryGetValue(item.type, out var storage))
         {
             storage -= 1;
         }

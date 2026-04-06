@@ -79,7 +79,7 @@ public class ObjectPoolManager : MonoBehaviour
         return pool;
     }
 
-    public T OnSpawnResources<T>() where T : BaseResource
+    public T OnSpawnResources<T>() where T : ObjectPoolBase
     {
         string key = typeof(T).Name;
         T resource = OnSpawnPool(key) as T;
