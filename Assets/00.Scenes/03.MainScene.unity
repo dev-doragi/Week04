@@ -153,8 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032e4f97889c7ea47afba10538ce5089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  uiList:
-  - {fileID: 0}
+  uiList: []
 --- !u!4 &30196996
 Transform:
   m_ObjectHideFlags: 0
@@ -2577,27 +2576,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3507205189658289955, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.58
+      value: 2.13
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.74
+      value: 14.68
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -181.84
+      value: -181.73
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8660254
+      value: 0.8829476
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.5
+      value: -0.4694715
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2609,7 +2608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 60
+      value: -56
       objectReference: {fileID: 0}
     - target: {fileID: 8130577105563155093, guid: 5796136ef095c404eb9cfd2177a88a32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -3221,6 +3220,14 @@ PrefabInstance:
       propertyPath: _fireIntensityController
       value: 
       objectReference: {fileID: 617971735}
+    - target: {fileID: 2614978630965986027, guid: 4d29274fefb97af458437f876ef8e2cc, type: 3}
+      propertyPath: cameraObjectTransform
+      value: 
+      objectReference: {fileID: 197247126}
+    - target: {fileID: 2614978630965986027, guid: 4d29274fefb97af458437f876ef8e2cc, type: 3}
+      propertyPath: objectiveObjectTransform
+      value: 
+      objectReference: {fileID: 1418213848}
     - target: {fileID: 4097906532145869863, guid: 4d29274fefb97af458437f876ef8e2cc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7874,27 +7881,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[0].maxSpawnCount
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[0].minSpawnCount
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[1].maxSpawnCount
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[1].minSpawnCount
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[2].maxSpawnCount
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[2].minSpawnCount
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[0].spawnIntervalZ
@@ -12218,6 +12225,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8189309172522136986, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
   m_PrefabInstance: {fileID: 1192981582640657948}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1418213848 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6555136375625091416, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
+  m_PrefabInstance: {fileID: 1192981582640657948}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1432902497
 GameObject:
   m_ObjectHideFlags: 0
@@ -13601,7 +13613,6 @@ MonoBehaviour:
   wetWoodPlaceKey: 19
   wetWoodPlaceHeightOffset: 0.08
   wetWoodPlaceSurfaceMinNormalY: 0.6
-  netPlaceKey: 19
   TargetGroup: {fileID: 0}
 --- !u!1 &1651036766
 GameObject:
@@ -17699,6 +17710,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6453118170305802385, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
+      propertyPath: m_Size.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453118170305802385, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
+      propertyPath: m_Size.z
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 6555136375625091416, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.12342
@@ -17709,7 +17728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6555136375625091416, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 68.1
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 6555136375625091416, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17745,7 +17764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189309172522136986, guid: 5903058931b7c9d42a73e678236068e4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17805,7 +17824,6 @@ MonoBehaviour:
   wetWoodPlaceKey: 19
   wetWoodPlaceHeightOffset: 0.08
   wetWoodPlaceSurfaceMinNormalY: 0.6
-  netPlaceKey: 19
   TargetGroup: {fileID: 708682934}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -17841,10 +17859,10 @@ SceneRoots:
   - {fileID: 1662776026}
   - {fileID: 1192981582640657948}
   - {fileID: 1169518905}
+  - {fileID: 314568345}
   - {fileID: 257049084}
   - {fileID: 1988265415}
   - {fileID: 180179776}
   - {fileID: 1636434050}
   - {fileID: 1256637626}
   - {fileID: 1012403993}
-  - {fileID: 314568345}
