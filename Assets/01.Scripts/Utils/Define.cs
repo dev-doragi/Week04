@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum eItemType
+public enum ePoolType
 {
     None = -1,
     Wood,
@@ -8,6 +8,11 @@ public enum eItemType
     Fabric,
     Block,
     Catcher,
+    PoofRealistic,
+    PoofCartoon,
+    Hitting,
+    Break,
+    HitBase,
     Max
 }
 

@@ -231,7 +231,7 @@ public class PlayerInteraction : MonoBehaviour
     public void OnRefuel()
     {
         if (_heldItem == null) return;
-        if (!(_heldItem.type == eItemType.Wood || _heldItem.type == eItemType.WetWood))
+        if (!(_heldItem.type == ePoolType.Wood || _heldItem.type == ePoolType.WetWood))
             return;
         if(_heldItem.TryGetComponent<Wood>(out var wood))
         {
@@ -255,7 +255,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            if (!(_heldItem.type == eItemType.Wood || _heldItem.type == eItemType.Fabric))
+            if (!(_heldItem.type == ePoolType.Wood || _heldItem.type == ePoolType.Fabric))
                 return;
 
             if (_heldItem.TryGetComponent<BaseResource>(out var item))
@@ -321,5 +321,10 @@ public class PlayerInteraction : MonoBehaviour
         outlineCursor.SetActive(false);
         Destroy(block);
         ResetChopping();
+
+        if (ObjectPoolManager.Instance != null)
+        {
+            ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), block.transform.position);
+        }
     }
 }

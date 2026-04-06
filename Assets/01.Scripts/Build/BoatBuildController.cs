@@ -390,10 +390,15 @@ public class BoatBuildController : MonoBehaviour
     }
     private void RemoveBlock(Transform targetBlock, Vector3Int cell)
     {
-            if (targetBlock == null)
-            {
-                return;
-            }
+        if (targetBlock == null)
+        {
+            return;
+        }
+
+        if (ObjectPoolManager.Instance != null)
+        {
+            ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), targetBlock.position);
+        }
 
         targetGroup.RemoveMember(targetBlock.transform);
 
@@ -423,6 +428,11 @@ public class BoatBuildController : MonoBehaviour
             newBlock.transform.localScale = cellSize;
         }
 
+        if (ObjectPoolManager.Instance != null)
+        {
+            ObjectPoolManager.Instance.OnSpawnPool(ePoolType.PoofRealistic.ToString(), worldPos);
+        }
+
         targetGroup.AddMember(newBlock.transform, 1f, 2f);
 
         occupiedCells.Add(cell);
@@ -448,6 +458,11 @@ public class BoatBuildController : MonoBehaviour
         if (applyCellSizeToPlacedBlock)
         {
             newBlock.transform.localScale = cellSize;
+        }
+
+        if (ObjectPoolManager.Instance != null)
+        {
+            ObjectPoolManager.Instance.OnSpawnPool(ePoolType.PoofRealistic.ToString(), worldPos);
         }
 
         occupiedCells.Add(cell);
