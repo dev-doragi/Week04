@@ -3439,6 +3439,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 3784654724634930969, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784654724634930969, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 4039349528379055988, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
       propertyPath: m_Layer
       value: 15
@@ -7830,7 +7838,7 @@ PrefabInstance:
       objectReference: {fileID: 197247126}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: minSpawnOffsetZ
-      value: -100
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: isDontDestroyOnLoad
@@ -7890,7 +7898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[0].minSafeDistance
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[1].minSafeDistance

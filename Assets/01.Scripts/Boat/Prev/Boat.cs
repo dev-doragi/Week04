@@ -60,5 +60,14 @@ public class Boat : MonoBehaviour
                 rb.linearVelocity = new Vector3(limited.x, v.y, limited.z);
             }
         }
+
+        if (fireController == null)
+        {
+            var gameMgr = GameManager.Instance;
+            if (gameMgr != null && gameMgr.isGameActive)
+            {
+                GameManager.Instance.FaildGameOver();
+            }
+        }
     }
 }
