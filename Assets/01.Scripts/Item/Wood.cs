@@ -175,7 +175,10 @@ public class Wood : BaseResource
         if (curProgressTime <= 0f)
         {
             curProgressTime = 0f;
+            this.IsCollected = true;
+            RepoManager.Instance.Unregister(this);
             OnChangedWoodState(eWoodState.Dried);
+            RepoManager.Instance.Register(this);
             return true;
         }
 
