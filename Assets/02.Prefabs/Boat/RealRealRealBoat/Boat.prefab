@@ -18746,8 +18746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 517b79a8a49351d4b89e5fb1d716a528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boat
-  forwardAcceleration: 10
-  maxSpeed: 12
+  fireController: {fileID: 0}
+  maxForwardAcceleration: 100
+  maxSpeedLimit: 12
   GameStart: 0
 --- !u!114 &87628351835290938
 MonoBehaviour:
