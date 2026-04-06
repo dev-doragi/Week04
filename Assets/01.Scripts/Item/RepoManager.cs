@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class RepoManager : MonoBehaviour
     private HashSet<Wood> dryingWoods = new HashSet<Wood>();
     private Queue<Wood> removalQueue = new Queue<Wood>();
     private bool isDryUpdate = false;
+    public Action<string, int> OnResourceChanged;
 
     private void Awake()
     {
@@ -26,7 +28,6 @@ public class RepoManager : MonoBehaviour
 
     #region Ship Area Registry (물리적 감지)
 
-    // 자원이 배 영역(Trigger)에 들어왔을 때 호출
     public void Register(BaseResource item)
     {
         if (item == null) return;
@@ -35,24 +36,29 @@ public class RepoManager : MonoBehaviour
         if (!_resourcesOnShip.ContainsKey(key))
             _resourcesOnShip[key] = new HashSet<BaseResource>();
 
+        // HashSet.Add는 성공 시 true를 반환하므로 중복 호출 방지 가능
         if (_resourcesOnShip[key].Add(item))
         {
-            // 만약 나무라면 자동으로 건조 시퀀스 등록 시도
-            if (item is Wood wood)
-            {
-                RegisterWood(wood);
-            }
+            // 이벤트 호출: (자원 키, 현재 해당 자원의 총 개수)
+            OnResourceChanged?.Invoke(key, _resourcesOnShip[key].Count);
+
+            // 만약 나무라면 추가 로직 실행
+            if (item is Wood wood) RegisterWood(wood);
         }
     }
 
-    // 자원이 배 영역에서 나갔을 때 호출
     public void Unregister(BaseResource item)
     {
         if (item == null) return;
 
-        if (_resourcesOnShip.TryGetValue(item.key, out var set))
+        string key = item.key;
+        if (_resourcesOnShip.TryGetValue(key, out var set))
         {
-            set.Remove(item);
+            if (set.Remove(item))
+            {
+                // 제거 성공 시에도 이벤트 호출
+                OnResourceChanged?.Invoke(key, set.Count);
+            }
         }
     }
 
@@ -65,7 +71,6 @@ public class RepoManager : MonoBehaviour
         }
         return 0;
     }
-
     #endregion
 
     #region Wood Drying System (건조 시스템)
