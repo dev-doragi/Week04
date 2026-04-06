@@ -8,7 +8,7 @@ public class RepoManager : MonoBehaviour
     public static RepoManager Instance { get { return instance; } private set { instance = value; } }
     public bool IsPlaying = true;
 
-    [SerializeField] private Dictionary<eItemType, int> storageDic = new();
+    [SerializeField] private Dictionary<ePoolType, int> storageDic = new();
     [SerializeField] private HashSet<Wood> dryingWoods = new HashSet<Wood>();
     private Queue<Wood> removalQueue = new Queue<Wood>();
     bool isDryUpdate = false;
@@ -22,11 +22,11 @@ public class RepoManager : MonoBehaviour
 
     void Start()
     {
-        storageDic.Add(eItemType.Wood, 0);
-        storageDic.Add(eItemType.WetWood, 0);
-        storageDic.Add(eItemType.Fabric, 0);
-        storageDic.Add(eItemType.Block, 0);
-        storageDic.Add(eItemType.Catcher, 0);
+        storageDic.Add(ePoolType.Wood, 0);
+        storageDic.Add(ePoolType.WetWood, 0);
+        storageDic.Add(ePoolType.Fabric, 0);
+        storageDic.Add(ePoolType.Block, 0);
+        storageDic.Add(ePoolType.Catcher, 0);
     }
 
     public void RegisterWood(Wood wood)

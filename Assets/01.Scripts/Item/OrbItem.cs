@@ -4,7 +4,7 @@ public class OrbItem : ObjectPoolBase
 {
     private BaseResource innerItem;
     private bool isFixedPos = false;
-    public void SetInnerItem(eItemType type)
+    public void SetInnerItem(ePoolType type)
     {
         var item = ObjectPoolManager.Instance.OnSpawnResources<BaseResource>();
 

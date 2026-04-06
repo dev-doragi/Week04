@@ -385,16 +385,18 @@ public class BoatBuildController : MonoBehaviour
         }
     }
     private void RemoveBlock(Transform targetBlock, Vector3Int cell)
+    {
+        if (targetBlock == null)
         {
-            if (targetBlock == null)
-            {
-                return;
-            }
-
-            Destroy(targetBlock.gameObject);
-            occupiedCells.Remove(cell);
+            return;
         }
-    private void PlaceBlock(Vector3Int cell) // 블록 생성
+
+        ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), targetBlock.position); // 파괴 파티클
+
+        Destroy(targetBlock.gameObject);
+        occupiedCells.Remove(cell);
+    }
+    private void PlaceBlock(Vector3Int cell)
     {
         if (blockPrefab == null || blocksRoot == null)
         {
@@ -418,7 +420,9 @@ public class BoatBuildController : MonoBehaviour
         }
 
         occupiedCells.Add(cell);
-    } 
+
+        ObjectPoolManager.Instance.OnSpawnPool(ePoolType.PoofRealistic.ToString(), worldPos); 
+    }
     private void PlaceWetBlock(Vector3Int cell)
     {
         if (wetBlockPrefab == null || blocksRoot == null)
@@ -443,6 +447,8 @@ public class BoatBuildController : MonoBehaviour
         }
 
         occupiedCells.Add(cell);
+
+        ObjectPoolManager.Instance.OnSpawnPool(ePoolType.PoofRealistic.ToString(), worldPos); // 파티클 재생
     }
     private void HideAllPreview()
     {
