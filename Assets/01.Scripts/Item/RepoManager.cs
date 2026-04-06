@@ -11,10 +11,10 @@ public class RepoManager : MonoBehaviour
     [Header("Status")]
     public bool isPlaying = true;
 
-    // [º¯°æ] ResourceItemÀÇ poolKey(string)¸¦ ±â¹ÝÀ¸·Î ¹è À§ÀÇ ½Ç½Ã°£ ÀÚ¿øÀ» °ü¸®
+    // [ï¿½ï¿½ï¿½ï¿½] ResourceItemï¿½ï¿½ poolKey(string)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç½Ã°ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private Dictionary<string, HashSet<BaseResource>> _resourcesOnShip = new();
 
-    // [±âÁ¸ °ÇÁ¶ ½Ã½ºÅÛ]
+    // [ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½]
     private HashSet<Wood> dryingWoods = new HashSet<Wood>();
     private Queue<Wood> removalQueue = new Queue<Wood>();
     private bool isDryUpdate = false;
@@ -26,7 +26,7 @@ public class RepoManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    #region Ship Area Registry (¹°¸®Àû °¨Áö)
+    #region Ship Area Registry (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
     public void Register(BaseResource item)
     {
@@ -36,13 +36,13 @@ public class RepoManager : MonoBehaviour
         if (!_resourcesOnShip.ContainsKey(key))
             _resourcesOnShip[key] = new HashSet<BaseResource>();
 
-        // HashSet.Add´Â ¼º°ø ½Ã true¸¦ ¹ÝÈ¯ÇÏ¹Ç·Î Áßº¹ È£Ãâ ¹æÁö °¡´É
+        // HashSet.Addï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¹Ç·ï¿½ ï¿½ßºï¿½ È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (_resourcesOnShip[key].Add(item))
         {
-            // ÀÌº¥Æ® È£Ãâ: (ÀÚ¿ø Å°, ÇöÀç ÇØ´ç ÀÚ¿øÀÇ ÃÑ °³¼ö)
+            // ï¿½Ìºï¿½Æ® È£ï¿½ï¿½: (ï¿½Ú¿ï¿½ Å°, ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             OnResourceChanged?.Invoke(key, _resourcesOnShip[key].Count);
 
-            // ¸¸¾à ³ª¹«¶ó¸é Ãß°¡ ·ÎÁ÷ ½ÇÇà
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (item is Wood wood) RegisterWood(wood);
         }
     }
@@ -56,13 +56,13 @@ public class RepoManager : MonoBehaviour
         {
             if (set.Remove(item))
             {
-                // Á¦°Å ¼º°ø ½Ã¿¡µµ ÀÌº¥Æ® È£Ãâ
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¿ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® È£ï¿½ï¿½
                 OnResourceChanged?.Invoke(key, set.Count);
             }
         }
     }
 
-    // Æ¯Á¤ ÀÚ¿øÀÇ ÃÑ °³¼ö È®ÀÎ (UI µî¿¡¼­ È£Ãâ)
+    // Æ¯ï¿½ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (UI ï¿½î¿¡ï¿½ï¿½ È£ï¿½ï¿½)
     public int GetResourceCount(string poolKey)
     {
         if (_resourcesOnShip.TryGetValue(poolKey, out var set))
@@ -73,19 +73,28 @@ public class RepoManager : MonoBehaviour
     }
     #endregion
 
-    #region Wood Drying System (°ÇÁ¶ ½Ã½ºÅÛ)
+    #region Wood Drying System (ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½)
 
     public bool RegisterWood(Wood wood)
     {
-        // Á¥Àº »óÅÂ°¡ ¾Æ´Ï¸é µî·Ï ¾È ÇÔ
-        if (!wood.OnCheckedWet()) return false;
+        if (wood == null)
+        {
+            return false;
+        }
+
+        bool canDry = wood.CurState == eWoodState.Wet || wood.CurState == eWoodState.Drying;
+        if (!canDry)
+        {
+            return false;
+        }
 
         if (dryingWoods.Add(wood))
         {
-            wood.PutResource(); // ¹è À§¿¡ ³õÀÎ »óÅÂ·Î ÀüÈ¯ (¾Ö´Ï¸ÞÀÌ¼Ç µî)
+            wood.PutResource();
             isDryUpdate = true;
             return true;
         }
+
         return false;
     }
 
@@ -95,16 +104,16 @@ public class RepoManager : MonoBehaviour
 
         float dt = Time.deltaTime;
 
-        // °ÇÁ¶ ÁøÇà
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach (var wood in dryingWoods)
         {
-            if (wood.OnDryWood(dt)) // °ÇÁ¶ ¿Ï·á ½Ã true ¹ÝÈ¯ °¡Á¤
+            if (wood.OnDryWood(dt)) // ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ true ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
             {
                 removalQueue.Enqueue(wood);
             }
         }
 
-        // ¿Ï·áµÈ ³ª¹«µé Á¦°Å ·ÎÁ÷
+        // ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (removalQueue.Count > 0)
         {
             while (removalQueue.Count > 0)

@@ -28,6 +28,14 @@ public class PlayerBuildTask : MonoBehaviour
     [SerializeField] private float emptyProbeStep = 0.5f;
     [SerializeField] private bool requireNeighborBlock = true;
 
+    [Header("WetWood")]
+    [SerializeField] private Key wetWoodPlaceKey = Key.E;
+    [SerializeField] private float wetWoodPlaceHeightOffset = 0.08f;
+    [SerializeField] private float wetWoodPlaceSurfaceMinNormalY = 0.6f;
+
+    private bool wasHoldingWetWood = false;
+    private bool wetWoodPlaceArmed = false;
+
     public CinemachineTargetGroup TargetGroup;
 
     private readonly HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
@@ -55,6 +63,45 @@ public class PlayerBuildTask : MonoBehaviour
 
     private void Update()
     {
+        bool holdingWetWood = playerInteraction != null && playerInteraction.IsHoldingWetWood();
+
+        if (holdingWetWood && !wasHoldingWetWood)
+        {
+            if (Keyboard.current == null)
+            {
+                wetWoodPlaceArmed = true;
+            }
+            else
+            {
+                // E를 누른 채 집은 경우 즉시 설치 방지
+                wetWoodPlaceArmed = !Keyboard.current[wetWoodPlaceKey].isPressed;
+            }
+        }
+        wasHoldingWetWood = holdingWetWood;
+
+        if (holdingWetWood)
+        {
+            HidePreview();
+
+            if (!wetWoodPlaceArmed)
+            {
+                if (Keyboard.current != null && !Keyboard.current[wetWoodPlaceKey].isPressed)
+                {
+                    wetWoodPlaceArmed = true;
+                }
+
+                return;
+            }
+
+            HandleWetWoodQuickPlace();
+            return;
+        }
+        if (playerInteraction != null && playerInteraction.IsHoldingWetWood())
+        {
+            HidePreview();
+            HandleWetWoodQuickPlace();
+            return;
+        }
         if (!CanBuildNow())
         {
             HidePreview();
@@ -384,7 +431,7 @@ public class PlayerBuildTask : MonoBehaviour
             previewInstance.SetActive(false);
         }
     }
-
+    //젖은 나무를
     private bool PlaceBlock(Vector3Int cell)
     {
         if (blockPrefab == null || blocksRoot == null || boatRoot == null)
@@ -434,5 +481,70 @@ public class PlayerBuildTask : MonoBehaviour
         {
             colliders[i].enabled = false;
         }
+    }
+    private void HandleWetWoodQuickPlace()
+    {
+        if (Keyboard.current == null)
+        {
+            return;
+        }
+
+        if (!Keyboard.current[wetWoodPlaceKey].wasPressedThisFrame)
+        {
+            return;
+        }
+
+        Vector3 placeWorldPos;
+        Quaternion placeWorldRot;
+        bool found = TryGetWetWoodPlacePose(out placeWorldPos, out placeWorldRot);
+
+        if (!found)
+        {
+            return;
+        }
+
+        bool placed = playerInteraction.TryPlaceHeldWetWood(placeWorldPos, placeWorldRot, boatRoot);
+        if (placed)
+        {
+            wetWoodPlaceArmed = false;
+        }
+    }
+
+    private bool TryGetWetWoodPlacePose(out Vector3 worldPos, out Quaternion worldRot)
+    {
+        worldPos = Vector3.zero;
+        worldRot = Quaternion.identity;
+
+        if (boatRoot == null || targetCamera == null)
+        {
+            return false;
+        }
+
+        Ray ray = GetBuildRay();
+        RaycastHit hit;
+
+        bool didHit = Physics.Raycast(ray, out hit, rayDistance, blockLayerMask, QueryTriggerInteraction.Ignore);
+        if (!didHit)
+        {
+            return false;
+        }
+
+        if (hit.normal.y < wetWoodPlaceSurfaceMinNormalY)
+        {
+            return false;
+        }
+
+        Vector3 hitCenterWorld = GetBlockCenterWorld(hit.collider.transform);
+        Vector3Int baseCell = WorldToCell(hitCenterWorld);
+
+        Vector3 hitLocal = boatRoot.InverseTransformPoint(hit.point) - cellOriginOffset;
+        int x = RoundCell(hitLocal.x / Mathf.Max(0.0001f, cellSize.x));
+        int z = RoundCell(hitLocal.z / Mathf.Max(0.0001f, cellSize.z));
+
+        Vector3Int topCell = new Vector3Int(x, baseCell.y + 1, z);
+        worldPos = CellToWorld(topCell) + Vector3.up * wetWoodPlaceHeightOffset;
+        worldRot = boatRoot.rotation;
+
+        return true;
     }
 }
