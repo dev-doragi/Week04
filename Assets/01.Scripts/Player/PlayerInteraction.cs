@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEditor.UIElements;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -28,6 +29,12 @@ public class PlayerInteraction : MonoBehaviour
     [Header("조타 운전")]
     public GameObject boat;
     public PlayerEntity player;
+
+    [Header("손에 들 오브젝트 목록")]
+    public GameObject woodOnePiece;
+    public GameObject woodFullSet;
+    public Vector3 grabObjectPos = new Vector3(3.62f, -1.8f, -195f);
+    public Vector3 grabObjectRot = new Vector3(-60f, 0f, -15f);
 
     // private GameObject _heldItem;
 
@@ -139,9 +146,11 @@ public class PlayerInteraction : MonoBehaviour
         axeOverlay.gameObject.SetActive(false);
 
         item.gameObject.layer = _overlayLayer;
-        item.transform.SetParent(playerEntity.transform);
-        item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
-        item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+        //item.transform.SetParent(playerEntity.transform);
+        //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
+        //item.transform.localRotation = Quaternion.identity; // [추가] 들었을 때 회전값 초기화
+        item.transform.position = grabObjectPos;
+        item.transform.eulerAngles = grabObjectRot;
 
         var itemRb = item.GetComponent<Rigidbody>();
         itemRb.useGravity = false;
@@ -216,18 +225,6 @@ public class PlayerInteraction : MonoBehaviour
         interactionState = nextState;
     }
 
-    public void SteeringWheel()
-    {
-        player.InputLock = true;
-        boat.GetComponent<BoatSteeringController>().ControllSteer = true;
-    }
-
-    public void AwayFromWheel()
-    {
-        player.InputLock = false;
-        boat.GetComponent<BoatSteeringController>().ControllSteer = false;
-    }
-
     public void OnRefuel()
     {
         if (_heldItem == null) return;
@@ -294,6 +291,8 @@ public class PlayerInteraction : MonoBehaviour
 
             if (_currentChopTime >= chopTimeRequired)
             {
+                woodOnePiece.SetActive(true);
+                axeOverlay.SetActive(false);
                 BreakBlock(hit.collider.gameObject);
             }
         }
