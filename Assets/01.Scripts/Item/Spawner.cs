@@ -166,7 +166,7 @@ public class Spawner : Singleton<Spawner>
 
                 if (obj == null || obj.transform.position.z < threshold)
                 {
-                    if (obj != null)
+                    if (obj != null && !obj.IsEquipped)
                     {
                         ObjectPoolManager.Instance.OnRelease(obj.key, obj);
                     }
