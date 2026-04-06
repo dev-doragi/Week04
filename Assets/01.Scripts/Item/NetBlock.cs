@@ -16,6 +16,9 @@ public class NetBlock : BaseResource
     [SerializeField] private Vector3 slotSpacing = new Vector3(0.35f, 0f, 0.35f);
 
     private readonly List<BaseResource> caughtItems = new List<BaseResource>();
+    private readonly Dictionary<BaseResource, Vector3> caughtWorldScaleMap = new Dictionary<BaseResource, Vector3>();
+
+
 
     private void Awake()
     {
@@ -106,7 +109,10 @@ public class NetBlock : BaseResource
 
     private void CatchItem(BaseResource item)
     {
+        Vector3 originalWorldScale = item.transform.lossyScale;
+
         caughtItems.Add(item);
+        caughtWorldScaleMap[item] = originalWorldScale;
 
         item.IsEquipped = false;
         item.IsCollected = false;
@@ -127,6 +133,9 @@ public class NetBlock : BaseResource
         item.transform.SetParent(catchRoot, true);
         item.transform.position = GetSlotWorldPosition(caughtItems.Count - 1);
         item.transform.rotation = catchRoot.rotation;
+        
+        ApplyWorldScale(item.transform, originalWorldScale);
+
 
         SetIgnoreCollisionWithBoat(item, true);
 
@@ -156,39 +165,50 @@ public class NetBlock : BaseResource
             ReleaseCaughtItemInternal(item, true);
         }
         caughtItems.Clear();
+        caughtWorldScaleMap.Clear();
+
     }
 
     private void ReleaseCaughtItemInternal(BaseResource item, bool restorePhysics)
+{
+    if (item == null)
     {
-        if (item == null)
+        return;
+    }
+
+    Vector3 keepWorldScale;
+    bool hasScale = caughtWorldScaleMap.TryGetValue(item, out keepWorldScale);
+    if (!hasScale)
+    {
+        keepWorldScale = item.transform.lossyScale;
+    }
+
+    caughtItems.Remove(item);
+    caughtWorldScaleMap.Remove(item);
+    SetIgnoreCollisionWithBoat(item, false);
+
+    if (item.transform.parent == catchRoot)
+    {
+        item.transform.SetParent(null, true);
+        ApplyWorldScale(item.transform, keepWorldScale);
+    }
+
+    if (restorePhysics)
+    {
+        if (item.rb != null)
         {
-            return;
+            item.rb.isKinematic = false;
+            item.rb.useGravity = true;
+            item.rb.linearVelocity = Vector3.zero;
+            item.rb.angularVelocity = Vector3.zero;
         }
 
-        caughtItems.Remove(item);
-        SetIgnoreCollisionWithBoat(item, false);
-
-        if (item.transform.parent == catchRoot)
+        if (item.coll != null)
         {
-            item.transform.SetParent(null, true);
-        }
-
-        if (restorePhysics)
-        {
-            if (item.rb != null)
-            {
-                item.rb.isKinematic = false;
-                item.rb.useGravity = true;
-                item.rb.linearVelocity = Vector3.zero;
-                item.rb.angularVelocity = Vector3.zero;
-            }
-
-            if (item.coll != null)
-            {
-                item.coll.isTrigger = false;
-            }
+            item.coll.isTrigger = false;
         }
     }
+}
 
     private void CompactCaughtList()
     {
@@ -311,4 +331,22 @@ public class NetBlock : BaseResource
             }
         }
     }
+    private void ApplyWorldScale(Transform target, Vector3 worldScale)
+    {
+        Transform parent = target.parent;
+        if (parent == null)
+        {
+            target.localScale = worldScale;
+            return;
+        }
+
+        Vector3 parentScale = parent.lossyScale;
+
+        float x = Mathf.Abs(parentScale.x) < 0.0001f ? worldScale.x : worldScale.x / parentScale.x;
+        float y = Mathf.Abs(parentScale.y) < 0.0001f ? worldScale.y : worldScale.y / parentScale.y;
+        float z = Mathf.Abs(parentScale.z) < 0.0001f ? worldScale.z : worldScale.z / parentScale.z;
+
+        target.localScale = new Vector3(x, y, z);
+    }
+
 }
