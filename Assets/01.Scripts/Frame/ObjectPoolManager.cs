@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,7 +23,7 @@ public class ObjectPoolManager : MonoBehaviour
         SyncPoolPrefabKeys();
     }
 
-    private void OnValidate() // ¿¡µðÅÍ¿¡¼­µµ ÀÚµ¿ µ¿±âÈ­
+    private void OnValidate() // ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½È­
     {
         SyncPoolPrefabKeys();
     }
@@ -48,11 +48,9 @@ public class ObjectPoolManager : MonoBehaviour
 
             OnCreatedPools(prefab.key);
         }
-
-        Spawner.Instance.Setup();
     }
 
-    private void SyncPoolPrefabKeys() // ÇÁ¸®ÆÕ µ¿±âÈ­
+    private void SyncPoolPrefabKeys() // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­
     {
         if (poolPrefab == null)
             return;
@@ -71,7 +69,7 @@ public class ObjectPoolManager : MonoBehaviour
         var prefab = GetPrefabInfo(key);
         if (prefab == null)
         {
-            Debug.LogError($"Ç® ÇÁ¸®ÆÕ Á¤º¸ ¾øÀ½: {key}");
+            Debug.LogError($"Ç® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {key}");
             return;
         }
 
@@ -94,7 +92,7 @@ public class ObjectPoolManager : MonoBehaviour
             prefab = GetPrefabInfo(key);
         if(prefab == null)
         {
-            Debug.LogError("µ¥ÀÌÅÍ ¾øÀ½");
+            Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             return null;
         }    
 
@@ -102,7 +100,7 @@ public class ObjectPoolManager : MonoBehaviour
 
         if(pool == null)
         {
-            Debug.LogError("µ¥ÀÌÅÍ ¾øÀ½");
+            Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             return null;
         }
 
@@ -122,7 +120,7 @@ public class ObjectPoolManager : MonoBehaviour
         T resource = OnSpawnPool(key) as T;
         if (resource == null)
         {
-            Debug.LogError($"{key} Å¸ÀÔÀ» Ç®¿¡¼­ »ý¼ºÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError($"{key} Å¸ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
         return resource;
     }
@@ -136,7 +134,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if (!poolDic.TryGetValue(key, out var itemQueue))
         {
-            Debug.LogError("µ¥ÀÌÅÍ ¾øÀ½ Ãß°¡¿ä¸Á");
+            Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½");
             return null;
         }
 
@@ -163,12 +161,12 @@ public class ObjectPoolManager : MonoBehaviour
         return item;
     }
 
-    // À§Ä¡ °ªÀ» Ãß°¡ÇÑ ¹öÀü
+    // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public ObjectPoolBase OnSpawnPool(string key, Vector3 position)
     {
         if (!poolDic.TryGetValue(key, out var itemQueue))
         {
-            Debug.LogError($"µ¥ÀÌÅÍ ¾øÀ½ Ãß°¡¿ä¸Á: {key}");
+            Debug.LogError($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½: {key}");
             return null;
         }
 
