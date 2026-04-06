@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 2883079848158218613}
   - component: {fileID: 1702553605010277731}
   m_Layer: 0
-  m_Name: Rock
+  m_Name: RockBreakBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -382,6 +382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0030ae7c679fa8459bed7e7c4a9eab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RockBreakBlock
+  key: RockBreakBlock
+  prevCount: 5
+  type: 12
   blockTag: Block
   turnPerBreakDegree: 20
   turnPower: 15
