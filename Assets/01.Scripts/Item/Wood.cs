@@ -31,12 +31,14 @@ public class Wood : BaseResource
         ApplyVisualByState();
     }
 
-    public override void Setup()
+   public override void Setup()
     {
         base.Setup();
         CacheReferences();
 
-        if (type == ePoolType.WetWood)
+        bool spawnedFromWetPool = key == ePoolType.WetWood.ToString();
+
+        if (spawnedFromWetPool)
         {
             curState = eWoodState.Wet;
             curProgressTime = Mathf.Max(0.01f, dryTime);
@@ -47,8 +49,39 @@ public class Wood : BaseResource
             curProgressTime = 0f;
         }
 
+        isPlacedOnBoat = false;
+        IsCollected = false;
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        if (coll != null)
+        {
+            coll.isTrigger = false;
+        }
+
+        SyncStateFlags();
         ApplyVisualByState();
+
+        int interactLayer = LayerMask.NameToLayer("Interact");
+        if (interactLayer >= 0)
+        {
+            Transform[] allChildren = GetComponentsInChildren<Transform>(true);
+            int childCount = allChildren.Length;
+
+            for (int i = 0; i < childCount; i++)
+            {
+                allChildren[i].gameObject.layer = interactLayer;
+            }
+        }
+
     }
+
 
     public override void OnSpawn()
     {
