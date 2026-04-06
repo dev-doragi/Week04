@@ -172,6 +172,7 @@ public class PlayerInteraction : MonoBehaviour
         poolObj.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
 
         poolObj.coll.isTrigger = true;
+        poolObj.IsCollected = true;
 
         currentItemOverlay = item;
         _heldItem = poolObj; // 캐싱된 컴포넌트 할당
@@ -446,5 +447,98 @@ public class PlayerInteraction : MonoBehaviour
         currentItemOverlay = axeOverlay;
         return true;
     }
+    public bool IsHoldingWetWood()
+    {
+        if (_heldItem == null)
+        {
+            return false;
+        }
+
+        Wood heldWood;
+        bool isWood = _heldItem.TryGetComponent<Wood>(out heldWood);
+        if (!isWood || heldWood == null)
+        {
+            return false;
+        }
+
+        return heldWood.CurState == eWoodState.Wet || heldWood.CurState == eWoodState.Drying;
+    }
+
+    public bool TryPlaceHeldWetWood(Vector3 worldPosition, Quaternion worldRotation, Transform parentOnBoat)
+    {
+        if (_heldItem == null)
+        {
+            return false;
+        }
+
+        Wood heldWood;
+        bool isWood = _heldItem.TryGetComponent<Wood>(out heldWood);
+        if (!isWood || heldWood == null)
+        {
+            return false;
+        }
+
+        if (heldWood.CurState == eWoodState.Dried)
+        {
+            return false;
+        }
+
+        if (parentOnBoat != null)
+        {
+            heldWood.transform.SetParent(parentOnBoat, true);
+        }
+
+        heldWood.transform.SetPositionAndRotation(worldPosition, worldRotation);
+
+        if (heldWood.CurState == eWoodState.Wet)
+        {
+            heldWood.OnChangedWoodState(eWoodState.Drying);
+        }
+
+
+        Transform[] allChildren = heldWood.GetComponentsInChildren<Transform>(true);
+        int childCount = allChildren.Length;
+        for (int i = 0; i < childCount; i++)
+        {
+            allChildren[i].gameObject.layer = _defaultLayer;
+        }
+
+        if (heldWood.coll != null)
+        {
+            heldWood.coll.isTrigger = false;
+        }
+
+        if (heldWood.rb != null)
+        {
+            heldWood.rb.isKinematic = true;
+            heldWood.rb.useGravity = false;
+            heldWood.rb.linearVelocity = Vector3.zero;
+            heldWood.rb.angularVelocity = Vector3.zero;
+        }
+
+        heldWood.IsCollected = false;
+
+        if (RepoManager.Instance != null)
+        {
+            RepoManager.Instance.RegisterWood(heldWood);
+        }
+        else
+        {
+            heldWood.PutResource();
+        }
+
+        _heldItem = null;
+
+        if (axeOverlay != null)
+        {
+            axeOverlay.SetActive(true);
+        }
+
+        player.isHoldAxe = true;
+        currentItemOverlay = axeOverlay;
+
+        return true;
+    }
+
 
 }

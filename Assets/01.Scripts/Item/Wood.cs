@@ -22,6 +22,9 @@ public class Wood : BaseResource
     private MaterialPropertyBlock propBlock;
     private int wetnessId;
 
+    [SerializeField] private bool isPlacedOnBoat = false;
+
+
     private void Awake()
     {
         CacheReferences();
@@ -82,6 +85,8 @@ public class Wood : BaseResource
     {
         if (curState == nextState)
         {
+            SyncStateFlags();
+            ApplyVisualByState();
             return;
         }
 
@@ -90,7 +95,6 @@ public class Wood : BaseResource
         if (curState == eWoodState.Wet)
         {
             curProgressTime = Mathf.Max(0.01f, dryTime);
-            IsCraft = false;
         }
         else if (curState == eWoodState.Drying)
         {
@@ -99,26 +103,36 @@ public class Wood : BaseResource
                 curProgressTime = Mathf.Max(0.01f, dryTime);
             }
 
-            IsCraft = false;
-
             if (RepoManager.Instance != null)
             {
                 RepoManager.Instance.RegisterWood(this);
             }
         }
-        else // Dried
+        else
         {
             curProgressTime = 0f;
-            IsCraft = true;
         }
 
+        SyncStateFlags();
         ApplyVisualByState();
     }
 
-
+ 
     public bool OnDryWood(float progressTime)
     {
         if (curState != eWoodState.Drying)
+        {
+            return false;
+        }
+
+        if (rb == null || coll == null)
+        {
+            return false;
+        }
+
+        // 설치된 상태만 건조 진행:
+        // 설치됨 = kinematic true + trigger false
+        if (!rb.isKinematic || coll.isTrigger)
         {
             return false;
         }
@@ -134,6 +148,21 @@ public class Wood : BaseResource
 
         ApplyVisualByDryProgress();
         return false;
+    }
+
+
+    private void SyncStateFlags()
+    {
+        if (curState == eWoodState.Dried)
+        {
+            IsCraft = true;
+            type = ePoolType.Wood;
+        }
+        else
+        {
+            IsCraft = false;
+            type = ePoolType.WetWood;
+        }
     }
 
     private void StartDrying()
@@ -214,5 +243,10 @@ public class Wood : BaseResource
         targetRenderer.GetPropertyBlock(propBlock);
         propBlock.SetFloat(wetnessId, wetness);
         targetRenderer.SetPropertyBlock(propBlock);
+    }
+
+    public void SetPlacedOnBoat(bool value)
+    {
+        isPlacedOnBoat = value;
     }
 }
