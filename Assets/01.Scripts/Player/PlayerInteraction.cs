@@ -2,6 +2,7 @@
 using Unity.Cinemachine;
 using UnityEditor.UIElements;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -270,6 +271,12 @@ public class PlayerInteraction : MonoBehaviour
         if(_heldItem.TryGetComponent<Wood>(out var wood))
         {
             InGameManager.Instance.OnRefuel(wood);
+
+            if (ObjectPoolManager.Instance != null)
+            {
+                ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Refuel.ToString(), InGameManager.Instance.Furnace.transform.position);
+            }
+
             ObjectPoolManager.Instance.OnRelease(wood.key, wood);
             _heldItem = null;
 

@@ -8,6 +8,9 @@ public class InGameManager : MonoBehaviour
     [SerializeField] PlayerEntity player;
     [SerializeField] Furnace furnace;
     [SerializeField] Crafting_Table table;
+
+    public Furnace Furnace => furnace;
+
     private void Awake()
     {
         if (instance == null)

@@ -4983,6 +4983,8 @@ MonoBehaviour:
   _sparkBaseLight: {fileID: 525386659293692295}
   _animatedLightValue: {fileID: 1629973391239347417}
   _audioSource: {fileID: 333422142391287589}
+  _minIntensity: 0.5
+  _maxIntensity: 1.5
   _intensity: 0.94
   _previewInEditMode: 1
   _baseAudioVolume: 1
