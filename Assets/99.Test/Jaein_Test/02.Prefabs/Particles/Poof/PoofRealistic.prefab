@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8276493703179569090}
   - component: {fileID: 7779867161402725930}
   - component: {fileID: 3023435981092167018}
+  - component: {fileID: 2054973087513565814}
   m_Layer: 0
-  m_Name: Poof_Realistic
+  m_Name: PoofRealistic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,14 +43,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8210121677064603103}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4837,6 +4838,23 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &2054973087513565814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210121677064603103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe57b4ca124327f4480dcc2357e27cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticlePoolObject
+  key: Poof
+  prevCount: 5
+  type: 5
+  _rootParticleSystem: {fileID: 7779867161402725930}
+  _playMode: 0
 --- !u!1001 &4953058257727257415
 PrefabInstance:
   m_ObjectHideFlags: 0
