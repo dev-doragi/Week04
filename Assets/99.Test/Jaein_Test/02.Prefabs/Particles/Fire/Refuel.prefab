@@ -9828,6 +9828,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2868510433361412859, guid: 856b1fa3533327f40bd70fa8892f9a4f, type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868510433361412859, guid: 856b1fa3533327f40bd70fa8892f9a4f, type: 3}
       propertyPath: NoiseModule.enabled
       value: 0
       objectReference: {fileID: 0}
@@ -10067,6 +10071,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868510433361412859, guid: 856b1fa3533327f40bd70fa8892f9a4f, type: 3}
       propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868510433361412859, guid: 856b1fa3533327f40bd70fa8892f9a4f, type: 3}
+      propertyPath: moveWithTransform
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2868510433361412859, guid: 856b1fa3533327f40bd70fa8892f9a4f, type: 3}
@@ -10326,6 +10334,10 @@ PrefabInstance:
     - target: {fileID: 2868510433361412859, guid: 2310e4dbaa56e4b48b224568d7195cfd, type: 3}
       propertyPath: lengthInSec
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868510433361412859, guid: 2310e4dbaa56e4b48b224568d7195cfd, type: 3}
+      propertyPath: moveWithTransform
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2868510433361412859, guid: 2310e4dbaa56e4b48b224568d7195cfd, type: 3}
       propertyPath: CollisionModule.enabled
