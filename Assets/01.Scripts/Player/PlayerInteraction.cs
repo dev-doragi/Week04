@@ -42,7 +42,7 @@ public class PlayerInteraction : MonoBehaviour
 
     // private GameObject _heldItem;
 
-    private ObjectPoolBase _heldItem;
+    private BaseResource _heldItem;
     private Camera _mainCamera;
 
     private int _overlayLayer;
@@ -144,6 +144,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PickUpItem(GameObject item)
     {
+        if(_heldItem != null) return;
+
         // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
         if (!item.TryGetComponent<BaseResource>(out var poolObj))
         {
@@ -152,7 +154,7 @@ public class PlayerInteraction : MonoBehaviour
 
         axeOverlay.gameObject.SetActive(false);
         player.isHoldAxe = false;
-
+        poolObj.IsEquipped = true;
         //item.transform.SetParent(playerEntity.transform);
         //item.gameObject.layer = _overlayLayer;
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
@@ -174,16 +176,17 @@ public class PlayerInteraction : MonoBehaviour
 
         currentItemOverlay = item;
         _heldItem = poolObj; // 캐싱된 컴포넌트 할당
+
+        if (!poolObj.IsCollected)
+            RepoManager.Instance.Register(poolObj);
     }
 
     private void PickUpItem(BaseResource item)
     {
-        // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
-        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj)) return;
 
         axeOverlay.gameObject.SetActive(false);
         player.isHoldAxe = false;
-
+        item.IsEquipped = true;
         //item.gameObject.layer = _overlayLayer;
         //item.transform.SetParent(playerEntity.transform);
         //item.transform.localPosition = new Vector3(0.5f, 0.5f, 1f);
@@ -204,7 +207,10 @@ public class PlayerInteraction : MonoBehaviour
         item.coll.isTrigger = true;
 
         currentItemOverlay = item.gameObject;
-        _heldItem = poolObj; // 캐싱된 컴포넌트 할당
+        _heldItem = item; // 캐싱된 컴포넌트 할당
+
+        if (!item.IsCollected)
+            RepoManager.Instance.Register(item);
     }
 
     public void DropItem()
@@ -212,10 +218,8 @@ public class PlayerInteraction : MonoBehaviour
         if (_heldItem == null) return;
 
         Debug.Log(_heldItem.gameObject.name);
-
-        Rigidbody itemRb = _heldItem.GetComponent<Rigidbody>();
-        BoxCollider itemColl = _heldItem.GetComponent<BoxCollider>();
-
+        if (!_heldItem.TryGetComponent<BaseResource>(out var item)) return;
+        item.IsEquipped = false;
         // 1. 부모 해제 및 레이어 복구
         // _heldItem.transform.SetParent(boatTr);
         Transform[] allChildren = _heldItem.GetComponentsInChildren<Transform>(true);
@@ -225,30 +229,17 @@ public class PlayerInteraction : MonoBehaviour
             child.gameObject.layer = _defaultLayer;
         }
 
-        itemRb.isKinematic = false;
-        itemRb.useGravity = true;
-        itemRb.linearVelocity = Vector3.zero;
-        itemRb.angularVelocity = Vector3.zero;
+        item.rb.isKinematic = false;
+        item.rb.useGravity = true;
+        item.rb.linearVelocity = Vector3.zero;
+        item.rb.angularVelocity = Vector3.zero;
 
-        // 2. 위치 설정 (플레이어 정면 바닥 쪽)
-        // 플레이어 중심에서 앞쪽으로 1m, 위쪽으로 0.2m 지점 계산
-        //Vector3 dropPos = transform.position + (transform.forward * 2f) + (Vector3.up * 1f);
 
-        // 유니티 6 키네마틱 물체는 MovePosition이 가장 안전함
         _heldItem.transform.position = transform.position + transform.forward * 1f;
-        //itemRb.MovePosition(d);
-        //itemRb.AddForce(transform.forward * 2f + Vector3.up * 1f, ForceMode.Impulse);
-        itemRb.rotation = Quaternion.identity; // 떨굴 때 회전 초기화 (똑바로 서게 함)
 
-        // 3. 물리 속성 변경
-        itemColl.isTrigger = false;
+        item.rb.rotation = Quaternion.identity;
+        item.coll.isTrigger = false;
 
-        // 4. [핵심] 정지 상태 강제 주입
-        // 던지는 힘을 없애기 위해 모든 속도를 0으로 초기화
-        //itemRb.isKinematic = false;
-        //itemRb.useGravity = true;
-        //itemRb.linearVelocity = Vector3.zero;
-        //itemRb.angularVelocity = Vector3.zero;
 
         // 5. UI 및 상태 업데이트
         player.isHoldAxe = true;
@@ -277,6 +268,8 @@ public class PlayerInteraction : MonoBehaviour
                 ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Refuel.ToString(), InGameManager.Instance.Furnace.transform.position);
             }
 
+            RepoManager.Instance.Unregister(_heldItem);
+            wood.IsCollected = false;
             ObjectPoolManager.Instance.OnRelease(wood.key, wood);
             _heldItem = null;
 
@@ -305,7 +298,6 @@ public class PlayerInteraction : MonoBehaviour
                 if (InGameManager.Instance.TryCrafting(item))
                 {
                     _heldItem = null;
-
                     if (axeOverlay != null) axeOverlay.SetActive(true);
                     player.isHoldAxe = true;
                     currentItemOverlay = axeOverlay;
@@ -351,10 +343,10 @@ public class PlayerInteraction : MonoBehaviour
             if (_currentChopTime >= chopTimeRequired)
             {
                 var wood = ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+                RepoManager.Instance.Register(wood);
                 wood.OnChangedWoodState(eWoodState.Dried);
                 PickUpItem(wood);
                 BreakBlock(hit.collider.gameObject);
-
                 _currentTargetBlock = null;
                 _currentChopTime = 0.0f;
             }
@@ -399,7 +391,8 @@ public class PlayerInteraction : MonoBehaviour
 
         // 블록이 파괴될 때도 파티클 및 상태 초기화
         ResetChopping();
-
+        
+        InGameManager.Instance.boatCollUpdateAction?.Invoke();
         if (ObjectPoolManager.Instance != null)
         {
             ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), block.transform.position);
@@ -439,10 +432,9 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         ObjectPoolBase heldItem = _heldItem;
-
+        RepoManager.Instance.Unregister(_heldItem);
         if (ObjectPoolManager.Instance != null)
         {
-            heldItem.transform.SetParent(ObjectPoolManager.Instance.transform);
             ObjectPoolManager.Instance.OnRelease(heldItem.key, heldItem);
         }
         else

@@ -48,6 +48,7 @@ public class ObjectPoolManager : MonoBehaviour
 
             OnCreatedPools(prefab.key);
         }
+        Spawner.Instance.Setup();
     }
 
     private void SyncPoolPrefabKeys() // ������ ����ȭ
@@ -211,6 +212,7 @@ public class ObjectPoolManager : MonoBehaviour
         {
             itemActiveHash.Remove(item);
         }
+        item.transform.SetParent(this.transform);
     }
 
     public ObjectPoolBase GetPrefabInfo(string key)

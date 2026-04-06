@@ -12,13 +12,13 @@ public class RepoManager : MonoBehaviour
     public bool isPlaying = true;
 
     // [변경] ResourceItem의 poolKey(string)를 기반으로 배 위의 실시간 자원을 관리
-    private Dictionary<string, HashSet<BaseResource>> _resourcesOnShip = new();
+    private Dictionary<ePoolType, HashSet<BaseResource>> _resourcesOnShip = new();
 
     // [기존 건조 시스템]
     private HashSet<Wood> dryingWoods = new HashSet<Wood>();
     private Queue<Wood> removalQueue = new Queue<Wood>();
     private bool isDryUpdate = false;
-    public Action<string, int> OnResourceChanged;
+    public Action<ePoolType, int> OnResourceChanged;
 
     private void Awake()
     {
@@ -30,9 +30,10 @@ public class RepoManager : MonoBehaviour
 
     public void Register(BaseResource item)
     {
-        if (item == null || !item.IsCollected) return;
+        if (item == null || item.IsCollected) return;
 
-        string key = item.key;
+        var key = item.type;
+        item.IsCollected = true;
         if (!_resourcesOnShip.ContainsKey(key))
             _resourcesOnShip[key] = new HashSet<BaseResource>();
 
@@ -49,9 +50,10 @@ public class RepoManager : MonoBehaviour
 
     public void Unregister(BaseResource item)
     {
-        if (item == null) return;
+        if (item == null || !item.IsCollected) return;
 
-        string key = item.key;
+        var key = item.type;
+        item.IsCollected = false;
         if (_resourcesOnShip.TryGetValue(key, out var set))
         {
             if (set.Remove(item))
@@ -63,7 +65,7 @@ public class RepoManager : MonoBehaviour
     }
 
     // 특정 자원의 총 개수 확인 (UI 등에서 호출)
-    public int GetResourceCount(string poolKey)
+    public int GetResourceCount(ePoolType poolKey)
     {
         if (_resourcesOnShip.TryGetValue(poolKey, out var set))
         {

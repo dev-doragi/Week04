@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InGameManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class InGameManager : MonoBehaviour
 
     public Furnace Furnace => furnace;
 
+    public Action boatCollUpdateAction;
     private void Awake()
     {
         if (instance == null)
@@ -23,8 +25,6 @@ public class InGameManager : MonoBehaviour
     {
         boatController.ControllSteer = !boatController.ControllSteer;
         player.InputLock = !player.InputLock;
-        //TODO 플레이어 움직임 고정 + 카메라 무빙
-        //playerInput.SetCursorState(false);
     }
 
     public void OnRefuel(Wood wood)

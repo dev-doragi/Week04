@@ -26,6 +26,7 @@ public class RockBreakBlock : ObjectPoolBase
             ApplyTurnKick(boatRigidbody, blockRoot.position);
         }
 
+        InGameManager.Instance.boatCollUpdateAction?.Invoke();
         Destroy(blockRoot.gameObject);
     }
 
