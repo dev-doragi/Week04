@@ -30,6 +30,12 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
 
     public Vector3 CurrentPlatformVelocity { get; private set; }
 
+    // 필드 추가
+    [SerializeField] private float airCarryTime = 0.25f;
+    private float airCarryTimer;
+    private Vector3 lastPlatformVelocity;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,6 +43,8 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
         playerEntity = GetComponent<PlayerEntity>();
         rb.sleepThreshold = 0f;
         CurrentPlatformVelocity = Vector3.zero;
+        airCarryTimer = 0f;
+        lastPlatformVelocity = Vector3.zero;
     }
 
     private void FixedUpdate()
@@ -53,22 +61,40 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
                 currentPlatformRb = detectedPlatform;
                 hasPlatformState = false;
             }
+
+            CurrentPlatformVelocity = currentPlatformRb.GetPointVelocity(rb.position);
+            lastPlatformVelocity = CurrentPlatformVelocity;
+            airCarryTimer = airCarryTime;
         }
         else
         {
             missTicks++;
 
-            if (currentPlatformRb == null || missTicks > detachGraceTicks)
+            bool keepSticky = currentPlatformRb != null && missTicks <= detachGraceTicks;
+
+            if (keepSticky)
+            {
+                CurrentPlatformVelocity = currentPlatformRb.GetPointVelocity(rb.position);
+                lastPlatformVelocity = CurrentPlatformVelocity;
+                airCarryTimer = airCarryTime;
+            }
+            else
             {
                 currentPlatformRb = null;
                 hasPlatformState = false;
-                CurrentPlatformVelocity = Vector3.zero;
-                return;
+
+                if (airCarryTimer > 0f)
+                {
+                    airCarryTimer -= Time.fixedDeltaTime;
+                    float ratio = Mathf.Clamp01(airCarryTimer / Mathf.Max(0.0001f, airCarryTime));
+                    CurrentPlatformVelocity = lastPlatformVelocity * ratio;
+                }
+                else
+                {
+                    CurrentPlatformVelocity = Vector3.zero;
+                }
             }
         }
-
-        Quaternion platformRot = currentPlatformRb.rotation;
-        CurrentPlatformVelocity = currentPlatformRb.GetPointVelocity(rb.position);
 
         bool hasMoveInput = inputAction.move.sqrMagnitude > 0.0001f;
         bool idle = playerEntity.InputLock || !hasMoveInput;
@@ -76,9 +102,15 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
         if (idle)
         {
             Vector3 v = rb.linearVelocity;
-            float y = followVertical ? CurrentPlatformVelocity.y : v.y;
-            rb.linearVelocity = new Vector3(CurrentPlatformVelocity.x, y, CurrentPlatformVelocity.z);
+            rb.linearVelocity = new Vector3(CurrentPlatformVelocity.x, v.y, CurrentPlatformVelocity.z);
         }
+
+        if (currentPlatformRb == null)
+        {
+            return;
+        }
+
+        Quaternion platformRot = currentPlatformRb.rotation;
 
         if (!hasPlatformState)
         {
@@ -100,6 +132,7 @@ public class RigidbodyPlatformVelocityFollow : MonoBehaviour
 
         lastPlatformRot = platformRot;
     }
+
 
     private bool TryDetectPlatform(out Rigidbody platform)
     {
