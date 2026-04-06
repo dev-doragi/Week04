@@ -25,15 +25,15 @@ public class Crafting_Table : MonoBehaviour
         // 1. 나무 3개인지 확인
         if (counts.TryGetValue(typeof(Wood), out int w) && w == 3)
         {
-            repoStack.Clear();
-            return null;
+            ReturnToPool();
+            return GetCraftItem();
         }
         // 2. 나무 1개 + 천 2개인지 확인
         else if (counts.TryGetValue(typeof(Wood), out int w1) && w1 == 1 &&
                  counts.TryGetValue(typeof(Fabric), out int c2) && c2 == 2)
         {
-            repoStack.Clear();
-            return null;
+            ReturnToPool();
+            return GetCraftItem();
         }
         return PopResourceItem();
     }
@@ -59,6 +59,23 @@ public class Crafting_Table : MonoBehaviour
         repoStack.Push(newItem);
 
         return true;
+    }
+
+    public BaseResource GetCraftItem()
+    {
+        return ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+    }
+
+    private void ReturnToPool()
+    {
+        while (repoStack.Count > 0) 
+        { 
+            var item = repoStack.Pop();
+            item.transform.localScale = Vector3.one;
+            //TODO 부모바꿔놓기
+            item.transform.SetParent(ObjectPoolManager.Instance.gameObject.transform);
+            ObjectPoolManager.Instance.OnRelease(item.key, item);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
