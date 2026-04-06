@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -2356644790016981821}
   - component: {fileID: 5372111891563706750}
   - component: {fileID: 1525050915215551948}
+  - component: {fileID: 4784170652528202576}
   m_Layer: 11
   m_Name: Wood
   m_TagString: Untagged
@@ -54,12 +55,15 @@ MonoBehaviour:
   IsCraft: 1
   rb: {fileID: 5372111891563706750}
   coll: {fileID: 1525050915215551948}
-  baseFuelAmount: 10
+  driedFuelAmount: 10
   wetFuelAmount: 3
   curState: 0
   dryTime: 5
   curProgressTime: 0
-  _renderer: {fileID: 8361035456900290152}
+  targetRenderer: {fileID: 8361035456900290152}
+  wetnessPropertyName: _Wetness
+  wetnessWhenWet: 2
+  wetnessWhenDried: 1
 --- !u!54 &5372111891563706750
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -108,6 +112,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4784170652528202576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346832950545963912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a71defaba68d6d409604caa466eeb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemBuoyancy
 --- !u!1001 &4768998784249082763
 PrefabInstance:
   m_ObjectHideFlags: 0
