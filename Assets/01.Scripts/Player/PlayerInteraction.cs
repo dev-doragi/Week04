@@ -47,6 +47,8 @@ public class PlayerInteraction : MonoBehaviour
     private int _overlayLayer;
     private int _defaultLayer;
 
+    private ParticlePoolObject _hittingParticle;
+
     [SerializeField] private PlayerEntity playerEntity;
     [SerializeField] private Transform boatTr;
     [SerializeField] private ePlayerState interactionState;
@@ -316,9 +318,24 @@ public class PlayerInteraction : MonoBehaviour
             outlineCursor.transform.position = hit.collider.transform.position;
             outlineCursor.transform.rotation = boat.transform.rotation * Quaternion.Euler(0f, 90f, 0f);
 
-            if (_currentTargetBlock != hit.collider.transform)
+            // 파티클 생성 및 위치 갱신
+            if (_hittingParticle == null)
             {
-                _currentTargetBlock = hit.collider.transform;
+                var poolObj = ObjectPoolManager.Instance.OnSpawnPool("Hitting", hit.point);
+                if (poolObj != null)
+                {
+                    _hittingParticle = poolObj.GetComponent<ParticlePoolObject>();
+                }
+            }
+            else
+            {
+                // 타격 지점으로 파티클 위치 계속 업데이트
+                _hittingParticle.transform.position = hit.point;
+            }
+
+            if (_currentTargetBlock != hit.transform)
+            {
+                _currentTargetBlock = hit.transform;
                 _currentChopTime = 0.0f;
             }
 
@@ -330,21 +347,30 @@ public class PlayerInteraction : MonoBehaviour
                 wood.OnChangedWoodState(eWoodState.Dried);
                 PickUpItem(wood);
                 BreakBlock(hit.collider.gameObject);
-
-                _currentTargetBlock = null;
-                _currentChopTime = 0.0f;
             }
         }
         else
         {
             // 허공 쳐다보면 도끼질 멈춤
-            outlineCursor.SetActive(false);
-            ResetChopping();
+            StopChopping();
         }
+    }
+
+    public void StopChopping()
+    {
+        ResetOutline();
+        ResetChopping();
     }
 
     private void ResetChopping()
     {
+        // 파티클 즉시 종료 및 풀 반환
+        if (_hittingParticle != null)
+        {
+            _hittingParticle.ForceRelease();
+            _hittingParticle = null;
+        }
+
         if (_currentChopTime > 0)
         {
             Debug.Log("도끼질 취소");
@@ -360,6 +386,8 @@ public class PlayerInteraction : MonoBehaviour
 
         outlineCursor.SetActive(false);
         Destroy(block);
+
+        // 블록이 파괴될 때도 파티클 및 상태 초기화
         ResetChopping();
 
         if (ObjectPoolManager.Instance != null)
