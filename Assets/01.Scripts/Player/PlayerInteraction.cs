@@ -344,4 +344,55 @@ public class PlayerInteraction : MonoBehaviour
             ObjectPoolManager.Instance.OnSpawnPool(ePoolType.Break.ToString(), block.transform.position);
         }
     }
+    public bool IsHoldingBuildWoodBlock()
+    {
+        if (_heldItem == null || currentItemOverlay == null)
+        {
+            return false;
+        }
+
+        BuildWoodBlock buildWoodBlock = currentItemOverlay.GetComponent<BuildWoodBlock>();      
+
+        if (buildWoodBlock.key != "BuildWoodBlock")
+        {
+            Debug.LogError("1");
+
+            return false;
+        }
+
+        
+
+        return true;
+    }
+
+    public bool TryConsumeHeldBuildWoodBlockForBuild()
+    {
+        if (!IsHoldingBuildWoodBlock())
+        {
+            return false;
+        }
+
+        ObjectPoolBase heldItem = _heldItem;
+
+        if (ObjectPoolManager.Instance != null)
+        {
+            heldItem.transform.SetParent(ObjectPoolManager.Instance.transform);
+            ObjectPoolManager.Instance.OnRelease(heldItem.key, heldItem);
+        }
+        else
+        {
+            Destroy(heldItem.gameObject);
+        }
+
+        _heldItem = null;
+
+        if (axeOverlay != null)
+        {
+            axeOverlay.SetActive(true);
+        }
+
+        currentItemOverlay = axeOverlay;
+        return true;
+    }
+
 }
