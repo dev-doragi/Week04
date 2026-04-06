@@ -14690,8 +14690,11 @@ MonoBehaviour:
   blockLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  rayDistance: 5
+  rayDistance: 6
   useScreenCenterRay: 1
+  allowEmptySpaceAssist: 1
+  emptyProbeStep: 0.5
+  requireNeighborBlock: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
