@@ -32,5 +32,6 @@ public enum ePlayerState
     None,
     Fueling,
     Crafting,
-    Steering
+    Steering,
+    Pickup
 }

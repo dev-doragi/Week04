@@ -1,5 +1,6 @@
 ﻿public enum InteractionKeyType
 {
+    None,
     E,
     F
 }

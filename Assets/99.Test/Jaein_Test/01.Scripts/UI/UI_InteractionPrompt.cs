@@ -1,16 +1,28 @@
+using TMPro;
 using UnityEngine;
 
 public class UI_InteractionPrompt : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject _root;
+    [SerializeField] private TMP_Text _text;
+
+    private void Awake()
     {
-        
+        Hide();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Show(string message)
     {
-        
+        if (_root != null)
+            _root.SetActive(true);
+
+        if (_text != null)
+            _text.text = message;
+    }
+
+    public void Hide()
+    {
+        if (_root != null)
+            _root.SetActive(false);
     }
 }
