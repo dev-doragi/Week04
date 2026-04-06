@@ -22,13 +22,14 @@ public class PlayerEntity : MonoBehaviour
 
     private void Update()
     {
+        // 클릭 중일 때
         if (_input.click && isHoldAxe)
         {
             _interaction.BoatBreaker(axe);
-            //_input.click = false;
-        } else
+        }
+        else
         {
-            _interaction.ResetOutline();
+            _interaction.StopChopping();
         }
 
         if (_input.interact)

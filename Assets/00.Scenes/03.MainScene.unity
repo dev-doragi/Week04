@@ -1107,8 +1107,10 @@ MonoBehaviour:
   player: {fileID: 6623533065678189205}
   activePriority: 20
   inactivePriority: 10
+  mainBrain: {fileID: 197247122}
   fpCamera: {fileID: 839716545}
   tpCamera: {fileID: 910472272}
+  overlayCamera: {fileID: 1889322045}
   isFirstPerson: 1
   interactionState: 0
 --- !u!114 &197247122
