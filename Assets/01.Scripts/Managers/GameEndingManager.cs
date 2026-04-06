@@ -32,25 +32,6 @@ public class GameEndingManager : MonoBehaviour
         clearSceneCamera.SetActive(false);
         drownSceneCamera.SetActive(false);
         faildSceneCamera.SetActive(false);
-
-        // 테스트용
-        //WinGame();
-    }
-
-    private void Update()
-    {
-        if (Keyboard.current.f1Key.wasPressedThisFrame)
-        {
-            WinGame(); 
-        }
-        if (Keyboard.current.f2Key.wasPressedThisFrame)
-        {
-            DieByDrowning();
-        }
-        if (Keyboard.current.f3Key.wasPressedThisFrame)
-        {
-            FaildGame();
-        }
     }
 
     public void WinGame()
@@ -74,6 +55,7 @@ public class GameEndingManager : MonoBehaviour
     {
         SetEndingCutscene();
 
+        player.SetActive(false);
         boat.SetActive(false);
         boatCopy.SetActive(true);
 

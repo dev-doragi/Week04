@@ -27,7 +27,7 @@ public class PlayerInputAction : MonoBehaviour
     {
         _playerInput.SwitchCurrentActionMap("Player");
 
-        SetCursorState(true);
+        //SetCursorState(true);
     }
 
 
@@ -122,8 +122,8 @@ public class PlayerInputAction : MonoBehaviour
     //	SetCursorState(cursorLocked);
     //}
 
-    private void SetCursorState(bool newState)
-    {
-        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-    }
+    //private void SetCursorState(bool newState)
+    //{
+    //    Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    //}
 }
