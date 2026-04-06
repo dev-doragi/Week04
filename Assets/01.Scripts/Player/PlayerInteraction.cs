@@ -316,9 +316,9 @@ public class PlayerInteraction : MonoBehaviour
             outlineCursor.transform.position = hit.collider.transform.position;
             outlineCursor.transform.rotation = boat.transform.rotation * Quaternion.Euler(0f, 90f, 0f);
 
-            if (_currentTargetBlock != hit.transform)
+            if (_currentTargetBlock != hit.collider.transform)
             {
-                _currentTargetBlock = hit.transform;
+                _currentTargetBlock = hit.collider.transform;
                 _currentChopTime = 0.0f;
             }
 
@@ -330,6 +330,9 @@ public class PlayerInteraction : MonoBehaviour
                 wood.OnChangedWoodState(eWoodState.Dried);
                 PickUpItem(wood);
                 BreakBlock(hit.collider.gameObject);
+
+                _currentTargetBlock = null;
+                _currentChopTime = 0.0f;
             }
         }
         else
