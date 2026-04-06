@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class PlayerInteraction : MonoBehaviour
@@ -280,7 +280,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             outlineCursor.SetActive(true);
             outlineCursor.transform.position = hit.collider.transform.position;
-            outlineCursor.transform.rotation = boat.transform.rotation;
+            outlineCursor.transform.rotation = boat.transform.rotation * Quaternion.Euler(0f, 90f, 0f);
 
             if (_currentTargetBlock != hit.transform)
             {
