@@ -16,6 +16,10 @@ public class PlayerInteraction : MonoBehaviour
     public float pickupRange = 2f;
     public LayerMask itemLayer;
 
+    [Header("조타 운전")]
+    public GameObject boat;
+    public PlayerEntity player;
+
     private GameObject _heldItem;
     private Camera _mainCamera;
 
@@ -43,6 +47,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
+        Debug.Log(interactionState);
+
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
         switch (interactionState)
         {
@@ -55,7 +61,8 @@ public class PlayerInteraction : MonoBehaviour
 
                 break;
             case ePlayerState.Steering:
-
+                if (!player.InputLock) SteeringWheel();
+                else AwayFromWheel();
                 break;
         }
     }
@@ -135,5 +142,17 @@ public class PlayerInteraction : MonoBehaviour
     public void OnChangedInteractionState(ePlayerState nextState)
     {
         interactionState = nextState;
+    }
+
+    public void SteeringWheel()
+    {
+        player.InputLock = true;
+        boat.GetComponent<BoatSteeringController>().ControllSteer = true;
+    }
+
+    public void AwayFromWheel()
+    {
+        player.InputLock = false;
+        boat.GetComponent<BoatSteeringController>().ControllSteer = false;
     }
 }
