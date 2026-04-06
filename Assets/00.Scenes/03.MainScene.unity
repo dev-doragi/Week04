@@ -7029,12 +7029,20 @@ PrefabInstance:
       value: WetWood
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
+      propertyPath: spawnList.Array.data[0].spawnOffsetZ
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[0].maxSpawnCount
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: spawnList.Array.data[0].minSpawnCount
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254841071121214347, guid: d4e76073430753f42b33c2454eab3109, type: 3}
+      propertyPath: spawnList.Array.data[0].spawnIntervalZ
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4626082806355453995, guid: d4e76073430753f42b33c2454eab3109, type: 3}
       propertyPath: m_Name
