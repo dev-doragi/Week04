@@ -4,6 +4,7 @@ public class BaseResource : ObjectPoolBase
 {
     public bool IsBurn;
     public bool IsCraft;
+    public bool IsCollected;
     public Rigidbody rb;
     public BoxCollider coll;
     public virtual void PutResource()

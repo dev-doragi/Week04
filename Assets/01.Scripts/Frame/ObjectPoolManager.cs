@@ -48,6 +48,8 @@ public class ObjectPoolManager : MonoBehaviour
 
             OnCreatedPools(prefab.key);
         }
+
+        Spawner.Instance.Setup();
     }
 
     private void SyncPoolPrefabKeys() // 프리팹 동기화

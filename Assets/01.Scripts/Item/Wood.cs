@@ -16,11 +16,22 @@ public class Wood : BaseResource
     [SerializeField] private MaterialPropertyBlock _propBlock;
     [SerializeField] private static readonly int WetnessId = Shader.PropertyToID("_Wetness");
 
+    public override void OnSpawn()
+    {
+        base.OnSpawn();
+        OnChangedWoodState(eWoodState.Wet);
+    }
+
     public override void PutResource()
     {
         base.PutResource();
         if (curState != eWoodState.Wet) return;
         OnChangedWoodState(eWoodState.Drying);
+    }
+
+    public bool OnCheckedWet()
+    {
+        return curState == eWoodState.Wet;
     }
 
     public float GetRefuelAmount()
@@ -38,16 +49,17 @@ public class Wood : BaseResource
         switch (nextState)
         {
             case eWoodState.Drying:
-
+                IsCraft = false;
                 break;
 
             case eWoodState.Wet:
                 _propBlock.SetFloat(WetnessId, 2);
-
+                IsCraft = false;
                 break;
 
             case eWoodState.Dried:
                 _propBlock.SetFloat(WetnessId, 1);
+                IsCraft = true;
                 break;
         }
         _renderer.SetPropertyBlock(_propBlock);
