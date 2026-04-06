@@ -5,6 +5,7 @@ public class GaugeController : UIBase
 {
     [Header("Source")]
     [SerializeField] private FireIntensityController _fireIntensityController;
+    [SerializeField] private Boat _boat;
 
     [Header("Gauge Rotation")]
     [SerializeField] private Transform _gaugePivot;
@@ -20,25 +21,35 @@ public class GaugeController : UIBase
     [SerializeField] private TMP_Text _gaugeText;
 
     private float _lastNormalizedValue = -1f;
+    private float _lastSpeedValue = -1f;
+
+    public override void Setup()
+    {
+        if (_fireIntensityController == null || _boat == null)
+            return;
+
+        SetSource(_fireIntensityController, _boat);
+    }
 
     private void Update()
     {
-        if (_fireIntensityController == null)
-            return;
-
         float normalizedValue = _fireIntensityController.NormalizedIntensity;
+        float currentSpeed = _boat.CurrentSpeed;
 
-        if (Mathf.Approximately(_lastNormalizedValue, normalizedValue))
-            return;
-
-        _lastNormalizedValue = normalizedValue;
-        Apply(normalizedValue);
+        if (!Mathf.Approximately(_lastNormalizedValue, normalizedValue) || !Mathf.Approximately(_lastSpeedValue, currentSpeed))
+        {
+            _lastNormalizedValue = normalizedValue;
+            _lastSpeedValue = currentSpeed;
+            Apply(normalizedValue, _lastSpeedValue);
+        }
     }
 
-    public void SetSource(FireIntensityController controller)
+    public void SetSource(FireIntensityController controller, Boat boat)
     {
         _fireIntensityController = controller;
+        _boat = boat;
         _lastNormalizedValue = -1f;
+        _lastSpeedValue = -1f;
     }
 
     public void Apply(float normalizedValue)
@@ -47,7 +58,15 @@ public class GaugeController : UIBase
 
         ApplyGaugeRotation(normalizedValue);
         ApplyFireVisual(normalizedValue);
-        ApplyText();
+    }
+
+    public void Apply(float normalizedValue, float currentSpeed)
+    {
+        normalizedValue = Mathf.Clamp01(normalizedValue);
+
+        ApplyGaugeRotation(normalizedValue);
+        ApplyFireVisual(normalizedValue);
+        ApplyText(currentSpeed);
     }
 
     private void ApplyGaugeRotation(float normalizedValue)
@@ -77,12 +96,11 @@ public class GaugeController : UIBase
         }
     }
 
-    private void ApplyText()
-    {
+    private void ApplyText(float speed)
+    {   
         if (_gaugeText == null)
             return;
-
-        // TODO: 추후 배 속도 시스템과 연동해서 텍스트 표시
-        _gaugeText.text = string.Empty;
+        int displaySpeed = Mathf.FloorToInt(speed * 3.6f);
+        _gaugeText.text = $"{(int)speed} km/h";
     }
 }

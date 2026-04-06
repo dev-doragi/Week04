@@ -1,9 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RockBreakBlock : ObjectPoolBase
 {
     [Header("Block")]
     [SerializeField] private string blockTag = "Block";
+    [SerializeField] private string buildingTag = "Building";
 
     [Header("Boat Turn On Break")]
     [SerializeField] private float turnPerBreakDegree = 10f;
@@ -34,7 +35,7 @@ public class RockBreakBlock : ObjectPoolBase
 
         while (currentTransform != null)
         {
-            if (currentTransform.CompareTag(blockTag))
+            if (currentTransform.CompareTag(blockTag) || currentTransform.CompareTag(buildingTag))
             {
                 return currentTransform;
             }

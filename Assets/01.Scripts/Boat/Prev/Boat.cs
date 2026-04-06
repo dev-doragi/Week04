@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -9,6 +9,19 @@ public class Boat : MonoBehaviour
     [SerializeField] float maxSpeed = 6f;
     [SerializeField] public bool GameStart = false;
     Rigidbody rb;
+
+    // ���� �ӵ� ��
+    public float CurrentSpeed
+    {
+        get
+        {
+            if (rb == null) return 0f;
+            Vector3 v = rb.linearVelocity;
+            Vector3 h = new Vector3(v.x, 0f, v.z);
+            return h.magnitude;
+        }
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();

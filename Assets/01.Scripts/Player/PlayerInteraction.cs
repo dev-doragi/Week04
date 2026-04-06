@@ -26,7 +26,7 @@ public class PlayerInteraction : MonoBehaviour
     [Header("F키_아이템 줍기")]
     public GameObject axeOverlay;
     public GameObject currentItemOverlay;
-    public float pickupRange = 2f;
+    public float pickupRange = 7f;
     public LayerMask itemLayer;
 
     [Header("조타 운전")]
@@ -142,7 +142,7 @@ public class PlayerInteraction : MonoBehaviour
     private void PickUpItem(GameObject item)
     {
         // [추가] 가장 먼저 ObjectPoolBase 컴포넌트가 있는지 확인 (안전성 확보)
-        if (!item.TryGetComponent<ObjectPoolBase>(out var poolObj))
+        if (!item.TryGetComponent<BaseResource>(out var poolObj))
         {
             return;
         }
@@ -161,15 +161,13 @@ public class PlayerInteraction : MonoBehaviour
             child.gameObject.layer = _overlayLayer;
         }
 
-        item.transform.position = grabObjectPos;
-        item.transform.eulerAngles = grabObjectRot;
+        poolObj.transform.position = grabObjectPos;
+        poolObj.transform.eulerAngles = grabObjectRot;
 
-        var itemRb = item.GetComponent<Rigidbody>();
-        itemRb.useGravity = false;
-        itemRb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
+        poolObj.rb.useGravity = false;
+        poolObj.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
 
-        var itemColl = item.GetComponent<BoxCollider>();
-        itemColl.isTrigger = true;
+        poolObj.coll.isTrigger = true;
 
         currentItemOverlay = item;
         _heldItem = poolObj; // 캐싱된 컴포넌트 할당
@@ -199,7 +197,7 @@ public class PlayerInteraction : MonoBehaviour
 
         item.rb.useGravity = false;
         item.rb.isKinematic = true; // [핵심 추가] 들고 있을 때는 물리 연산 완전 비활성화
-
+        item.IsCollected = true;
         item.coll.isTrigger = true;
 
         currentItemOverlay = item.gameObject;
@@ -210,19 +208,33 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (_heldItem == null) return;
 
+        Debug.Log(_heldItem.gameObject.name);
+
         Rigidbody itemRb = _heldItem.GetComponent<Rigidbody>();
         BoxCollider itemColl = _heldItem.GetComponent<BoxCollider>();
 
         // 1. 부모 해제 및 레이어 복구
-        _heldItem.transform.SetParent(boatTr);
-        _heldItem.gameObject.layer = _defaultLayer;
+        // _heldItem.transform.SetParent(boatTr);
+        Transform[] allChildren = _heldItem.GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform child in allChildren)
+        {
+            child.gameObject.layer = _defaultLayer;
+        }
+
+        itemRb.isKinematic = false;
+        itemRb.useGravity = true;
+        itemRb.linearVelocity = Vector3.zero;
+        itemRb.angularVelocity = Vector3.zero;
 
         // 2. 위치 설정 (플레이어 정면 바닥 쪽)
         // 플레이어 중심에서 앞쪽으로 1m, 위쪽으로 0.2m 지점 계산
-        Vector3 dropPos = transform.position + (transform.forward * 1.0f) + (Vector3.up * 0.2f);
+        //Vector3 dropPos = transform.position + (transform.forward * 2f) + (Vector3.up * 1f);
 
         // 유니티 6 키네마틱 물체는 MovePosition이 가장 안전함
-        itemRb.MovePosition(dropPos);
+        _heldItem.transform.position = transform.position + transform.forward * 1f;
+        //itemRb.MovePosition(d);
+        //itemRb.AddForce(transform.forward * 2f + Vector3.up * 1f, ForceMode.Impulse);
         itemRb.rotation = Quaternion.identity; // 떨굴 때 회전 초기화 (똑바로 서게 함)
 
         // 3. 물리 속성 변경
@@ -230,10 +242,10 @@ public class PlayerInteraction : MonoBehaviour
 
         // 4. [핵심] 정지 상태 강제 주입
         // 던지는 힘을 없애기 위해 모든 속도를 0으로 초기화
-        itemRb.isKinematic = false;
-        itemRb.useGravity = true;
-        itemRb.linearVelocity = Vector3.zero;
-        itemRb.angularVelocity = Vector3.zero;
+        //itemRb.isKinematic = false;
+        //itemRb.useGravity = true;
+        //itemRb.linearVelocity = Vector3.zero;
+        //itemRb.angularVelocity = Vector3.zero;
 
         // 5. UI 및 상태 업데이트
         player.isHoldAxe = true;

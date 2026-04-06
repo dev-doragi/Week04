@@ -47,6 +47,12 @@ public class Wood : BaseResource
         ApplyVisualByState();
     }
 
+    public override void OnSpawn()
+    {
+        base.OnSpawn();
+        OnChangedWoodState(eWoodState.Wet);
+    }
+
     public override void PutResource()
     {
         base.PutResource();
@@ -55,6 +61,11 @@ public class Wood : BaseResource
         {
             StartDrying();
         }
+    }
+
+    public bool OnCheckedWet()
+    {
+        return curState == eWoodState.Wet;
     }
 
     public float GetRefuelAmount()
@@ -79,6 +90,19 @@ public class Wood : BaseResource
         if (curState == eWoodState.Wet)
         {
             curProgressTime = Mathf.Max(0.01f, dryTime);
+            case eWoodState.Drying:
+                IsCraft = false;
+                break;
+
+            case eWoodState.Wet:
+                _propBlock.SetFloat(WetnessId, 2);
+                IsCraft = false;
+                break;
+
+            case eWoodState.Dried:
+                _propBlock.SetFloat(WetnessId, 1);
+                IsCraft = true;
+                break;
         }
         else if (curState == eWoodState.Dried)
         {
