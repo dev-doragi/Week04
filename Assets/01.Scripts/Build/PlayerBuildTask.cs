@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class PlayerBuildTask : MonoBehaviour
 {
@@ -20,13 +20,18 @@ public class PlayerBuildTask : MonoBehaviour
 
     [Header("Raycast")]
     [SerializeField] private LayerMask blockLayerMask;
-    [SerializeField] private float rayDistance = 300f;
+    [SerializeField] private float rayDistance = 8f;
     [SerializeField] private bool useScreenCenterRay = true;
+
+    [Header("Empty Space Assist")]
+    [SerializeField] private bool allowEmptySpaceAssist = true;
+    [SerializeField] private float emptyProbeStep = 0.5f;
+    [SerializeField] private bool requireNeighborBlock = true;
+
+    public CinemachineTargetGroup TargetGroup;
 
     private readonly HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
     private GameObject previewInstance;
-
-    public CinemachineTargetGroup targetGroup;
 
     private void Awake()
     {
@@ -46,8 +51,6 @@ public class PlayerBuildTask : MonoBehaviour
             previewInstance.SetActive(false);
             DisableAllColliders(previewInstance);
         }
-
-        AutoSetCellOriginFromFirstBlock();
     }
 
     private void Update()
@@ -62,6 +65,7 @@ public class PlayerBuildTask : MonoBehaviour
 
         Vector3Int candidateCell;
         bool found = TryFindCandidateCell(out candidateCell);
+
         if (!found)
         {
             HidePreview();
@@ -92,7 +96,6 @@ public class PlayerBuildTask : MonoBehaviour
 
         return playerInteraction.IsHoldingBuildWoodBlock();
     }
-    
 
     private void RebuildOccupiedCells()
     {
@@ -103,24 +106,25 @@ public class PlayerBuildTask : MonoBehaviour
             return;
         }
 
-        Transform[] all = blocksRoot.GetComponentsInChildren<Transform>(true);
-        int count = all.Length;
+        Transform[] allTransforms = blocksRoot.GetComponentsInChildren<Transform>(true);
+        int count = allTransforms.Length;
 
         for (int i = 0; i < count; i++)
         {
-            Transform t = all[i];
+            Transform currentTransform = allTransforms[i];
 
-            if (t == blocksRoot || !t.gameObject.activeInHierarchy)
+            if (currentTransform == blocksRoot || !currentTransform.gameObject.activeInHierarchy)
             {
                 continue;
             }
 
-            if (!IsInLayerMask(t.gameObject.layer, blockLayerMask))
+            if (!IsInLayerMask(currentTransform.gameObject.layer, blockLayerMask))
             {
                 continue;
             }
 
-            Vector3Int cell = WorldToCell(t.position);
+            Vector3 centerWorld = GetBlockCenterWorld(currentTransform);
+            Vector3Int cell = WorldToCell(centerWorld);
 
             if (!occupiedCells.Contains(cell))
             {
@@ -133,14 +137,32 @@ public class PlayerBuildTask : MonoBehaviour
     {
         cell = Vector3Int.zero;
 
+        bool foundFromBlock = TryFindCandidateFromBlockHit(out cell);
+        if (foundFromBlock)
+        {
+            return true;
+        }
+
+        if (allowEmptySpaceAssist)
+        {
+            return TryFindCandidateFromEmptySpace(out cell);
+        }
+
+        return false;
+    }
+
+    private bool TryFindCandidateFromBlockHit(out Vector3Int cell)
+    {
+        cell = Vector3Int.zero;
+
         if (boatRoot == null || blocksRoot == null || targetCamera == null)
         {
             return false;
         }
 
         Ray ray = GetBuildRay();
-
         RaycastHit hit;
+
         bool didHit = Physics.Raycast(ray, out hit, rayDistance, blockLayerMask, QueryTriggerInteraction.Ignore);
         if (!didHit)
         {
@@ -153,7 +175,9 @@ public class PlayerBuildTask : MonoBehaviour
             return false;
         }
 
-        Vector3Int baseCell = WorldToCell(hitBlock.position);
+        Vector3 blockCenterWorld = GetBlockCenterWorld(hitBlock);
+        Vector3Int baseCell = WorldToCell(blockCenterWorld);
+
         Vector3 localNormal = boatRoot.InverseTransformDirection(hit.normal);
         Vector3Int dir = LocalNormalToCellOffset(localNormal);
 
@@ -163,7 +187,6 @@ public class PlayerBuildTask : MonoBehaviour
         }
 
         Vector3Int targetCell = baseCell + dir;
-
         if (occupiedCells.Contains(targetCell))
         {
             return false;
@@ -171,6 +194,60 @@ public class PlayerBuildTask : MonoBehaviour
 
         cell = targetCell;
         return true;
+    }
+
+    private bool TryFindCandidateFromEmptySpace(out Vector3Int cell)
+    {
+        cell = Vector3Int.zero;
+
+        if (boatRoot == null || targetCamera == null)
+        {
+            return false;
+        }
+
+        Ray ray = GetBuildRay();
+
+        float minCell = Mathf.Min(cellSize.x, Mathf.Min(cellSize.y, cellSize.z));
+        float minStep = Mathf.Max(0.1f, minCell * 0.2f);
+        float step = Mathf.Max(minStep, emptyProbeStep);
+
+        for (float dist = step; dist <= rayDistance; dist += step)
+        {
+            Vector3 worldPoint = ray.origin + ray.direction * dist;
+            Vector3Int probeCell = WorldToCell(worldPoint);
+
+            if (occupiedCells.Contains(probeCell))
+            {
+                continue;
+            }
+
+            if (requireNeighborBlock && !HasAnyNeighbor(probeCell))
+            {
+                continue;
+            }
+
+            cell = probeCell;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool HasAnyNeighbor(Vector3Int cell)
+    {
+        Vector3Int right = new Vector3Int(cell.x + 1, cell.y, cell.z);
+        Vector3Int left = new Vector3Int(cell.x - 1, cell.y, cell.z);
+        Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);
+        Vector3Int down = new Vector3Int(cell.x, cell.y - 1, cell.z);
+        Vector3Int forward = new Vector3Int(cell.x, cell.y, cell.z + 1);
+        Vector3Int back = new Vector3Int(cell.x, cell.y, cell.z - 1);
+
+        return occupiedCells.Contains(right) ||
+               occupiedCells.Contains(left) ||
+               occupiedCells.Contains(up) ||
+               occupiedCells.Contains(down) ||
+               occupiedCells.Contains(forward) ||
+               occupiedCells.Contains(back);
     }
 
     private Transform ResolveBlockTransform(Transform hitTransform)
@@ -230,13 +307,27 @@ public class PlayerBuildTask : MonoBehaviour
         return targetCamera.ScreenPointToRay(mousePos);
     }
 
+    private int RoundCell(float value)
+    {
+        if (value >= 0f)
+        {
+            return Mathf.FloorToInt(value + 0.5f);
+        }
+
+        return Mathf.CeilToInt(value - 0.5f);
+    }
+
     private Vector3Int WorldToCell(Vector3 worldPos)
     {
         Vector3 local = boatRoot.InverseTransformPoint(worldPos) - cellOriginOffset;
 
-        int x = Mathf.RoundToInt(local.x / Mathf.Max(0.0001f, cellSize.x));
-        int y = Mathf.RoundToInt(local.y / Mathf.Max(0.0001f, cellSize.y));
-        int z = Mathf.RoundToInt(local.z / Mathf.Max(0.0001f, cellSize.z));
+        float safeX = Mathf.Max(0.0001f, cellSize.x);
+        float safeY = Mathf.Max(0.0001f, cellSize.y);
+        float safeZ = Mathf.Max(0.0001f, cellSize.z);
+
+        int x = RoundCell(local.x / safeX);
+        int y = RoundCell(local.y / safeY);
+        int z = RoundCell(local.z / safeZ);
 
         return new Vector3Int(x, y, z);
     }
@@ -250,6 +341,23 @@ public class PlayerBuildTask : MonoBehaviour
         ) + cellOriginOffset;
 
         return boatRoot.TransformPoint(local);
+    }
+
+    private Vector3 GetBlockCenterWorld(Transform blockTransform)
+    {
+        Collider ownCollider = blockTransform.GetComponent<Collider>();
+        if (ownCollider != null)
+        {
+            return ownCollider.bounds.center;
+        }
+
+        Collider childCollider = blockTransform.GetComponentInChildren<Collider>();
+        if (childCollider != null)
+        {
+            return childCollider.bounds.center;
+        }
+
+        return blockTransform.position;
     }
 
     private void ShowPreview(Vector3Int cell)
@@ -295,7 +403,7 @@ public class PlayerBuildTask : MonoBehaviour
         GameObject newBlock = Instantiate(blockPrefab, worldPos, worldRot, blocksRoot);
         newBlock.SetActive(true);
 
-        targetGroup.AddMember(newBlock.transform, 1f, 2f);
+        TargetGroup.AddMember(newBlock.transform, 1f, 2f);
 
         if (applyCellSizeToPlacedBlock)
         {
@@ -326,16 +434,5 @@ public class PlayerBuildTask : MonoBehaviour
         {
             colliders[i].enabled = false;
         }
-    }
-    private void AutoSetCellOriginFromFirstBlock()
-    {
-        if (boatRoot == null || blocksRoot == null || blocksRoot.childCount == 0)
-        {
-            return;
-        }
-
-        Transform firstBlock = blocksRoot.GetChild(0);
-        cellOriginOffset = boatRoot.InverseTransformPoint(firstBlock.position);
-        Debug.Log("[Build] cellOriginOffset auto = " + cellOriginOffset, this);
     }
 }

@@ -14685,7 +14685,7 @@ MonoBehaviour:
   blockPrefab: {fileID: 3824811778835995127, guid: 78ef46862cfb6384fb4ae55d3772b69e, type: 3}
   previewPrefab: {fileID: 3824811778835995127, guid: df8c0b65d73207442a45db98695e607a, type: 3}
   cellSize: {x: 3, y: 1, z: 3}
-  cellOriginOffset: {x: 0, y: 0, z: 0}
+  cellOriginOffset: {x: 0, y: 0, z: 2}
   applyCellSizeToPlacedBlock: 1
   blockLayerMask:
     serializedVersion: 2
@@ -14695,6 +14695,7 @@ MonoBehaviour:
   allowEmptySpaceAssist: 1
   emptyProbeStep: 0.5
   requireNeighborBlock: 1
+  TargetGroup: {fileID: 708682934}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
