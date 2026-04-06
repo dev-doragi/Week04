@@ -13,7 +13,8 @@ public enum ePoolType
     Hitting,
     Break,
     HitBase,
-    Max
+    Max,
+    BuildWoodBlock
 }
 
 public enum eWoodState
