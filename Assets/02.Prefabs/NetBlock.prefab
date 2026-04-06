@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6007374921929118891}
   - component: {fileID: 4189965541866808325}
   - component: {fileID: 2358360756793873836}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 1928355044727353901}
   - component: {fileID: 822379046149132371}
   - component: {fileID: 2961986585118529295}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Net
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,12 +138,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494028272288998215}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 130, y: 120, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8130577105563155093}
+  m_Father: {fileID: 7224030512944312110}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &822379046149132371
 MeshFilter:
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 5021467916700375380}
   - component: {fileID: 5510786855623329936}
   - component: {fileID: 1117055448641448614}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: NetBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,9 +235,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1928355044727353901}
-  - {fileID: 304970623981754509}
-  - {fileID: 1761370821840026704}
+  - {fileID: 7224030512944312110}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &4359280131953374407
@@ -261,6 +259,12 @@ MonoBehaviour:
   IsEquipped: 0
   rb: {fileID: 5021467916700375380}
   coll: {fileID: 5510786855623329936}
+  isInstalled: 0
+  catchRoot: {fileID: 0}
+  maxCatchCount: 8
+  slotColumnCount: 3
+  slotStartLocal: {x: 0, y: 0.05, z: 0}
+  slotSpacing: {x: 0.35, y: 0, z: 0.35}
 --- !u!54 &5021467916700375380
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -330,7 +334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 304970623981754509}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: NetWoodOnePiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,13 +349,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6751717996775410515}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3, y: -0, z: -0.3}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.3, y: 0, z: -0.2999969}
+  m_LocalScale: {x: 0.05, y: 0.049999997, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 385644846356589863}
-  m_Father: {fileID: 8130577105563155093}
+  m_Father: {fileID: 7224030512944312110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7037249892060314883
 GameObject:
@@ -362,7 +366,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1761370821840026704}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: NetWoodOnePiece2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,13 +381,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7037249892060314883}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3, y: 0, z: -0.3}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.3, y: 0, z: -0.2999969}
+  m_LocalScale: {x: 0.05, y: 0.049999997, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3874847652627079741}
-  m_Father: {fileID: 8130577105563155093}
+  m_Father: {fileID: 7224030512944312110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7492153060173006268
 GameObject:
@@ -397,7 +401,7 @@ GameObject:
   - component: {fileID: 6958659919460189151}
   - component: {fileID: 5876119128078128757}
   - component: {fileID: 3970097339041579513}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,3 +501,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8372162362690127546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7224030512944312110}
+  - component: {fileID: 11107751365074188}
+  m_Layer: 25
+  m_Name: NetMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7224030512944312110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372162362690127546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1928355044727353901}
+  - {fileID: 304970623981754509}
+  - {fileID: 1761370821840026704}
+  m_Father: {fileID: 8130577105563155093}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+--- !u!65 &11107751365074188
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372162362690127546}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6419024, y: 1.5769235, z: 3.0656953}
+  m_Center: {x: 0.020055056, y: -0.09748792, z: -0.2675252}

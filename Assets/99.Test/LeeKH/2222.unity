@@ -2778,6 +2778,10 @@ PrefabInstance:
       propertyPath: GameStart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6823262324730250775, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
+      propertyPath: fireController
+      value: 
+      objectReference: {fileID: 617971735}
     - target: {fileID: 6997470533207692928, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
       propertyPath: m_Size.z
       value: 1.1987203
@@ -11952,6 +11956,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock
       objectReference: {fileID: 0}
+    - target: {fileID: 4117150685402650964, guid: 30fd03960cfcbb94ab0508e51de99bf4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6431640651061094564, guid: 30fd03960cfcbb94ab0508e51de99bf4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.7
@@ -13496,7 +13504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889322045}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15356,17 +15364,17 @@ SceneRoots:
   - {fileID: 564701477}
   - {fileID: 197247126}
   - {fileID: 970601295}
-  - {fileID: 1889322048}
   - {fileID: 839716544}
   - {fileID: 406120715}
   - {fileID: 910472273}
   - {fileID: 708682933}
+  - {fileID: 1889322048}
   - {fileID: 1063313846}
   - {fileID: 428553295}
   - {fileID: 476235165}
   - {fileID: 381129247}
+  - {fileID: 1169518905}
   - {fileID: 1662776026}
   - {fileID: 1192981582640657948}
-  - {fileID: 1169518905}
   - {fileID: 257049084}
   - {fileID: 1696107266}

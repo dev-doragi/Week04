@@ -32,6 +32,10 @@ public class PlayerBuildTask : MonoBehaviour
     [SerializeField] private Key wetWoodPlaceKey = Key.E;
     [SerializeField] private float wetWoodPlaceHeightOffset = 0.08f;
     [SerializeField] private float wetWoodPlaceSurfaceMinNormalY = 0.6f;
+    [Header("Net")]
+    [SerializeField] private Key netPlaceKey = Key.E;
+    private bool wasHoldingNetBlock = false;
+    private bool netPlaceArmed = false;
 
     private bool wasHoldingWetWood = false;
     private bool wetWoodPlaceArmed = false;
@@ -62,77 +66,116 @@ public class PlayerBuildTask : MonoBehaviour
     }
 
     private void Update()
-    {
-        bool holdingWetWood = playerInteraction != null && playerInteraction.IsHoldingWetWood();
+{
+    bool holdingWetWood = playerInteraction != null && playerInteraction.IsHoldingWetWood();
 
-        if (holdingWetWood && !wasHoldingWetWood)
+    if (holdingWetWood && !wasHoldingWetWood)
+    {
+        if (Keyboard.current == null) wetWoodPlaceArmed = true;
+        else wetWoodPlaceArmed = !Keyboard.current[wetWoodPlaceKey].isPressed;
+    }
+    wasHoldingWetWood = holdingWetWood;
+
+    if (holdingWetWood)
+    {
+        HidePreview();
+
+        if (!wetWoodPlaceArmed)
         {
-            if (Keyboard.current == null)
+            if (Keyboard.current != null && !Keyboard.current[wetWoodPlaceKey].isPressed)
             {
                 wetWoodPlaceArmed = true;
             }
-            else
-            {
-                // E를 누른 채 집은 경우 즉시 설치 방지
-                wetWoodPlaceArmed = !Keyboard.current[wetWoodPlaceKey].isPressed;
-            }
-        }
-        wasHoldingWetWood = holdingWetWood;
-
-        if (holdingWetWood)
-        {
-            HidePreview();
-
-            if (!wetWoodPlaceArmed)
-            {
-                if (Keyboard.current != null && !Keyboard.current[wetWoodPlaceKey].isPressed)
-                {
-                    wetWoodPlaceArmed = true;
-                }
-
-                return;
-            }
-
-            HandleWetWoodQuickPlace();
-            return;
-        }
-        if (playerInteraction != null && playerInteraction.IsHoldingWetWood())
-        {
-            HidePreview();
-            HandleWetWoodQuickPlace();
-            return;
-        }
-        if (!CanBuildNow())
-        {
-            HidePreview();
             return;
         }
 
+        HandleWetWoodQuickPlace();
+        return;
+    }
+
+    bool holdingNetBlock = playerInteraction != null && playerInteraction.IsHoldingNetBlock();
+    if (holdingNetBlock && !wasHoldingNetBlock)
+    {
+    if (Keyboard.current == null)
+    {
+        netPlaceArmed = true;
+    }
+    else
+    {
+        netPlaceArmed = !Keyboard.current[netPlaceKey].isPressed;
+    }
+    }
+    wasHoldingNetBlock = holdingNetBlock;
+
+    if (holdingNetBlock)
+    {
         RebuildOccupiedCells();
 
-        Vector3Int candidateCell;
-        bool found = TryFindCandidateCell(out candidateCell);
+        Vector3 netWorldPos;
+        Quaternion netWorldRot;
+        Transform anchorBlock;
+        bool foundNet = TryFindNetPlacementPose(out netWorldPos, out netWorldRot, out anchorBlock);
 
-        if (!found)
+        if (!foundNet)
         {
             HidePreview();
             return;
         }
 
-        ShowPreview(candidateCell);
+        ShowPreviewWorld(netWorldPos, netWorldRot, cellSize);
 
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (!netPlaceArmed)
         {
-            bool placed = PlaceBlock(candidateCell);
-            if (!placed)
+            if (Keyboard.current != null && !Keyboard.current[netPlaceKey].isPressed)
             {
-                return;
+                netPlaceArmed = true;
             }
-
-            playerInteraction.TryConsumeHeldBuildWoodBlockForBuild();
-            HidePreview();
+            return;
         }
+
+        if (Keyboard.current != null && Keyboard.current[netPlaceKey].wasPressedThisFrame)
+        {
+            bool placedNet = playerInteraction.TryPlaceHeldNetBlock(netWorldPos, netWorldRot, anchorBlock);
+            if (placedNet)
+            {
+                netPlaceArmed = false;
+                HidePreview();
+                RebuildOccupiedCells();
+            }
+        }
+
+        return;
     }
+
+    if (!CanBuildNow())
+    {
+        HidePreview();
+        return;
+    }
+
+    RebuildOccupiedCells();
+
+    Vector3Int candidateCell;
+    bool found = TryFindCandidateCell(out candidateCell);
+    if (!found)
+    {
+        HidePreview();
+        return;
+    }
+
+    ShowPreview(candidateCell);
+
+    if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+    {
+        bool placed = PlaceBlock(candidateCell);
+        if (!placed) return;
+
+        playerInteraction.TryConsumeHeldBuildWoodBlockForBuild();
+        HidePreview();
+    }
+}
+
+
 
     private bool CanBuildNow()
     {
@@ -155,28 +198,36 @@ public class PlayerBuildTask : MonoBehaviour
 
         Transform[] allTransforms = blocksRoot.GetComponentsInChildren<Transform>(true);
         int count = allTransforms.Length;
+        
 
         for (int i = 0; i < count; i++)
         {
             Transform currentTransform = allTransforms[i];
 
-            if (currentTransform == blocksRoot || !currentTransform.gameObject.activeInHierarchy)
-            {
-                continue;
-            }
+        if (currentTransform == blocksRoot || !currentTransform.gameObject.activeInHierarchy)
+        {
+            continue;
+        }
 
-            if (!IsInLayerMask(currentTransform.gameObject.layer, blockLayerMask))
-            {
-                continue;
-            }
+        bool isBlockLayer = IsInLayerMask(currentTransform.gameObject.layer, blockLayerMask);
 
-            Vector3 centerWorld = GetBlockCenterWorld(currentTransform);
-            Vector3Int cell = WorldToCell(centerWorld);
+        NetBlock netBlock;
+        bool isNetBlock = currentTransform.TryGetComponent<NetBlock>(out netBlock);
 
-            if (!occupiedCells.Contains(cell))
-            {
-                occupiedCells.Add(cell);
-            }
+        if (!isBlockLayer && !isNetBlock)
+        {
+            continue;
+        }
+
+        Vector3 centerWorld = GetBlockCenterWorld(currentTransform);
+        Vector3Int cell = WorldToCell(centerWorld);
+
+        if (!occupiedCells.Contains(cell))
+        {
+            occupiedCells.Add(cell);
+        }
+
+
         }
     }
 
@@ -547,4 +598,157 @@ public class PlayerBuildTask : MonoBehaviour
 
         return true;
     }
+    private static readonly Vector3Int[] HorizontalDirs =
+    {
+        Vector3Int.right, Vector3Int.left,
+        new Vector3Int(0, 0, 1), new Vector3Int(0, 0, -1)
+    };
+    private bool TryFindNetPlacementPose(out Vector3 worldPos, out Quaternion worldRot, out Transform anchorBlock)
+    {
+        worldPos = Vector3.zero;
+        worldRot = Quaternion.identity;
+        anchorBlock = null;
+
+        if (boatRoot == null || blocksRoot == null || targetCamera == null)
+        {
+            return false;
+        }
+
+        Ray ray = GetBuildRay();
+        RaycastHit hit;
+        bool didHit = Physics.Raycast(ray, out hit, rayDistance, blockLayerMask, QueryTriggerInteraction.Ignore);
+        if (!didHit)
+        {
+            return false;
+        }
+
+        Transform hitBlock = ResolveBlockTransform(hit.collider.transform);
+        if (hitBlock == null)
+        {
+            return false;
+        }
+
+        Vector3 blockCenterWorld = GetBlockCenterWorld(hitBlock);
+        Vector3Int baseCell = WorldToCell(blockCenterWorld);
+        Vector3Int centerCell = GetOccupiedCenterCell();
+
+        Vector3 fromCenter = new Vector3(baseCell.x - centerCell.x, 0f, baseCell.z - centerCell.z);
+        if (fromCenter.sqrMagnitude < 0.0001f)
+        {
+            Vector3 lookLocal = boatRoot.InverseTransformDirection(ray.direction);
+            fromCenter = new Vector3(lookLocal.x, 0f, lookLocal.z);
+        }
+        if (fromCenter.sqrMagnitude < 0.0001f)
+        {
+            fromCenter = Vector3.forward;
+        }
+        fromCenter.Normalize();
+
+        Vector3Int bestDir = Vector3Int.zero;
+        float bestScore = float.NegativeInfinity;
+
+        for (int i = 0; i < HorizontalDirs.Length; i++)
+        {
+            Vector3Int dir = HorizontalDirs[i];
+            Vector3Int candidateCell = baseCell + dir;
+
+            if (occupiedCells.Contains(candidateCell))
+            {
+                continue;
+            }
+
+            Vector3 dirVec = new Vector3(dir.x, 0f, dir.z);
+            dirVec.Normalize();
+
+            float score = Vector3.Dot(dirVec, fromCenter);
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestDir = dir;
+            }
+        }
+
+        if (bestDir == Vector3Int.zero)
+        {
+            return false;
+        }
+
+        Vector3Int targetCell = baseCell + bestDir;
+        worldPos = CellToWorld(targetCell);
+
+        Vector3 outwardWorld = boatRoot.TransformDirection(new Vector3(bestDir.x, 0f, bestDir.z));
+        outwardWorld.y = 0f;
+        if (outwardWorld.sqrMagnitude < 0.0001f)
+        {
+            outwardWorld = boatRoot.forward;
+            outwardWorld.y = 0f;
+        }
+        outwardWorld.Normalize();
+
+        worldRot = Quaternion.LookRotation(outwardWorld, Vector3.up);
+        anchorBlock = hitBlock;
+        return true;
+    }
+    private Vector3Int GetOccupiedCenterCell()
+    {
+        if (occupiedCells.Count == 0)
+        {
+            return Vector3Int.zero;
+        }
+
+        float sumX = 0f;
+        float sumY = 0f;
+        float sumZ = 0f;
+        int count = 0;
+
+        foreach (Vector3Int cell in occupiedCells)
+        {
+            sumX += cell.x;
+            sumY += cell.y;
+            sumZ += cell.z;
+            count++;
+        }
+
+        return new Vector3Int(
+            Mathf.RoundToInt(sumX / Mathf.Max(1, count)),
+            Mathf.RoundToInt(sumY / Mathf.Max(1, count)),
+            Mathf.RoundToInt(sumZ / Mathf.Max(1, count))
+        );
+    }
+
+    private Vector3Int LocalNormalToHorizontalCellOffset(Vector3 localNormal)
+    {
+        if (Mathf.Abs(localNormal.y) > 0.5f)
+        {
+            return Vector3Int.zero;
+        }
+
+        float ax = Mathf.Abs(localNormal.x);
+        float az = Mathf.Abs(localNormal.z);
+
+        if (ax >= az)
+        {
+            return localNormal.x >= 0f ? Vector3Int.right : Vector3Int.left;
+        }
+
+        return localNormal.z >= 0f ? new Vector3Int(0, 0, 1) : new Vector3Int(0, 0, -1);
+    }
+
+    private void ShowPreviewWorld(Vector3 worldPos, Quaternion worldRot, Vector3 previewScale)
+    {
+        if (previewInstance == null)
+        {
+            return;
+        }
+
+        previewInstance.transform.position = worldPos;
+        previewInstance.transform.rotation = worldRot;
+        previewInstance.transform.localScale = previewScale;
+
+        if (!previewInstance.activeSelf)
+        {
+            previewInstance.SetActive(true);
+        }
+    }
+
 }

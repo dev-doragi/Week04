@@ -24,7 +24,8 @@ public class Spawner : Singleton<Spawner>
 {
     [Header("References")]
     public Transform cameraTransform;
-
+    [SerializeField] private GameObject island; 
+    [SerializeField] private float islandSafeRadius = 200f; // 섬 주변 안전 거리
     [Header("Map Range (X Axis)")]
     public float mapMinX = -140f;
     public float mapMaxX = 140f;
@@ -115,8 +116,9 @@ public class Spawner : Singleton<Spawner>
         }
     }
 
-    private bool IsPositionSafeOptimized(Vector3 pos, float minDistanceSqr)
+    private bool IsPositionSafeOptimized(Vector3 pos, float minDistanceSqr, string key = "")
     {
+        // 기존 액티브 오브젝트 간격 체크
         for (int i = _activeObjects.Count - 1; i >= 0; i--)
         {
             if (_activeObjects[i] == null) continue;
@@ -125,6 +127,15 @@ public class Spawner : Singleton<Spawner>
             if (distSqr < minDistanceSqr)
                 return false;
         }
+
+        // RockBreakBlock이면 island 근처 차단
+        if (key == "RockBreakBlock" && island != null)
+        {
+            float islandDistSqr = (pos - island.transform.position).sqrMagnitude;
+            if (islandDistSqr < islandSafeRadius * islandSafeRadius)
+                return false;
+        }
+
         return true;
     }
 
@@ -166,7 +177,7 @@ public class Spawner : Singleton<Spawner>
 
                 if (obj == null || obj.transform.position.z < threshold)
                 {
-                    if (obj != null)
+                    if (obj != null && !obj.IsEquipped)
                     {
                         ObjectPoolManager.Instance.OnRelease(obj.key, obj);
                     }
