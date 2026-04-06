@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4019263454669679217}
   - component: {fileID: 5396622146655114813}
   m_Layer: 11
-  m_Name: BuildWoodBlock
+  m_Name: BuildWoodblock
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,6 @@ MonoBehaviour:
   key: BuildWoodBlock
   prevCount: 10
   type: 11
-  Type: 11
   IsBurn: 0
   IsCraft: 0
   rb: {fileID: 4019263454669679217}
