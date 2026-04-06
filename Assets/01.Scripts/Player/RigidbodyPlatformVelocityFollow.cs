@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[DefaultExecutionOrder(5000)]
+[DefaultExecutionOrder(-500)]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerEntity))]
 [RequireComponent(typeof(PlayerInputAction))]

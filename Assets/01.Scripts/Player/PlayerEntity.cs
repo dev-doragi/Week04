@@ -61,6 +61,9 @@ public class PlayerEntity : MonoBehaviour
 
     private void LateUpdate()
     {
-        _movement.LateTick();
+        if (InputLock == false)
+        {
+            _movement.LateTick();
+        }
     }
 }
