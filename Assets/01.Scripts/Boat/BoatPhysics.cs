@@ -17,6 +17,7 @@ public class BoatPhysics : MonoBehaviour
     [SerializeField] private float rhoWater = BoatPhysicsMath.RHO_OCEAN_WATER;
     [SerializeField] private float rhoAir = BoatPhysicsMath.RHO_AIR;
     [SerializeField] private float airResistanceC_r = 0.8f;
+    [SerializeField] private float buoyancyForceMultiplier = 1f;
 
     [Header("Debug Mesh")]
     [SerializeField] private bool drawUnderWaterMesh = true;
@@ -75,14 +76,7 @@ public class BoatPhysics : MonoBehaviour
             return;
         }
 
-        modifyBoatMesh.GenerateUnderwaterMesh();
-
-        // Underwater mesh is kept updated because under-water length uses this mesh bounds.
-        if (drawUnderWaterMesh && underWaterMesh != null)
-        {
-            modifyBoatMesh.DisplayMesh(underWaterMesh, "UnderWater Mesh", modifyBoatMesh.underWaterTriangleData);
-        }
-        else if (underWaterMesh != null)
+        if (underWaterMesh != null)
         {
             modifyBoatMesh.DisplayMesh(underWaterMesh, "UnderWater Mesh", modifyBoatMesh.underWaterTriangleData);
         }
@@ -99,6 +93,7 @@ public class BoatPhysics : MonoBehaviour
         {
             return;
         }
+        modifyBoatMesh.GenerateUnderwaterMesh();
 
         if (overrideCenterOfMass)
         {
@@ -137,7 +132,7 @@ public class BoatPhysics : MonoBehaviour
             TriangleData triangleData = underWaterTriangleData[i];
 
             Vector3 forceToAdd = Vector3.zero;
-            forceToAdd += BoatPhysicsMath.BuoyancyForce(rhoWater, triangleData);
+            forceToAdd += BoatPhysicsMath.BuoyancyForce(rhoWater, triangleData) * buoyancyForceMultiplier;
             forceToAdd += BoatPhysicsMath.ViscousWaterResistanceForce(rhoWater, triangleData, Cf);
             forceToAdd += BoatPhysicsMath.PressureDragForce(triangleData);
 
