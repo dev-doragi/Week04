@@ -13,8 +13,52 @@ MonoBehaviour:
   m_Name: vHierarchy Data
   m_EditorClassIdentifier: VHierarchy::VHierarchy.VHierarchyData
   sceneDatas_byGuid:
-    keys: []
-    values: []
+    keys:
+    - 3a210c4a156d7a94f8885715d394d765
+    values:
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-2108321925-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-1651036766-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-548249236-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-285401263-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-564701476-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-1063313845-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-428553294-0
+        - globalObjectIdString: GlobalObjectId_V1-2-3a210c4a156d7a94f8885715d394d765-257049083-0
+        values:
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 7
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 7
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 1
   bookmarks:
   - _go: {fileID: 0}
     globalId:
