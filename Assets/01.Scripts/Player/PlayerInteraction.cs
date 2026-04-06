@@ -26,7 +26,7 @@ public class PlayerInteraction : MonoBehaviour
     [Header("F키_아이템 줍기")]
     public GameObject axeOverlay;
     public GameObject currentItemOverlay;
-    public float pickupRange = 2f;
+    public float pickupRange = 7f;
     public LayerMask itemLayer;
 
     [Header("조타 운전")]

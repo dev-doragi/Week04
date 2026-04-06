@@ -50,20 +50,29 @@ MonoBehaviour:
   mapMaxX: 140
   spawnList:
   - poolKey: Wood
-    spawnIntervalZ: 5
+    spawnIntervalZ: 100
     minSafeDistance: 10
-    spawnOffsetZ: 10
+    spawnOffsetZ: 150
+    minSpawnCount: 1
+    maxSpawnCount: 3
+    randomZRange: 80
     nextTargetZ: 0
   - poolKey: Fabric
-    spawnIntervalZ: 5
+    spawnIntervalZ: 100
     minSafeDistance: 10
-    spawnOffsetZ: 10
+    spawnOffsetZ: 150
+    minSpawnCount: 1
+    maxSpawnCount: 3
+    randomZRange: 80
     nextTargetZ: 0
   - poolKey: RockBreakBlock
-    spawnIntervalZ: 50
+    spawnIntervalZ: 250
     minSafeDistance: 50
-    spawnOffsetZ: 50
+    spawnOffsetZ: 150
+    minSpawnCount: 1
+    maxSpawnCount: 3
+    randomZRange: 200
     nextTargetZ: 0
-  despawnOffsetZ: 20
-  retryStepZ: 1
+  despawnOffsetZ: 500
+  retryStepZ: 50
   maxRetryAttempts: 5

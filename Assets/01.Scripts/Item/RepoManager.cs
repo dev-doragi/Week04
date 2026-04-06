@@ -30,7 +30,7 @@ public class RepoManager : MonoBehaviour
 
     public void Register(BaseResource item)
     {
-        if (item == null) return;
+        if (item == null || !item.IsCollected) return;
 
         string key = item.key;
         if (!_resourcesOnShip.ContainsKey(key))

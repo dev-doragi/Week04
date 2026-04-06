@@ -15,6 +15,7 @@ public enum ePoolType
     HitBase,
     BuildWoodBlock,
     Net,
+    Rock,
     Max
 }
 
