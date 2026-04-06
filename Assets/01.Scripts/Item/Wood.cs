@@ -22,18 +22,23 @@ public class Wood : BaseResource
     private MaterialPropertyBlock propBlock;
     private int wetnessId;
 
+    [SerializeField] private bool isPlacedOnBoat = false;
+
+
     private void Awake()
     {
         CacheReferences();
         ApplyVisualByState();
     }
 
-    public override void Setup()
+   public override void Setup()
     {
         base.Setup();
         CacheReferences();
 
-        if (type == ePoolType.WetWood)
+        bool spawnedFromWetPool = key == ePoolType.WetWood.ToString();
+
+        if (spawnedFromWetPool)
         {
             curState = eWoodState.Wet;
             curProgressTime = Mathf.Max(0.01f, dryTime);
@@ -44,8 +49,39 @@ public class Wood : BaseResource
             curProgressTime = 0f;
         }
 
+        isPlacedOnBoat = false;
+        IsCollected = false;
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        if (coll != null)
+        {
+            coll.isTrigger = false;
+        }
+
+        SyncStateFlags();
         ApplyVisualByState();
+
+        int interactLayer = LayerMask.NameToLayer("Interact");
+        if (interactLayer >= 0)
+        {
+            Transform[] allChildren = GetComponentsInChildren<Transform>(true);
+            int childCount = allChildren.Length;
+
+            for (int i = 0; i < childCount; i++)
+            {
+                allChildren[i].gameObject.layer = interactLayer;
+            }
+        }
+
     }
+
 
     public override void OnSpawn()
     {
@@ -82,6 +118,8 @@ public class Wood : BaseResource
     {
         if (curState == nextState)
         {
+            SyncStateFlags();
+            ApplyVisualByState();
             return;
         }
 
@@ -90,7 +128,6 @@ public class Wood : BaseResource
         if (curState == eWoodState.Wet)
         {
             curProgressTime = Mathf.Max(0.01f, dryTime);
-            IsCraft = false;
         }
         else if (curState == eWoodState.Drying)
         {
@@ -99,26 +136,36 @@ public class Wood : BaseResource
                 curProgressTime = Mathf.Max(0.01f, dryTime);
             }
 
-            IsCraft = false;
-
             if (RepoManager.Instance != null)
             {
                 RepoManager.Instance.RegisterWood(this);
             }
         }
-        else // Dried
+        else
         {
             curProgressTime = 0f;
-            IsCraft = true;
         }
 
+        SyncStateFlags();
         ApplyVisualByState();
     }
 
-
+ 
     public bool OnDryWood(float progressTime)
     {
         if (curState != eWoodState.Drying)
+        {
+            return false;
+        }
+
+        if (rb == null || coll == null)
+        {
+            return false;
+        }
+
+        // 설치된 상태만 건조 진행:
+        // 설치됨 = kinematic true + trigger false
+        if (!rb.isKinematic || coll.isTrigger)
         {
             return false;
         }
@@ -134,6 +181,21 @@ public class Wood : BaseResource
 
         ApplyVisualByDryProgress();
         return false;
+    }
+
+
+    private void SyncStateFlags()
+    {
+        if (curState == eWoodState.Dried)
+        {
+            IsCraft = true;
+            type = ePoolType.Wood;
+        }
+        else
+        {
+            IsCraft = false;
+            type = ePoolType.WetWood;
+        }
     }
 
     private void StartDrying()
@@ -214,5 +276,10 @@ public class Wood : BaseResource
         targetRenderer.GetPropertyBlock(propBlock);
         propBlock.SetFloat(wetnessId, wetness);
         targetRenderer.SetPropertyBlock(propBlock);
+    }
+
+    public void SetPlacedOnBoat(bool value)
+    {
+        isPlacedOnBoat = value;
     }
 }

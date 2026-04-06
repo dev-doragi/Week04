@@ -4859,7 +4859,7 @@ MonoBehaviour:
   prevCount: 5
   type: 8
   _rootParticleSystem: {fileID: 4122961303112988713}
-  _autoReleaseOnStop: 1
+  _playMode: 0
 --- !u!1001 &2236789784228878320
 PrefabInstance:
   m_ObjectHideFlags: 0

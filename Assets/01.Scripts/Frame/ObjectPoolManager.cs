@@ -48,6 +48,7 @@ public class ObjectPoolManager : MonoBehaviour
 
             OnCreatedPools(prefab.key);
         }
+        Spawner.Instance.Setup();
     }
 
     private void SyncPoolPrefabKeys() // ������ ����ȭ
@@ -114,9 +115,10 @@ public class ObjectPoolManager : MonoBehaviour
         return pool;
     }
 
-    public T OnSpawnResources<T>() where T : ObjectPoolBase
+    public T OnSpawnResources<T>(string key = null) where T : ObjectPoolBase
     {
-        string key = typeof(T).Name;
+        if(key == null)
+            key = typeof(T).Name;
         T resource = OnSpawnPool(key) as T;
         if (resource == null)
         {
@@ -211,6 +213,7 @@ public class ObjectPoolManager : MonoBehaviour
         {
             itemActiveHash.Remove(item);
         }
+        item.transform.SetParent(this.transform);
     }
 
     public ObjectPoolBase GetPrefabInfo(string key)

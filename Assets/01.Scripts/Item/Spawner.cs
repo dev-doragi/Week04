@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -34,7 +34,7 @@ public class Spawner : Singleton<Spawner>
     [SerializeField] private float despawnOffsetZ = 20f;
     [SerializeField] private float retryStepZ = 1.0f;
     [SerializeField] private int maxRetryAttempts = 5;
-
+    [SerializeField] private float minSpawnOffsetZ = 50f;
     private List<ObjectPoolBase> _activeObjects = new List<ObjectPoolBase>();
 
     protected override void Init() { }
@@ -48,7 +48,9 @@ public class Spawner : Singleton<Spawner>
 
         foreach (var data in spawnList)
         {
-            data.nextTargetZ = cameraTransform.position.z + data.spawnOffsetZ;
+            float startDelayDistance = minSpawnOffsetZ;
+            data.nextTargetZ = cameraTransform.position.z + data.spawnOffsetZ + startDelayDistance;
+
             RunIndependentSpawn(data, cts).Forget();
         }
 
@@ -130,9 +132,9 @@ public class Spawner : Singleton<Spawner>
     {
         ObjectPoolBase obj = null;
 
-        if (key == "Wood")
+        if (key == "WetWood")
         {
-            obj = ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+            obj = ObjectPoolManager.Instance.OnSpawnResources<Wood>("WetWood");
         }
         else if (key == "Fabric")
         {

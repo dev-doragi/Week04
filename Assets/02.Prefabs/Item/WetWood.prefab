@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1525050915215551948}
   - component: {fileID: 4784170652528202576}
   m_Layer: 11
-  m_Name: Wood
+  m_Name: WetWood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,18 +48,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba89e9ae151e4a448415b031f85eac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wood
-  key: Wood
+  key: WetWood
   prevCount: 5
-  type: 0
+  type: 1
   IsBurn: 1
-  IsCraft: 1
+  IsCraft: 0
   IsCollected: 0
   IsEquipped: 0
   rb: {fileID: 5372111891563706750}
   coll: {fileID: 1525050915215551948}
   driedFuelAmount: 10
   wetFuelAmount: 3
-  curState: 0
+  curState: 2
   dryTime: 5
   curProgressTime: 0
   targetRenderer: {fileID: 8361035456900290152}
