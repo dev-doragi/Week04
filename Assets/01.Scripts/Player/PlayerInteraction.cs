@@ -175,6 +175,14 @@ public class PlayerInteraction : MonoBehaviour
         switch (interactionState)
         {
             case ePlayerState.None:
+                if (_isSteering || player.InputLock)
+                {
+                    _isSteering = false;
+
+                    InGameManager.Instance.OnChangedGameMode2();
+
+                    RefreshInteractionUI();
+                }
                 if (_heldItem == null) return;
 
                 break;

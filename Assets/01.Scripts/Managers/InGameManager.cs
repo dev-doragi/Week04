@@ -27,6 +27,12 @@ public class InGameManager : MonoBehaviour
         player.InputLock = !player.InputLock;
     }
 
+    public void OnChangedGameMode2()
+    {
+        boatController.ControllSteer = false;
+        player.InputLock = false;
+    }
+
     public void OnRefuel(Wood wood)
     {
         furnace.OnInteractItem(wood);

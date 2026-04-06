@@ -22,32 +22,34 @@ public class PlayerEntity : MonoBehaviour
 
     private void Update()
     {
-        // Ŭ�� ���� ��
-        if (_input.click && isHoldAxe)
+        if (GameManager.Instance.isGameActive)
         {
-            _interaction.BoatBreaker(axe);
-        }
-        else
-        {
-            _interaction.StopChopping();
-        }
+            if (_input.click && isHoldAxe)
+            {
+                _interaction.BoatBreaker(axe);
+            }
+            else
+            {
+                _interaction.StopChopping();
+            }
 
-        if (_input.interact)
-        {
-            _interaction.Interact();
-            _input.interact = false;
-        }
+            if (_input.interact)
+            {
+                _interaction.Interact();
+                _input.interact = false;
+            }
 
-        if (_input.drop)
-        {
-            _interaction.DropItem();
-            _input.drop = false;
-        }
+            if (_input.drop)
+            {
+                _interaction.DropItem();
+                _input.drop = false;
+            }
 
-        if (_input.build)
-        {
-            _interaction.ApplyWoodPatch();
-            _input.build = false;
+            if (_input.build)
+            {
+                _interaction.ApplyWoodPatch();
+                _input.build = false;
+            }
         }
     }
 
