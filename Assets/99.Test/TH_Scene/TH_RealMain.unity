@@ -13168,7 +13168,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1918081413469933382, guid: 97d7881bc209dbb40872439ba3d7f339, type: 3}
       propertyPath: m_Name
-      value: BuildWoodblock
+      value: BuildWoodBlock
       objectReference: {fileID: 0}
     - target: {fileID: 3453859373212096790, guid: 97d7881bc209dbb40872439ba3d7f339, type: 3}
       propertyPath: m_LocalScale.x
@@ -13229,6 +13229,10 @@ PrefabInstance:
     - target: {fileID: 4019263454669679217, guid: 97d7881bc209dbb40872439ba3d7f339, type: 3}
       propertyPath: m_IsKinematic
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396622146655114813, guid: 97d7881bc209dbb40872439ba3d7f339, type: 3}
+      propertyPath: key
+      value: BuildWoodblock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
