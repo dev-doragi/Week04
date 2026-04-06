@@ -309,8 +309,9 @@ public class PlayerInteraction : MonoBehaviour
 
             if (_currentChopTime >= chopTimeRequired)
             {
-                GameObject singleWood = Instantiate(woodOnePiece);
-                PickUpItem(singleWood);
+                var wood = ObjectPoolManager.Instance.OnSpawnResources<Wood>();
+                wood.OnChangedWoodState(eWoodState.Dried);
+                PickUpItem(wood);
                 BreakBlock(hit.collider.gameObject);
             }
         }
@@ -388,6 +389,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (axeOverlay != null)
         {
+            player.isHoldAxe = true;
             axeOverlay.SetActive(true);
         }
 
