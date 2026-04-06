@@ -17,6 +17,7 @@ MonoBehaviour:
     - 3a210c4a156d7a94f8885715d394d765
     - 392d79bc089aaf544a92b259fb007b3b
     - ba12b74097801f549bf017a9e6ca3c0d
+    - df6e3f29032a421449b16d0247460856
     values:
     - goDatas_byGlobalId:
         keys:
@@ -114,6 +115,49 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-ba12b74097801f549bf017a9e6ca3c0d-1063313845-0
         - globalObjectIdString: GlobalObjectId_V1-2-ba12b74097801f549bf017a9e6ca3c0d-428553294-0
         - globalObjectIdString: GlobalObjectId_V1-2-ba12b74097801f549bf017a9e6ca3c0d-257049083-0
+        values:
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 2
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 7
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 5
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-2108321925-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-1651036766-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-548249236-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-285401263-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-564701476-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-1063313845-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-428553294-0
+        - globalObjectIdString: GlobalObjectId_V1-2-df6e3f29032a421449b16d0247460856-257049083-0
         values:
         - colorIndex: 2
           iconNameOrGuid: 
