@@ -97,10 +97,10 @@ public class GaugeController : UIBase
     }
 
     private void ApplyText(float speed)
-    {
-       if (_gaugeText == null)
-           return;
-
-       _gaugeText.text = $"{(int)speed} km/h";
+    {   
+        if (_gaugeText == null)
+            return;
+        int displaySpeed = Mathf.FloorToInt(speed * 3.6f);
+        _gaugeText.text = $"{(int)speed} km/h";
     }
 }
