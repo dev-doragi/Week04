@@ -16,6 +16,12 @@ public class PlayerInteraction : MonoBehaviour
     public float pickupRange = 2f;
     public LayerMask itemLayer;
 
+    [Header("조타 운전")]
+    public GameObject boat;
+    public PlayerEntity player;
+
+    // private GameObject _heldItem;
+
     private ObjectPoolBase _heldItem;
     private Camera _mainCamera;
 
@@ -45,15 +51,16 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        if (_heldItem == null) return;
+        
 
         // if (아이템 근처면 줍기) else (불에 넣기) else (젖은 나무 말리기)
         switch (interactionState)
         {
             case ePlayerState.None:
-
+                if (_heldItem == null) return;
                 break;
             case ePlayerState.Fueling:
+                if (_heldItem == null) return;
                 //사라지게 만들고 연료 추가
                 OnRefuel();
                 break;
@@ -62,6 +69,7 @@ public class PlayerInteraction : MonoBehaviour
                 OnCraft();
                 break;
             case ePlayerState.Steering:
+                if (_heldItem != null) return;
                 InGameManager.Instance.OnChangedGameMode();
                 break;
         }
@@ -188,6 +196,18 @@ public class PlayerInteraction : MonoBehaviour
     public void OnChangedInteractionState(ePlayerState nextState)
     {
         interactionState = nextState;
+    }
+
+    public void SteeringWheel()
+    {
+        player.InputLock = true;
+        boat.GetComponent<BoatSteeringController>().ControllSteer = true;
+    }
+
+    public void AwayFromWheel()
+    {
+        player.InputLock = false;
+        boat.GetComponent<BoatSteeringController>().ControllSteer = false;
     }
 
     public void OnRefuel()
