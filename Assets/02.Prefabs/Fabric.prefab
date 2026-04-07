@@ -103,8 +103,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.0201116, y: 0.49995804, z: 1.9749908}
-  m_Center: {x: 0.3155501, y: 0.17581224, z: 0.66213226}
+  m_Size: {x: 2.0201116, y: 0.70920706, z: 1.9749908}
+  m_Center: {x: 0.3155501, y: 0.071187735, z: 0.66213226}
 --- !u!114 &8624049083942600276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a71defaba68d6d409604caa466eeb6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemBuoyancy
+  buoyancyAcceleration: 10
 --- !u!1 &6510193130162977819
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,11 @@ public class MenuUIHandler : MonoBehaviour
         StartCoroutine(StartAnimation());
     }
 
+    public void ClickTutorialButton()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     public void ClickExitButton()
     {
 #if UNITY_EDITOR
