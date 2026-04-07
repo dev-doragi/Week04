@@ -3487,6 +3487,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 476235166}
     - target: {fileID: 4697423463341072310, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
+      propertyPath: reachDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697423463341072310, guid: 46ef54f635dde0b45ac5912ee86f9741, type: 3}
       propertyPath: _interactionUI
       value: 
       objectReference: {fileID: 1730970223}
