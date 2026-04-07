@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
-using VInspector.Libs;
 
 public class Crafting_Table : MonoBehaviour
 {
