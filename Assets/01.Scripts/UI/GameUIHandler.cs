@@ -14,4 +14,9 @@ public class GameUIHandler : MonoBehaviour
         SceneManager.LoadScene(0);
         GameManager.Instance.isGameActive = true;
     }
+    public void ClickTutorialRestartButton()
+    {
+        SceneManager.LoadScene(2);
+        GameManager.Instance.isGameActive = true;
+    }
 }
